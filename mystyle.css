@@ -1,16 +1,21 @@
-body {
+body.algemeen {
 	width: 800px;
 	margin: auto;
 	text-align: left;
 }
 
-header {
+header.title {
 	font-size: 48px;
 	text-align: center;
 }
 
 
-li {
+ul.menu li {
 	display: inline;
 	border-style: double;
+	background-color: blue;
+}
+
+ul.menu a {
+	color:white;
 }
