@@ -10,6 +10,7 @@ header {
 }
 
 
-ul {
-	border-style: solid;
+li {
+	display: inline;
+	border-style: double;
 }
