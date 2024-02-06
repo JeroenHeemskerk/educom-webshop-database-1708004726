@@ -20,3 +20,10 @@ ul.menu a {
 	color:white;
 	text-decoration:none;
 }
+
+footer {
+	color: white;
+	text-align: right;
+	background-color:black;
+	font-size:10px;
+}
