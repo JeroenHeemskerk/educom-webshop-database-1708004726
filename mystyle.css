@@ -28,4 +28,20 @@ footer {
 	text-align: right;
 	background-color:black;
 	font-size:10px;
+}	
+
+p.persoon input[type=text], select, textarea {
+	width: 400px;
 }
+
+form.contact br {
+  display:contents;
+}
+
+p.persoon label:before {
+	content:"\a";
+    white-space: pre;
+}
+
+
+

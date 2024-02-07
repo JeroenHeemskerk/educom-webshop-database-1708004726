@@ -14,7 +14,8 @@
   <li><a href="http://localhost/educom-webshop-basis-1707216396/contact.html">Contact</a></li>
 </ul> 
 
-<form>
+<form class="contact">
+<p class="persoon">
 <label for="Aanhef">Aanhef:</label><br>
 <select id="Aanhef" name="Aanhef">
   <option value="Dhr">Dhr.</option>
@@ -37,10 +38,11 @@
   <input type="text" id="pcode" name="pcode"><br>
   <label for="plaats">Woonplaats:</label><br>
   <input type="text" id="plaats" name="plaats"><br>
-
+</p>
 	<!-- Voorkeur contact -->
-<p> Via welke methode kan ik u het best bereiken?</p>	
+<p> Via welke methode kan ik u het best bereiken?</p>
 
+<p class = "bereik">
   <input type="radio" id="Email" name="contact" value="Email">
   <label for="Email">Email</label><br>
   <input type="radio" id="Telefoon" name="contact" value="Telefoon">
@@ -48,6 +50,7 @@
   <input type="radio" id="Post" name="contact" value="Post">
   <label for="Post">Post</label>
   <br>
+<p>
 	<!-- reden van contact -->
   <label for="reden">Waarom wilt u contact opnemen?</label>
   <br>
