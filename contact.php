@@ -60,8 +60,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $cityErr = dataPresent($city, $cityErr);
     
   }
-  
-  
+  //Validity check, first check if everything is the same, if it is, check if nameErr is empty because it means there's no errors
+  $errorList = array($titleErr, $nameErr, $messageErr, $emailErr, $phoneErr, $streetErr, $housenumberErr, $postalcodeErr, $cityErr, $communicationErr);
+  $valid = (count(array_unique($errorList, SORT_REGULAR)) == 1);
   
 }
 
@@ -70,9 +71,6 @@ function dataPresent($data, $err) {
   return $err;
 }
 
-function postCheck(){
-  
-}
 
 ?>
 
@@ -174,7 +172,16 @@ function postCheck(){
 </form> 
 
 <?php } else { /* Show the next part only when $valid is true */ ?>
-
+   <p>Bedankt voor uw reactie:</p> 
+   
+   <div>Naam: <?php echo $name; ?></div>
+   <div>Email: <?php echo $email; ?></div>
+   <div>Telefoon: <?php echo $phonenumber; ?></div>
+   <div>Straat: <?php echo $street; ?></div>
+   <div>Huisnummer: <?php echo $housenumber; ?></div>
+   <div>Postcode: <?php echo $postalcode; ?></div>
+   <div>Woonplaats: <?php echo $city ?></div>
+   <div>Communicatie voorkeur: <?php echo $communication ?></div>
  <?php } /* End of conditional showing */ ?>
 
 <footer> &#169; - 2024 - Milan Lucas
