@@ -51,61 +51,80 @@ function dataPresent($data, $err) {
 <?php if (!$valid) { /* Show the next part only when $valid is false */ ?>
 
 <form class="contact" method="POST" action="contact.php"">
-<p class="persoon">
-<label for="title">title:</label><br>
+<fieldset class="persoon">
+<div>
+<label for="title">title:</label> 
 <select id="title" name="title">
   <option value="dhr">Dhr.</option>
   <option value="mvr">Mvr.</option>
   <option value="anders">Anders</option>
 </select> 
   <span class="error">* <?php echo $titleErr; ?></span>
-<br>
-  <label for="name"> name:</label><br>
+</div>
+<div>
+  <label for="name"> Naam:</label> 
 	<input type="text" name="name" value="<?php echo $name; ?>" id="name">
 	<span class="error">* <?php echo $nameErr; ?></span>
-  <label for="email">E-mail:</label><br>
+</div>
+<div>
+  <label for="email">E-mail:</label> 
     <input type="text" name="email" value="<?php echo $email; ?>" id="email">
 	<span class="error"> <?php echo $emailErr; ?></span>
-  <label for="phonenumber">phone nummer:</label><br>
+</div>
+<div>
+  <label for="phonenumber">Telefoon nummer:</label> 
 	<input type="text" name="phonenumber" value="<?php echo $phonenumber; ?>" id="phonenumber">
 	<span class="error"> <?php echo $phoneErr; ?></span>
-  <label for="street">street:</label><br>
+</div>
+<div>
+  <label for="street">Straat:</label> 
 	<input type="text" name="street" value="<?php echo $street; ?>" id="street">
 	<span class="error"> <?php echo $streetErr; ?></span>
-  <label for="housenumber">housenumber:</label><br>
+</div>
+<div>
+  <label for="housenumber">Huisnummer:</label> 
 	<input type="text" name="housenumber" value="<?php echo $housenumber; ?>" id="housenumber">
 	<span class="error"> <?php echo $housenumberErr; ?></span>
-  <label for="postalcode">postalcode:</label><br>
+</div>
+<div>
+  <label for="postalcode">Postcode:</label> 
 	<input type="text" name="postalcode" value="<?php echo $postalcode; ?>" id="postalcode">
 	<span class="error"> <?php echo $postalcodeErr; ?></span>
-  <label for="city">city:</label><br>
+</div>
+<div>
+  <label for="city">Woonplaats:</label> 
 	<input type="text" name="city" value="<?php echo $city; ?>" id="city">
-	<span class="error"> <?php echo $cityErr; ?></span
-</p>
-	<!-- Voorkeur communication -->
-<p> Via welke methode kan ik u het best bereiken?</p>
+	<span class="error"> <?php echo $cityErr; ?></span>
+</div>
 
-<p class = "bereik">
+	<!-- Voorkeur communication -->
+<div> Via welke methode kan ik u het best bereiken?</div>
+
   <!-- this check is a wip -->
+ <div>
   <input type="radio" name="communication" value="email" checked="<?php if ($communication = "email") ?>" >
-  <label for="email">Email</label><br>
+  <label for="email">Email</label> 
   <input type="radio" name="communication" value="phone">
-  <label for="phone">phone</label><br>
+  <label for="phone">phone</label> 
   <input type="radio" name="communication" value="post">
   <label for="post">Post</label>
   <span class="error">* <?php echo $communicationErr; ?></span>
-  <br>
+ </div>
+   
 
 
-<p class = "contact>
+
 	<!-- reden van contact -->
+<div>
   <label for="message">Waarom wilt u contact opnemen?</label>
-  <br>
+   
 	<textarea id="message" name="message" rows="4" cols="50" placeholder="<?php echo $message; ?>" ></textarea>
 	<span class="error">* <?php echo $messageErr; ?></span>
-  <br>
+</div>
+<div>
   <input type="submit" value="Submit">
-  
+</div>
+  </fieldset>
 </form> 
 
 <?php } else { /* Show the next part only when $valid is true */ ?>
