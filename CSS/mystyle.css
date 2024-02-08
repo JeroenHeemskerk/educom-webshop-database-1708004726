@@ -4,6 +4,7 @@ body.algemeen {
 	text-align: left;
 	font-size:12px;
 	color:gray;
+  background-color:white;
 }
 
 header.title {
@@ -30,23 +31,42 @@ footer {
 	font-size:10px;
 }	
 
-p.persoon input[type=text], select, textarea {
+fieldset.persoon label{
+  display: inline-block;
+  float: left;
+  clear: left;
+  width: 150px;
+  text-align: left;
+}
+
+fieldset.persoon input, select, textarea {
 	width: 400px;
 }
 
-form.contact br {
-  display:contents;
+fieldset.persoon input[type=radio], input[type=submit] {
+ 	width: auto; 
+ }  
+ 
+fieldset.communication input:after{
+  content:"\a";
+  white-space: pre;
 }
 
 form.contact span {
 	color:red
 }
 
-p.persoon label:before {
-	content:"\a";
-    white-space: pre;
+label.hidden { 
+  color: white;
 }
 
 
+/* outdated
+fieldset.persoon label:before{
+	content:"\a";
+    white-space: pre;
+}
+*/
+ 
 
 

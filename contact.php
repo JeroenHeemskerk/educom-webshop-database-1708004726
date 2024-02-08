@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 function dataPresent($data, $err) {
-  if (empty($data)) $err = "Dit moet nog ingevuld worden"; //true
+  if (empty($data)) $err = "Dit veld moet nog ingevuld worden"; 
   return $err;
 }
 
@@ -98,18 +98,28 @@ function dataPresent($data, $err) {
 </div>
 
 	<!-- Voorkeur communication -->
-<div> Via welke methode kan ik u het best bereiken?</div>
+
 
   <!-- this check is a wip -->
- <div>
-  <input type="radio" name="communication" value="email" checked="<?php if ($communication = "email") ?>" >
-  <label for="email">Email</label> 
-  <input type="radio" name="communication" value="phone">
-  <label for="phone">Telefoon</label> 
-  <input type="radio" name="communication" value="post">
-  <label for="post">Post</label>
-  <span class="error">* <?php echo $communicationErr; ?></span>
- </div>
+<fieldset class = "communication">
+   <legend>Hoe wilt u communiceren?</legend> 
+    <div>
+    <input type="radio" name="communication" value="email" >
+    <label for="email">Email</label> 
+    </div>
+    <div>
+    <input type="radio" name="communication" value="phone">
+    <label for="phone">Telefoon</label> 
+    </div>
+    <div>
+    <input type="radio" name="communication" value="post"> 
+    <span class="error">* <?php echo $communicationErr; ?></span>
+    <label for="post">Post</label>
+    </div>
+     
+   </legend>
+  </fieldset>
+
    
 
 
@@ -117,11 +127,11 @@ function dataPresent($data, $err) {
 	<!-- reden van contact -->
 <div>
   <label for="message">Waarom wilt u contact opnemen?</label>
-   
 	<textarea id="message" name="message" rows="4" cols="50" placeholder="<?php echo $message; ?>" ></textarea>
 	<span class="error">* <?php echo $messageErr; ?></span>
 </div>
 <div>
+  <label class = "hidden" for="submit"> hidden </label>
   <input type="submit" value="Submit">
 </div>
   </fieldset>
