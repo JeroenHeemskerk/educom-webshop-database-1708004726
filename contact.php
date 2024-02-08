@@ -10,6 +10,7 @@
 $title = $name = $message = $email = $phonenumber = $street = $housenumber = $postalcode = $city = $communication = '';
 $titleErr = $nameErr = $messageErr = $emailErr = $phoneErr = $streetErr = $housenumberErr = $postalcodeErr = $cityErr = $communicationErr = '';
 $valid = false;
+$postRequired = false;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	//Ordered by whether or not the variablei is necessary input
@@ -28,12 +29,49 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $titleErr = dataPresent($title, $titleErr);
   $nameErr = dataPresent($name, $nameErr);
   $messageErr = dataPresent($message, $messageErr);
-  $communicationErr = datapresent($communication, $communicationErr);
+  $communicationErr = dataPresent($communication, $communicationErr);
+  
+  
+  if ($communication == "email") {
+    $emailErr = dataPresent($email, $emailErr);
+  } elseif ($communication == "phone") {
+    $phoneErr = dataPresent($phone, $phoneErr);
+  } elseif ($communication == "post"){
+    $postRequired = true;
+  }
+  
+  $postData = array($street, $housenumber, $postalcode, $city);
+  foreach ($postData as $x) {
+    if ($x != '') {
+      $postRequired = true;
+    }
+  }
+    
+  if ($postRequired) {
+    //Validating postal code
+    $postRegex = "/^[0-9]{4}\s[A-z]{2}$/";
+    if (!preg_match($postRegex, $postalcode)) { 
+      $postalcodeErr = "Dit is niet een nederlandse postcode";
+    }
+    
+    $streetErr = dataPresent($street, $streetErr);
+    $housenumberErr = dataPresent($housenumber, $housenumberErr);
+    $postalcodeErr = dataPresent($postalcode, $postalcodeErr);
+    $cityErr = dataPresent($city, $cityErr);
+    
+  }
+  
+  
+  
 }
 
 function dataPresent($data, $err) {
   if (empty($data)) $err = "Dit veld moet nog ingevuld worden"; 
   return $err;
+}
+
+function postCheck(){
+  
 }
 
 ?>
@@ -55,9 +93,10 @@ function dataPresent($data, $err) {
 <div>
 <label for="title">title:</label> 
 <select id="title" name="title">
-  <option value="dhr">Dhr.</option>
-  <option value="mvr">Mvr.</option>
-  <option value="anders">Anders</option>
+  <option value=""></option>
+  <option value="sir" <?php if (isset($title) && $title == "sir") echo "selected" ?>>Dhr.</option> 
+  <option value="madam" <?php if (isset($title) && $title == "madam") echo "selected" ?> >Mvr.</option>
+  <option value="other" <?php if (isset($title) && $title == "other") echo "selected" ?>>Anders</option>
 </select> 
   <span class="error">* <?php echo $titleErr; ?></span>
 </div>
@@ -103,26 +142,23 @@ function dataPresent($data, $err) {
   <!-- this check is a wip -->
 <fieldset class = "communication">
    <legend>Hoe wilt u communiceren?</legend> 
+    <span class="error">* <?php echo $communicationErr; ?></span>
     <div>
-    <input type="radio" name="communication" value="email" >
+    <input type="radio" name="communication" value="email" <?php echo ($communication=="email" ? 'checked="checked"' : '') ?>>
     <label for="email">Email</label> 
     </div>
     <div>
-    <input type="radio" name="communication" value="phone">
+    <input type="radio" name="communication" value="phone" <?php echo ($communication=="phone" ? 'checked="checked"' : '') ?>>
     <label for="phone">Telefoon</label> 
     </div>
     <div>
-    <input type="radio" name="communication" value="post"> 
-    <span class="error">* <?php echo $communicationErr; ?></span>
+    <input type="radio" name="communication" value="post" <?php echo ($communication=="post" ? 'checked="checked"' : '') ?>> 
+   
     <label for="post">Post</label>
     </div>
      
    </legend>
   </fieldset>
-
-   
-
-
 
 	<!-- reden van contact -->
 <div>
