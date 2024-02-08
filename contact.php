@@ -105,7 +105,7 @@ function dataPresent($data, $err) {
   <input type="radio" name="communication" value="email" checked="<?php if ($communication = "email") ?>" >
   <label for="email">Email</label> 
   <input type="radio" name="communication" value="phone">
-  <label for="phone">phone</label> 
+  <label for="phone">Telefoon</label> 
   <input type="radio" name="communication" value="post">
   <label for="post">Post</label>
   <span class="error">* <?php echo $communicationErr; ?></span>
