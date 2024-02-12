@@ -7,8 +7,6 @@ function getRequestedPage() {
   
   if ($requestedType == "POST") {
     $requestedPage = getPostVar('page', 'home');
-    echo $requestedPage;
-    echo $_POST;
   } else {
     // Here I need to get the actually requested page and not have it fill in just page
     $pageName = $_SERVER['REQUEST_URI'];

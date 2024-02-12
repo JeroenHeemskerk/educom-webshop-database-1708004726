@@ -13,7 +13,18 @@ function showContentContact(){
   if ($requestedType == "GET") {
    contactForm();
   } else { 
-  echo "check";
+  formCheck();
+  var_dump($_POST);
+  
+  echo '<p>Bedankt voor uw reactie:</p> 
+   <div>Naam: '.$_POST["name"].'</div>
+   <div>Email: '.$_POST["email"].'</div>
+   <div>Telefoon: '.$_POST["phonenumber"].'</div>
+   <div>Straat: '.$_POST["street"].'</div>
+   <div>Huisnummer: '.$_POST["housenumber"].'</div>
+   <div>Postcode: '.$_POST["postalcode"].'</div>
+   <div>Woonplaats: '.$_POST["city"].'</div>
+   <div>Communicatie voorkeur: '.$_POST["communication"].'</div>';
   
   }
 
@@ -21,9 +32,9 @@ function showContentContact(){
 
 function contactForm() {
   $title = $name = $message = $email = $phonenumber = $street = $housenumber = $postalcode = $city = $communication = '';
-  $title = 'sir';
   $titleErr = $nameErr = $messageErr = $emailErr = $phoneErr = $streetErr = $housenumberErr = $postalcodeErr = $cityErr = $communicationErr = '';
-  echo '<form class="contact" method="POST" action="index.php?page=contact.php">
+  echo '<form class="contact" method="POST" action="index.php">
+  <input type="hidden" name="page" value="contact" id="page"/>
   <fieldset class="persoon">
   <div>
   <label for="title">title:</label> 
@@ -109,9 +120,10 @@ function contactForm() {
 }
 
 function formCheck() {
+    $titleErr = $nameErr = $messageErr = $emailErr = $phoneErr = $streetErr = $housenumberErr = $postalcodeErr = $cityErr = $communicationErr = '';
   $valid = false;
   $postRequired = false;
-  
+  echo $valid;
 	//Ordered by whether or not the variablei is necessary input
 	// title, name, message and communication are always necessary
   $title = $_POST["title"];
@@ -162,7 +174,10 @@ function formCheck() {
   //Validity check, first check if everything is the same, if it is, check if nameErr is empty because it means there's no errors
   $errorList = array($titleErr, $nameErr, $messageErr, $emailErr, $phoneErr, $streetErr, $housenumberErr, $postalcodeErr, $cityErr, $communicationErr);
   $valid = (count(array_unique($errorList, SORT_REGULAR)) == 1);
-  
+  echo $valid;
+  echo "ayyy macarana";
+  //if $valid == TRUE && $nameErr == '':
+  // stuff
 }
 
 function dataPresent($data, $err) {
