@@ -1,20 +1,15 @@
-<!DOCTYPE html>
-<html lang="nl">
-<head>
-  <title>Simpele HTML</title>
-  <link rel="stylesheet" href="CSS/mystyle.css">
-</head>
 
-<body class="algemeen">
-<header class=title><h1>De about pagina van Milan Lucas</h1></header>
+<?php
+function showHeadAbout(){
+  echo '<title> Home page </title>';
+}
 
-<ul class="menu">
- <li><a href="index.html">Home</a></li> 
- <li><a href="about.html">About</a></li> 
- <li><a href="contactphp">Contact</a></li> 
-</ul> 
+function showHeaderAbout(){
+  echo '<header class=title><h1> De about pagina van Milan Lucas </h1></header>';
+}
 
-<p> Welkom beste lezer op mijn about pagina! Mijn naam is Milan Lucas, ik ben 23 jaar oude bio-informaticus bachelor die nu een traineeship tot software developer volgt. Iets waar ik erg zin in heb! Ik hoop hierbij het programmeren weer vollop op te pakken en wat nieuwe trucjes te leren. Tot nu doe ik dat al met mijn HTML kennis te verversen - had daar nog nauwelijks een les in bij bio-informatica!
+function showContentAbout(){
+  echo '<p> Welkom beste lezer op mijn about pagina! Mijn naam is Milan Lucas, ik ben 23 jaar oude bio-informaticus bachelor die nu een traineeship tot software developer volgt. Iets waar ik erg zin in heb! Ik hoop hierbij het programmeren weer vollop op te pakken en wat nieuwe trucjes te leren. Tot nu doe ik dat al met mijn HTML kennis te verversen - had daar nog nauwelijks een les in bij bio-informatica!
 
 Naast het programmeren heb ik natuurlijk ook een paar hobbies.
 
@@ -26,15 +21,10 @@ Naast het programmeren heb ik natuurlijk ook een paar hobbies.
 	<dt>Schrijven</dt>
 		<dd>- Ook iets dat ik al jaren doe, af en toe even zitten en schrijven is gewoon heerlijk ontspannend - en vaak ook nodig voor dungeons & dragons. Dat heeft wel een hoop voorbereiding nodig.</dt>
 	<dt>Boordspellen en videogames</dt>
-		<dd>- Beide dingen waar ik veel plezier aan heb. Het zijn leuke sociale activiteiten en die zijn goed om te hebben.</dd>
-</dl> 
+		<dd>- Beide dingen waar ik veel plezier aan heb. Het zijn leuke sociale activiteiten en die zijn goed om te hebben.</dd>';
+}
 
+?>
 
-
-
-<footer> &#169; - 2024 - Milan Lucas
-</footer> 
-</body>
-</html> 
 
 

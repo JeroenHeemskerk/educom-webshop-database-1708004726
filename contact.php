@@ -13,17 +13,17 @@ function showContentContact(){
   if ($requestedType == "GET") {
    contactForm();
   } else { 
-    echo "They're grrrrreat";
+  echo "check";
+  
   }
 
 }
 
 function contactForm() {
   $title = $name = $message = $email = $phonenumber = $street = $housenumber = $postalcode = $city = $communication = '';
+  $title = 'sir';
   $titleErr = $nameErr = $messageErr = $emailErr = $phoneErr = $streetErr = $housenumberErr = $postalcodeErr = $cityErr = $communicationErr = '';
-  $valid = false;
-  $postRequired = false;
-  echo '<form class="contact" method="POST" action="index.php"">
+  echo '<form class="contact" method="POST" action="index.php?page=contact.php">
   <fieldset class="persoon">
   <div>
   <label for="title">title:</label> 
@@ -37,45 +37,45 @@ function contactForm() {
   </div>
   <div>
     <label for="name"> Naam:</label> 
-    <input type="text" name="name" value=" '.$name.'" id="name">
-    <span class="error">* <?php echo $nameErr; ?></span>
+    <input type="text" name="name" value="'.$name.'" id="name">
+    <span class="error">* '.$nameErr.'</span>
   </div>
   <div>
     <label for="email">E-mail:</label> 
       <input type="text" name="email" value="'.$email.'" id="email">
-    <span class="error"> <?php echo $emailErr; ?></span>
+    <span class="error"> '.$emailErr.'</span>
   </div>
   <div>
     <label for="phonenumber">Telefoon nummer:</label> 
-    <input type="text" name="phonenumber" value=" '.$phonenumber.' " id="phonenumber">
-    <span class="error"> <?php echo $phoneErr; ?></span>
+    <input type="text" name="phonenumber" value="'.$phonenumber.' " id="phonenumber">
+    <span class="error"> '.$phoneErr.'</span>
   </div>
   <div>
     <label for="street">Straat:</label> 
     <input type="text" name="street" value="'.$street.'" id="street">
-    <span class="error"> <?php echo $streetErr; ?></span>
+    <span class="error"> '.$streetErr.'</span>
   </div>
   <div>
     <label for="housenumber">Huisnummer:</label> 
     <input type="text" name="housenumber" value="' .$housenumber.'" id="housenumber">
-    <span class="error"> <?php echo $housenumberErr; ?></span>
+    <span class="error"> '.$housenumberErr.'</span>
   </div>
   <div>
     <label for="postalcode">Postcode:</label> 
     <input type="text" name="postalcode" value="'.$postalcode.'" id="postalcode">
-    <span class="error"> <?php echo $postalcodeErr; ?></span>
+    <span class="error"> '.$postalcodeErr.'</span>
   </div>
   <div>
     <label for="city">Woonplaats:</label> 
     <input type="text" name="city" value="' .$city.'" id="city">
-    <span class="error"> <?php echo $cityErr; ?></span>
+    <span class="error">'.$cityErr.'</span>
   </div>
 
     <!-- Voorkeur communication -->
     <!-- Zit vast op het omzetten van de checked statement --> 
   <fieldset class = "communication">
      <legend>Hoe wilt u communiceren?</legend> 
-      <span class="error">* <?php echo $communicationErr; ?></span>
+      <span class="error">* '.$communicationErr.'</span>
       <div>
       <input type="radio" name="communication" value="email"   >  <!-- <?php echo ($communication=="email" ? \'checked="checked"\' : \'\') ?> was originally in the now empty space -->
       <label for="email">Email</label> 
@@ -97,7 +97,7 @@ function contactForm() {
   <div>
     <label for="message">Waarom wilt u contact opnemen?</label>
     <textarea id="message" name="message" rows="4" cols="50" placeholder="'.$message.'" ></textarea>
-    <span class="error">* <?php echo $messageErr; ?></span>
+    <span class="error">* '.$messageErr.'</span>
   </div>
   <div>
     <label class = "hidden" for="submit"> hidden </label>
@@ -108,10 +108,10 @@ function contactForm() {
   ';
 }
 
-
-
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+function formCheck() {
+  $valid = false;
+  $postRequired = false;
+  
 	//Ordered by whether or not the variablei is necessary input
 	// title, name, message and communication are always necessary
   $title = $_POST["title"];

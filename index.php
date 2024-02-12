@@ -5,44 +5,30 @@ showResponsePage($page);
 function getRequestedPage() {
   $requestedType = $_SERVER['REQUEST_METHOD']; 
   
-  if ($requestedType == "GET") {
-  // Here I need to get the actually requested page and not have it fill in just page
+  if ($requestedType == "POST") {
+    $requestedPage = getPostVar('page', 'home');
+    echo $requestedPage;
+    echo $_POST;
+  } else {
+    // Here I need to get the actually requested page and not have it fill in just page
     $pageName = $_SERVER['REQUEST_URI'];
     $pageName = substr($pageName, strpos($pageName, "=") + 1);
-    $requestedPage = getGetURL($pageName,'home');
-  } else {
-    echo $_POST;
-    $requestedPage = getPostURL('contact', 'home');
+    $requestedPage = getGetVar($pageName,'home');
   }
   return $requestedPage;
 }
   
-
-function getGetURL($key, $default=''){
-  return isset($key) ? $key : $default;
-}
-  
-function getArrayVal($array, $key, $default='') 
-{ 
+function getArrayVal($array, $key, $default='') {
    return isset($array[$key]) ? $array[$key] : $default; 
 } 
-//============================================== 
-function getPostURL($key, $default='') 
-{ 
+
+function getPostVar($key, $default='') {
     return getArrayVal($_POST, $key, $default);
+}
 
-    /* Or use the modern variant below, a better way than accessing super global "$_POST"
-  
-       see https://www.php.net/manual/en/function.filter-input.php 
-       for extra options 
-
-       $value = filter_input(INPUT_POST, $key); 
-        
-       return isset($value) ? $value : $default; 
-    */
-} 
-//=======
-
+function getGetVar($key, $default=''){
+  return isset($key) ? $key : $default;
+}
 
 function showResponsePage($page) {
   showDocumentStart(); 
