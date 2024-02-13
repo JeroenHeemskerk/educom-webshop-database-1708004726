@@ -9,9 +9,7 @@ function getRequestedPage() {
     $requestedPage = getPostVar('page', 'home');
   } else {
     // Here I need to get the actually requested page and not have it fill in just page
-    $pageName = $_SERVER['REQUEST_URI'];
-    $pageName = substr($pageName, strpos($pageName, "=") + 1);
-    $requestedPage = getGetVar($pageName,'home');
+    $requestedPage = getGetVar('page','home');
   }
   return $requestedPage;
 }
@@ -21,11 +19,11 @@ function getArrayVal($array, $key, $default='') {
 } 
 
 function getPostVar($key, $default='') {
-    return getArrayVal($_POST, $key, $default);
+    
 }
 
 function getGetVar($key, $default=''){
-  return isset($key) ? $key : $default;
+  return getArrayVal($_GET, $key, $default);
 }
 
 function showResponsePage($page) {
