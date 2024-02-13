@@ -22,7 +22,6 @@ function showContentContact(){
       contactForm($submittedData, $validInput);
     }
   }
-
 }
 
 function contactForm($formInputs = array('', '', '', '', '', '', '', '', '', ''),
@@ -42,7 +41,6 @@ function contactForm($formInputs = array('', '', '', '', '', '', '', '', '', '')
       $title[2] = 'selected';
       break;
   }
-  
    switch($formInputs[8]){
     case ('email');
       $communication[0] = 'checked';
@@ -55,7 +53,6 @@ function contactForm($formInputs = array('', '', '', '', '', '', '', '', '', '')
       break;
   }
   
-  
   echo '<form class="contact" method="POST" action="index.php">
   <input type="hidden" name="page" value="contact" id="page"/>
   <fieldset class="persoon">
@@ -63,7 +60,7 @@ function contactForm($formInputs = array('', '', '', '', '', '', '', '', '', '')
   <label for="title">title:</label> 
   <select id="title" name="title">
     <option value=""></option>
-    <option value="sir" '.$title[0].' >Dhr.</option> <!-- used to be before >Dhr <?php if (isset($title) && $title == "sir") echo "selected" ?> -->
+    <option value="sir" '.$title[0].' >Dhr.</option> 
     <option value="madam" '.$title[1].' >Mvr.</option>
     <option value="other" '.$title[2].'>Anders</option>
   </select> 
@@ -106,12 +103,11 @@ function contactForm($formInputs = array('', '', '', '', '', '', '', '', '', '')
   </div>
 
     <!-- Voorkeur communication -->
-    <!-- Zit vast op het omzetten van de checked statement --> 
   <fieldset class = "communication">
      <legend>Hoe wilt u communiceren?</legend> 
       <span class="error">* '.$errors[8].'</span>
       <div>
-      <input type="radio" name="communication" value="email" '.$communication[0].' >  <!-- <?php echo ($communication=="email" ? \'checked="checked"\' : \'\') ?> was originally in the now empty space -->
+      <input type="radio" name="communication" value="email" '.$communication[0].' >  
       <label for="email">Email</label> 
       </div>
       <div>
@@ -143,17 +139,17 @@ function contactForm($formInputs = array('', '', '', '', '', '', '', '', '', '')
 }
 
 function contactPostData(){
-  $formInputs = array('', '', '', '', '', '', '', '', '', '');
-  $formInputs[0] = $_POST["title"];
-  $formInputs[1] = $_POST["name"];
-  $formInputs[2] = $_POST["email"];
-  $formInputs[3] = $_POST["phonenumber"];
-  $formInputs[4] = $_POST["street"];
-  $formInputs[5] = $_POST["housenumber"];
-  $formInputs[6] = $_POST["postalcode"];
-  $formInputs[7] = $_POST["city"];
-  $formInputs[8] = $_POST["communication"];
-  $formInputs[9] = $_POST["message"];
+  $formInputs = array('title', 'name', 'email', 'phonenumber', 'street', 'housenumber', 'postalcode', 'city', 'communication', 'message');
+  $formInputs[0] = filter_input(INPUT_POST, $formInputs[0]);
+  $formInputs[1] = filter_input(INPUT_POST, $formInputs[1]);
+  $formInputs[2] = filter_input(INPUT_POST, $formInputs[2]);
+  $formInputs[3] = filter_input(INPUT_POST, $formInputs[3]);
+  $formInputs[4] = filter_input(INPUT_POST, $formInputs[4]);
+  $formInputs[5] = filter_input(INPUT_POST, $formInputs[5]);
+  $formInputs[6] = filter_input(INPUT_POST, $formInputs[6]);
+  $formInputs[7] = filter_input(INPUT_POST, $formInputs[7]);
+  $formInputs[8] = filter_input(INPUT_POST, $formInputs[8]);
+  $formInputs[9] = filter_input(INPUT_POST, $formInputs[9]);
   return $formInputs;
 }
 
@@ -220,11 +216,11 @@ function dataPresent($data, $err='') {
 }
 
 function contactThanks($formInputs = array('', '', '', '', '', '', '', '', '', '')){
+  // changing phone to telefoon for the display 
   if ($formInputs[8] == 'phone'){
     $formInputs[8] = 'telefoon';
   }
-  
-  
+ 
   echo '<p>Bedankt voor uw reactie:</p> 
   <div>Naam: '.$formInputs[1].'</div>
   <div>Email: '.$formInputs[2].'</div>
