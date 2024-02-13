@@ -13,26 +13,49 @@ function showContentContact(){
   if ($requestedType == "GET") {
    contactForm();
   } else { 
-  formCheck();
-  var_dump($_POST);
-  
-  echo '<p>Bedankt voor uw reactie:</p> 
-   <div>Naam: '.$_POST["name"].'</div>
-   <div>Email: '.$_POST["email"].'</div>
-   <div>Telefoon: '.$_POST["phonenumber"].'</div>
-   <div>Straat: '.$_POST["street"].'</div>
-   <div>Huisnummer: '.$_POST["housenumber"].'</div>
-   <div>Postcode: '.$_POST["postalcode"].'</div>
-   <div>Woonplaats: '.$_POST["city"].'</div>
-   <div>Communicatie voorkeur: '.$_POST["communication"].'</div>';
-  
+  $submittedData = contactPostData();
+  $validInput = formCheck($submittedData);
+  // if validInput is true, we can go to thanks, if its false it is a list of errors to use for the contactForm to display
+    if (is_bool($validInput) == TRUE) {
+      contactThanks($submittedData);
+    } else {
+      contactForm($submittedData, $validInput);
+    }
   }
 
 }
 
-function contactForm() {
-  $title = $name = $message = $email = $phonenumber = $street = $housenumber = $postalcode = $city = $communication = '';
-  $titleErr = $nameErr = $messageErr = $emailErr = $phoneErr = $streetErr = $housenumberErr = $postalcodeErr = $cityErr = $communicationErr = '';
+function contactForm($formInputs = array('', '', '', '', '', '', '', '', '', ''),
+                      $errors = array('', '', '', '', '', '', '', '', '', '')) {
+  // order of arrays is title, name, email, phonenumber, street, housenumber, postalcode, city, message, communication
+  //$titleErr = $nameErr = $messageErr = $emailErr = $phoneErr = $streetErr = $housenumberErr = $postalcodeErr = $cityErr = $communicationErr = '';
+  $title = array('', '', '');
+  $communication = array('', '', '');
+  switch($formInputs[0]){
+    case ('sir');
+      $title[0] = 'selected';
+      break;
+    case ('madam');
+      $title[1] = 'selected';
+      break;
+    case ('other');
+      $title[2] = 'selected';
+      break;
+  }
+  
+   switch($formInputs[8]){
+    case ('email');
+      $communication[0] = 'checked';
+      break;
+    case ('phone');
+      $communication[1] = 'checked';
+      break;
+    case ('post');
+      $communication[2] = 'checked';
+      break;
+  }
+  
+  
   echo '<form class="contact" method="POST" action="index.php">
   <input type="hidden" name="page" value="contact" id="page"/>
   <fieldset class="persoon">
@@ -40,63 +63,63 @@ function contactForm() {
   <label for="title">title:</label> 
   <select id="title" name="title">
     <option value=""></option>
-    <option value="sir" >Dhr.</option> <!-- used to be before >Dhr <?php if (isset($title) && $title == "sir") echo "selected" ?> -->
-    <option value="madam"  >Mvr.</option>
-    <option value="other" >Anders</option>
+    <option value="sir" '.$title[0].' >Dhr.</option> <!-- used to be before >Dhr <?php if (isset($title) && $title == "sir") echo "selected" ?> -->
+    <option value="madam" '.$title[1].' >Mvr.</option>
+    <option value="other" '.$title[2].'>Anders</option>
   </select> 
-    <span class="error">* <?php echo $titleErr; ?></span>
+    <span class="error">* '.$errors[0].'</span>
   </div>
   <div>
     <label for="name"> Naam:</label> 
-    <input type="text" name="name" value="'.$name.'" id="name">
-    <span class="error">* '.$nameErr.'</span>
+    <input type="text" name="name" value="'.$formInputs[1].'" id="name">
+    <span class="error">* '.$errors[1].'</span>
   </div>
   <div>
     <label for="email">E-mail:</label> 
-      <input type="text" name="email" value="'.$email.'" id="email">
-    <span class="error"> '.$emailErr.'</span>
+      <input type="text" name="email" value="'.$formInputs[2].'" id="email">
+    <span class="error"> '.$errors[2].'</span>
   </div>
   <div>
     <label for="phonenumber">Telefoon nummer:</label> 
-    <input type="text" name="phonenumber" value="'.$phonenumber.' " id="phonenumber">
-    <span class="error"> '.$phoneErr.'</span>
+    <input type="text" name="phonenumber" value="'.$formInputs[3].' " id="phonenumber">
+    <span class="error"> '.$errors[3].'</span>
   </div>
   <div>
     <label for="street">Straat:</label> 
-    <input type="text" name="street" value="'.$street.'" id="street">
-    <span class="error"> '.$streetErr.'</span>
+    <input type="text" name="street" value="'.$formInputs[4].'" id="street">
+    <span class="error"> '.$errors[4].'</span>
   </div>
   <div>
     <label for="housenumber">Huisnummer:</label> 
-    <input type="text" name="housenumber" value="' .$housenumber.'" id="housenumber">
-    <span class="error"> '.$housenumberErr.'</span>
+    <input type="text" name="housenumber" value="' .$formInputs[5].'" id="housenumber">
+    <span class="error"> '.$errors[5].'</span>
   </div>
   <div>
     <label for="postalcode">Postcode:</label> 
-    <input type="text" name="postalcode" value="'.$postalcode.'" id="postalcode">
-    <span class="error"> '.$postalcodeErr.'</span>
+    <input type="text" name="postalcode" value="'.$formInputs[6].'" id="postalcode">
+    <span class="error"> '.$errors[6].'</span>
   </div>
   <div>
     <label for="city">Woonplaats:</label> 
-    <input type="text" name="city" value="' .$city.'" id="city">
-    <span class="error">'.$cityErr.'</span>
+    <input type="text" name="city" value="' .$formInputs[7].'" id="city">
+    <span class="error">'.$errors[7].'</span>
   </div>
 
     <!-- Voorkeur communication -->
     <!-- Zit vast op het omzetten van de checked statement --> 
   <fieldset class = "communication">
      <legend>Hoe wilt u communiceren?</legend> 
-      <span class="error">* '.$communicationErr.'</span>
+      <span class="error">* '.$errors[8].'</span>
       <div>
-      <input type="radio" name="communication" value="email"   >  <!-- <?php echo ($communication=="email" ? \'checked="checked"\' : \'\') ?> was originally in the now empty space -->
+      <input type="radio" name="communication" value="email" '.$communication[0].' >  <!-- <?php echo ($communication=="email" ? \'checked="checked"\' : \'\') ?> was originally in the now empty space -->
       <label for="email">Email</label> 
       </div>
       <div>
-      <input type="radio" name="communication" value="phone"   >
+      <input type="radio" name="communication" value="phone"  '.$communication[1].' >
       <label for="phone">Telefoon</label> 
       </div>
       <div>
-      <input type="radio" name="communication" value="post"   > 
+      <input type="radio" name="communication" value="post"  '.$communication[2].' > 
      
       <label for="post">Post</label>
       </div>
@@ -107,8 +130,8 @@ function contactForm() {
     <!-- reden van contact -->
   <div>
     <label for="message">Waarom wilt u contact opnemen?</label>
-    <textarea id="message" name="message" rows="4" cols="50" placeholder="'.$message.'" ></textarea>
-    <span class="error">* '.$messageErr.'</span>
+    <textarea id="message" name="message" rows="4" cols="50" placeholder="'.$formInputs[9].'" ></textarea>
+    <span class="error">* '.$errors[9].'</span>
   </div>
   <div>
     <label class = "hidden" for="submit"> hidden </label>
@@ -119,39 +142,47 @@ function contactForm() {
   ';
 }
 
-function formCheck() {
-    $titleErr = $nameErr = $messageErr = $emailErr = $phoneErr = $streetErr = $housenumberErr = $postalcodeErr = $cityErr = $communicationErr = '';
+function contactPostData(){
+  $formInputs = array('', '', '', '', '', '', '', '', '', '');
+  $formInputs[0] = $_POST["title"];
+  $formInputs[1] = $_POST["name"];
+  $formInputs[2] = $_POST["email"];
+  $formInputs[3] = $_POST["phonenumber"];
+  $formInputs[4] = $_POST["street"];
+  $formInputs[5] = $_POST["housenumber"];
+  $formInputs[6] = $_POST["postalcode"];
+  $formInputs[7] = $_POST["city"];
+  $formInputs[8] = $_POST["communication"];
+  $formInputs[9] = $_POST["message"];
+  return $formInputs;
+}
+
+
+
+function formCheck($formInputs = array('', '', '', '', '', '', '', '', '', '')) {
+  // Order of arrays should be: title, name, email, phonenumber, street, housenumber, postalcode, city, communication, message
+  $errors = array('', '', '', '', '', '', '', '', '', '');
   $valid = false;
   $postRequired = false;
-  echo $valid;
-	//Ordered by whether or not the variablei is necessary input
-	// title, name, message and communication are always necessary
-  $title = $_POST["title"];
-  $name = $_POST["name"];
-  $message = $_POST["message"];
-  $communication = $_POST["communication"];
-  $email = $_POST["email"];
-  $phonenumber = $_POST["phonenumber"];
-  $street = $_POST["street"];
-  $housenumber = $_POST["housenumber"];
-  $postalcode = $_POST["postalcode"];
-  $city = $_POST["city"];
+	//Ordered the same way the form is in
+  // so this is the title
+  $errors[0] = dataPresent($formInputs[0], $errors[0]);
+  // the name
+  $errors[1] = dataPresent($formInputs[1], $errors[1]);
+  // the message
+  $errors[9] = dataPresent($formInputs[9], $errors[9]);
+  // the communication method
+  $errors[8] = dataPresent($formInputs[8], $errors[8]);
   
-  $titleErr = dataPresent($title, $titleErr);
-  $nameErr = dataPresent($name, $nameErr);
-  $messageErr = dataPresent($message, $messageErr);
-  $communicationErr = dataPresent($communication, $communicationErr);
-  
-  
-  if ($communication == "email") {
-    $emailErr = dataPresent($email, $emailErr);
-  } elseif ($communication == "phone") {
-    $phoneErr = dataPresent($phone, $phoneErr);
-  } elseif ($communication == "post"){
+  if ($formInputs[8] == "email") {
+    $errors[2] = dataPresent($formInputs[2], $errors[2]);
+  } elseif ($formInputs[8] == "phone") {
+    $errors[3] = dataPresent($formInputs[3], $errors[3]);
+  } elseif ($formInputs[8] == "post"){
     $postRequired = true;
   }
   
-  $postData = array($street, $housenumber, $postalcode, $city);
+  $postData = array($formInputs[4], $formInputs[5], $formInputs[6], $formInputs[7]);
   foreach ($postData as $x) {
     if ($x != '') {
       $postRequired = true;
@@ -161,30 +192,49 @@ function formCheck() {
   if ($postRequired) {
     //Validating postal code
     $postRegex = "/^[0-9]{4}\s[A-z]{2}$/";
-    if (!preg_match($postRegex, $postalcode)) { 
+    if (!preg_match($postRegex, $formInputs[6])) { 
       $postalcodeErr = "Dit is niet een nederlandse postcode";
     }
-    
-    $streetErr = dataPresent($street, $streetErr);
-    $housenumberErr = dataPresent($housenumber, $housenumberErr);
-    $postalcodeErr = dataPresent($postalcode, $postalcodeErr);
-    $cityErr = dataPresent($city, $cityErr);
+    //street
+    $errors[4] = dataPresent($formInputs[4], $errors[4]);
+    //housenumber
+    $errors[5] = dataPresent($formInputs[5], $errors[5]);
+    //postalcode
+    $errors[6] = dataPresent($formInputs[6], $errors[6]);
+    //city
+    $errors[7] = dataPresent($formInputs[7], $errors[7]);
     
   }
   //Validity check, first check if everything is the same, if it is, check if nameErr is empty because it means there's no errors
-  $errorList = array($titleErr, $nameErr, $messageErr, $emailErr, $phoneErr, $streetErr, $housenumberErr, $postalcodeErr, $cityErr, $communicationErr);
-  $valid = (count(array_unique($errorList, SORT_REGULAR)) == 1);
-  echo $valid;
-  echo "ayyy macarana";
-  //if $valid == TRUE && $nameErr == '':
-  // stuff
+  // actually might not be necessary to check nameErr, because under no circumstances are all fields required
+  $valid = (count(array_unique($errors, SORT_REGULAR)) == 1);
+  if ($valid == TRUE){
+    return $valid;
+  } 
+  return $errors;
 }
 
-function dataPresent($data, $err) {
+function dataPresent($data, $err='') {
   if (empty($data)) $err = "Dit veld moet nog ingevuld worden"; 
   return $err;
 }
 
+function contactThanks($formInputs = array('', '', '', '', '', '', '', '', '', '')){
+  if ($formInputs[8] == 'phone'){
+    $formInputs[8] = 'telefoon';
+  }
+  
+  
+  echo '<p>Bedankt voor uw reactie:</p> 
+  <div>Naam: '.$formInputs[1].'</div>
+  <div>Email: '.$formInputs[2].'</div>
+  <div>Telefoon: '.$formInputs[3].'</div>
+  <div>Straat: '.$formInputs[4].'</div>
+  <div>Huisnummer: '.$formInputs[5].'</div>
+  <div>Postcode: '.$formInputs[6].'</div>
+  <div>Woonplaats: '.$formInputs[7].'</div>
+  <div>Communicatie voorkeur: '.$formInputs[8].'</div>';
+}
 
 
 
