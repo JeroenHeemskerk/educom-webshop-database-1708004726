@@ -19,7 +19,7 @@ function getArrayVal($array, $key, $default='') {
 } 
 
 function getPostVar($key, $default='') {
-    
+  return getArrayVal($_POST, $key, $default);  
 }
 
 function getGetVar($key, $default=''){
