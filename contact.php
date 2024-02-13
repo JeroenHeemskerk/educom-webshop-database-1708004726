@@ -14,7 +14,7 @@ function showContentContact(){
    contactForm();
   } else { 
   $submittedData = contactPostData();
-  $validInput = formCheck($submittedData);
+  $validInput = formCheckContact($submittedData);
   // if validInput is true, we can go to thanks, if its false it is a list of errors to use for the contactForm to display
     if (is_bool($validInput) == TRUE) {
       contactThanks($submittedData);
@@ -78,7 +78,7 @@ function contactForm($formInputs = array('', '', '', '', '', '', '', '', '', '')
   </div>
   <div>
     <label for="phonenumber">Telefoon nummer:</label> 
-    <input type="text" name="phonenumber" value="'.$formInputs[3].' " id="phonenumber">
+    <input type="text" name="phonenumber" value="'.$formInputs[3].'" id="phonenumber">
     <span class="error"> '.$errors[3].'</span>
   </div>
   <div>
@@ -155,7 +155,7 @@ function contactPostData(){
 
 
 
-function formCheck($formInputs = array('', '', '', '', '', '', '', '', '', '')) {
+function formCheckContact($formInputs = array('', '', '', '', '', '', '', '', '', '')) {
   // Order of arrays should be: title, name, email, phonenumber, street, housenumber, postalcode, city, communication, message
   $errors = array('', '', '', '', '', '', '', '', '', '');
   $valid = false;

@@ -1,5 +1,8 @@
 <?php
 $page = getRequestedPage(); 
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+processRequest();
+}
 showResponsePage($page); 
 
 function getRequestedPage() {
@@ -26,7 +29,19 @@ function getGetVar($key, $default=''){
   return getArrayVal($_GET, $key, $default);
 }
 
-function processRequest(){}
+function processRequest(){
+  switch($_POST['page']){
+    case 'contact';
+      var_dump($_POST);
+      echo 'contact';
+    case 'register';
+      var_dump($_POST);
+      echo 'register';
+    case 'login';
+      var_dump($_POST);
+      echo 'login';
+  }
+}
 
 function showResponsePage($page) {
   showDocumentStart(); 
@@ -56,7 +71,15 @@ function showHeadSection($page){
     case 'contact':
       require('contact.php');
         showHeadContact();
-        break;       
+        break;
+    case 'register':
+        require('register.php');
+          showHeadRegister();
+          break;
+    case 'login':
+        require('login.php');
+          showHeadLogin();
+          break;            
    }
    
    echo '<link rel="stylesheet" href="CSS/mystyle.css">
@@ -78,17 +101,20 @@ function showDocumentEnd(){
 function showHeader($page){
   switch ($page) { 
     case 'home':
-
         showHeaderHome();
         break;
     case 'about':
-
         showHeaderAbout();
         break;
     case 'contact':
-
         showHeaderContact();
-        break;       
+        break;   
+    case 'register':
+        showHeaderRegister();
+        break;  
+    case 'login':
+        showHeaderLogin();
+        break;         
    }
 }
 
@@ -96,25 +122,37 @@ function showMenu(){
   echo '<ul class="menu">
   <li><a href="index.php?page=home">Home</a></li> 
   <li><a href="index.php?page=about">About</a></li> 
-  <li><a href="index.php?page=contact">Contact</a></li> 
-  </ul>';
+  <li><a href="index.php?page=contact">Contact</a></li> ';
+  
+  // testing flag for menu display
+  $logged_in = false;
+  if ($logged_in == false){
+    echo '<li><a href="index.php?page=register">Register</a></li> 
+    <li><a href="index.php?page=login">Login</a></li> ';
+  } else {
+    echo '<li><a href="index.php?page=logout">Logout</a></li> ';
+  echo '</ul>';
+}
 }
 
 function showContent($page){
 
   switch ($page) { 
     case 'home':
-
         showContentHome();
         break;
     case 'about':
-
         showContentAbout();
         break;
     case 'contact':
-
         showContentContact();
-        break;       
+        break;    
+    case 'register':
+        showContentRegister();
+        break;           
+    case 'login':
+        showContentLogin();
+        break;               
    }
 }
 
