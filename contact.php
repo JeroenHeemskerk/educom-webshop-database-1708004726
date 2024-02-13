@@ -232,6 +232,4 @@ function contactThanks($formInputs = array('', '', '', '', '', '', '', '', '', '
   <div>Communicatie voorkeur: '.$formInputs[8].'</div>';
 }
 
-
-
-
+?>

@@ -26,6 +26,8 @@ function getGetVar($key, $default=''){
   return getArrayVal($_GET, $key, $default);
 }
 
+function processRequest(){}
+
 function showResponsePage($page) {
   showDocumentStart(); 
   showHeadSection($page); 
