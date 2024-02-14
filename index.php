@@ -20,7 +20,9 @@ function getRequestedPage() {
     // Here I need to get the actually requested page and not have it fill in just page
     $requestedPage = getGetVar('page','home');
   }
-  $requestedPage = array($requestedPage);
+  // Note that contact, register, and login need a longer array to function (they fill in inputs from the array
+  // so we have to include a long blank array to use
+  $requestedPage = array_merge( array('', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''), array($requestedPage));
   return $requestedPage;
 }
   
@@ -50,7 +52,14 @@ function processRequest($page){
     case 'register':
       $formInputs = postDataRegister();
       $errors = formCheckRegister($formInputs);
-      return $page;
+      $formInputs = array_merge($formInputs, $errors);
+      return $formInputs;
+    case 'login':
+      $formInputs = postDataLogin();
+      $errors = formCheckLogin($formInputs);
+      $formInputs = array_merge($formInputs, $errors);
+      return $formInputs;
+    
   }
 
 }
@@ -156,14 +165,14 @@ function showContent($page){
         showContentAbout();
         break;
     case 'contact':
-    var_dump($page);
+
         showContentContactForm($page);
         break;    
     case 'thanks':
         showContentThanks($page);
         break; 
     case 'register':
-        showContentRegister();
+        showContentRegister($page);
         break;           
     case 'login':
         showContentLogin();

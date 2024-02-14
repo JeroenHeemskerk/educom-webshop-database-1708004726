@@ -9,11 +9,6 @@ function showHeaderContact(){
 }
 
 function showContentContactForm($formInputs = array('', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '')){
-  // note, the array produced through get only contains 'content' so in that case we need to replace $formInputs with an empty array of the right length, since the default input has no effect in this case. So the errors start from position 10 onward
-  if (count($formInputs) == 1){
-    $formInputs = array('', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '');
-  }
-  
   // order of arrays is title, name, email, phonenumber, street, housenumber, postalcode, city, message, communication (repeating once after communication)
   $title = array('', '', '');
   $communication = array('', '', '');
@@ -81,7 +76,7 @@ function showContentContactForm($formInputs = array('', '', '', '', '', '', '', 
   <div>
     <label for="postalcode">Postcode:</label> 
     <input type="text" name="postalcode" value="'.$formInputs[6].'" id="postalcode">
-    <span class="error"> '.$formInputs[61].'</span>
+    <span class="error"> '.$formInputs[16].'</span>
   </div>
   <div>
     <label for="city">Woonplaats:</label> 

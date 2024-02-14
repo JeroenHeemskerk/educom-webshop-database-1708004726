@@ -1,5 +1,20 @@
 
 <?php
+function postDataRegister(){
+  $formInputs = array('email', 'password');
+  $formInputs[0] = filter_input(INPUT_POST, $formInputs[0]);
+  $formInputs[1] = filter_input(INPUT_POST, $formInputs[1]);
+  return $formInputs;
+
+
+function formCheckLogin($formInputs = array('', '')){
+  $errors = array('', '');
+  //first, lets check if there's any input
+   for ($x = 0; $x <= 1; $x++){
+    if(empty($formInputs[$x])) { $errors[$x] = "Dit veld moet nog ingevuld worden";} 
+}
+
+
 
 function showHeadLogin(){
   echo '<title>Login form</title>';

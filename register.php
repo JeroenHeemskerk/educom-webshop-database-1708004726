@@ -16,13 +16,38 @@ function formCheckRegister($formInputs = array('', '', '', '')){
   for ($x = 0; $x <= 3; $x++){
     if(empty($formInputs[$x])) { $errors[$x] = "Dit veld moet nog ingevuld worden";} 
   }
-  var_dump($errors);
   // And last, checking if email is in user.txt
-  $hardPath = 'D:\\xampp\\htdocs\\educom-webshop-basis-1707216396\\users\\users.txt'; 
-  $users = fopen($hardPath, 'r');
-  echo fread($users, filesize($hardPath));
-  fclose($users);
-  
+    if ($errors == array('', '', '', '')){
+      // I want to replace this with a relative path but php's routing doesn't work how I think
+      $hardPath = 'D:\\xampp\\htdocs\\educom-webshop-basis-1707216396\\users\\users.txt'; 
+      $users = fopen($hardPath, 'r');
+    // okay what I need to do is loop through each line and check if the mail matches anywhere
+      while(!feof($users)) {
+        $currentLine =  fgets($users) ;
+        echo $currentLine;
+        $email = explode("|", $currentLine, 2)[0];
+        if ($formInputs[0] == $email){
+          $errors[0] = "Deze mail is al in gebruik";
+         }
+      }
+      fclose($users);
+    }
+  // next up is determening whether to go back to the register page or to file away the data and go to login
+  // for this we can again check if there's an error messages present (be it missing info or mail being used already
+  if ($errors == array('', '', '', '')){
+    // in this case nothing is missing
+    // so we can turn our error array into just 'login' for page redirection
+    $errors = array('login');
+    // then we make a string to write away into users.txt
+    $userData =  $formInputs[0].'|'.$formInputs[1].'|'.$formInputs[2];
+    $users = fopen($hardPath, "a");
+    fwrite($users, "\n");
+    fwrite($users, $userData);
+    fclose($users);
+  } else {
+      $errors = array_merge($errors, array('register'));
+  }
+  return $errors;
 }
 
 function showHeadRegister(){
@@ -33,7 +58,7 @@ function showHeaderRegister(){
   echo '<header  class=title><h1>De registratie pagina</h1></header>';
 }
 
-function showContentRegister($formInputs = array('', '' ,'', ''), $errors = array('', '', '', '')){
+function showContentRegister($formInputs){
   echo '
   <form class="contact" method="POST" action="index.php">
   <input type="hidden" name="page" value="register" id="page"/>
@@ -41,22 +66,22 @@ function showContentRegister($formInputs = array('', '' ,'', ''), $errors = arra
   <div> 
     <label for="name"> Naam:</label> 
     <input type="text" name="name" value="'.$formInputs[0].'" id="name">
-    <span class="error">* '.$errors[0].'</span>
+    <span class="error">* '.$formInputs[4].'</span>
   </div>
   <div> 
     <label for="email"> Email:</label> 
     <input type="text" name="email" value="'.$formInputs[1].'" id="email">
-    <span class="error">* '.$errors[1].'</span>
+    <span class="error">* '.$formInputs[5].'</span>
   </div>
   <div> 
     <label for="password"> Wachtword:</label> 
     <input type="text" name="password" value="'.$formInputs[2].'" id="password">
-    <span class="error">* '.$errors[2].'</span>
+    <span class="error">* '.$formInputs[6].'</span>
   </div>
   <div> 
     <label for="repeat"> Herhaal het wachtword:</label> 
     <input type="text" name="repeat" value="'.$formInputs[3].'" id="repeat">
-    <span class="error">* '.$errors[3].'</span>
+    <span class="error">* '.$formInputs[7].'</span>
   </div>
   <div>
     <label class = "hidden" for="submit"> hidden </label>
