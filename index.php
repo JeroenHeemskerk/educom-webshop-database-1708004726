@@ -10,7 +10,6 @@ $page = getRequestedPage();
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 $page = processRequest($page);
 }
-
 showResponsePage($page); 
 
 function getRequestedPage() {
@@ -51,7 +50,6 @@ function processRequest($page){
     case 'register':
       $formInputs = postDataRegister();
       $errors = formCheckRegister($formInputs);
-      var_dump($formInputs);
       return $page;
   }
 

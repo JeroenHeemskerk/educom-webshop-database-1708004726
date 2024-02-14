@@ -9,7 +9,21 @@ function postDataRegister(){
   return $formInputs;
 }
 
-function formCheckRegister()
+function formCheckRegister($formInputs = array('', '', '', '')){
+  $errors = array('', '', '', '');
+  // first checking if passwords match because then the empty field warning can override it in case the passwords don't match because one is empty
+  if ($formInputs[2] != $formInputs [3]){ $errors[2] = $errors[3] = "Wachtworden matchen niet"; }
+  for ($x = 0; $x <= 3; $x++){
+    if(empty($formInputs[$x])) { $errors[$x] = "Dit veld moet nog ingevuld worden";} 
+  }
+  var_dump($errors);
+  // And last, checking if email is in user.txt
+  $hardPath = 'D:\\xampp\\htdocs\\educom-webshop-basis-1707216396\\users\\users.txt'; 
+  $users = fopen($hardPath, 'r');
+  echo fread($users, filesize($hardPath));
+  fclose($users);
+  
+}
 
 function showHeadRegister(){
   echo '<title>Register form</title>';

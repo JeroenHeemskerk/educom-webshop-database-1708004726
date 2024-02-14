@@ -140,8 +140,6 @@ function postDataContact(){
   return $formInputs;
 }
 
-
-
 function formCheckContact($formInputs = array('', '', '', '', '', '', '', '', '', '')) {
   // Order of arrays should be: title, name, email, phonenumber, street, housenumber, postalcode, city, communication, message
   $errors = array('', '', '', '', '', '', '', '', '', '');
