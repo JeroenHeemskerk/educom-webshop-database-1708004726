@@ -1,5 +1,16 @@
 
 <?php
+function postDataRegister(){
+  $formInputs = array('name', 'email', 'password', 'repeat');
+  $formInputs[0] = filter_input(INPUT_POST, $formInputs[0]);
+  $formInputs[1] = filter_input(INPUT_POST, $formInputs[1]);
+  $formInputs[2] = filter_input(INPUT_POST, $formInputs[2]);
+  $formInputs[3] = filter_input(INPUT_POST, $formInputs[3]);
+  return $formInputs;
+}
+
+function formCheckRegister()
+
 function showHeadRegister(){
   echo '<title>Register form</title>';
 }
@@ -29,8 +40,8 @@ function showContentRegister($formInputs = array('', '' ,'', ''), $errors = arra
     <span class="error">* '.$errors[2].'</span>
   </div>
   <div> 
-    <label for="password"> Herhaal het wachtword:</label> 
-    <input type="text" name="password" value="'.$formInputs[3].'" id="password">
+    <label for="repeat"> Herhaal het wachtword:</label> 
+    <input type="text" name="repeat" value="'.$formInputs[3].'" id="repeat">
     <span class="error">* '.$errors[3].'</span>
   </div>
   <div>

@@ -10,8 +10,7 @@ function showHeaderLogin(){
 }
 
 function showContentLogin($formInputs = array('', '' ), $errors = array('', '')){
-  echo '
-  <form class="contact" method="POST" action="index.php">
+  echo '<form class="contact" method="POST" action="index.php">
   <input type="hidden" name="page" value="login" id="page"/>
   <fieldset class="persoon">
   <div> 

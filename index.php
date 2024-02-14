@@ -1,19 +1,27 @@
 <?php
+//load in required external functions
+require('home.php');
+require('about.php');
+require('contact.php');
+require('register.php');
+require('login.php');
+
 $page = getRequestedPage(); 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-processRequest();
+$page = processRequest($page);
 }
+
 showResponsePage($page); 
 
 function getRequestedPage() {
   $requestedType = $_SERVER['REQUEST_METHOD']; 
-  
   if ($requestedType == "POST") {
     $requestedPage = getPostVar('page', 'home');
   } else {
     // Here I need to get the actually requested page and not have it fill in just page
     $requestedPage = getGetVar('page','home');
   }
+  $requestedPage = array($requestedPage);
   return $requestedPage;
 }
   
@@ -29,18 +37,24 @@ function getGetVar($key, $default=''){
   return getArrayVal($_GET, $key, $default);
 }
 
-function processRequest(){
-  switch($_POST['page']){
-    case 'contact';
-      var_dump($_POST);
-      echo 'contact';
-    case 'register';
-      var_dump($_POST);
-      echo 'register';
-    case 'login';
-      var_dump($_POST);
-      echo 'login';
+function processRequest($page){
+  //The process depends on which page is submitted
+  switch(end($page)){
+    case 'contact':
+      // first step is retrieving the input data, I want to retrieve inputs only once
+      $formInputs = postDataContact();
+      // next we have to check if there are any error messages
+      $errors = formCheckContact($formInputs);
+      // finally appending them together to create a page reference with all the data required to fill said page (on POST)
+      $formInputs = array_merge($formInputs, $errors);
+      return $formInputs;
+    case 'register':
+      $formInputs = postDataRegister();
+      $errors = formCheckRegister($formInputs);
+      var_dump($formInputs);
+      return $page;
   }
+
 }
 
 function showResponsePage($page) {
@@ -58,26 +72,23 @@ function showDocumentStart() {
 function showHeadSection($page){
   // only the title differs between these head sections so, you can load/close the head and reference the css here
   echo '<head>';
-  
-  switch ($page) { 
+  switch(end($page)){
     case 'home':
-      require('home.php');
         showHeadHome();
         break;
     case 'about':
-      require('about.php');
         showHeadAbout();
         break;
-    case 'contact':
-      require('contact.php');
+    case 'contact': 
+        showHeadContact();
+        break;
+    case 'thanks': 
         showHeadContact();
         break;
     case 'register':
-        require('register.php');
           showHeadRegister();
           break;
-    case 'login':
-        require('login.php');
+    case 'login':        
           showHeadLogin();
           break;            
    }
@@ -99,7 +110,7 @@ function showDocumentEnd(){
   echo '</html>'; 
 }
 function showHeader($page){
-  switch ($page) { 
+  switch(end($page)){
     case 'home':
         showHeaderHome();
         break;
@@ -109,6 +120,9 @@ function showHeader($page){
     case 'contact':
         showHeaderContact();
         break;   
+    case 'thanks':
+        showHeaderContact();
+        break; 
     case 'register':
         showHeaderRegister();
         break;  
@@ -136,8 +150,7 @@ function showMenu(){
 }
 
 function showContent($page){
-
-  switch ($page) { 
+  switch(end($page)){
     case 'home':
         showContentHome();
         break;
@@ -145,8 +158,12 @@ function showContent($page){
         showContentAbout();
         break;
     case 'contact':
-        showContentContact();
+    var_dump($page);
+        showContentContactForm($page);
         break;    
+    case 'thanks':
+        showContentThanks($page);
+        break; 
     case 'register':
         showContentRegister();
         break;           

@@ -8,26 +8,13 @@ function showHeaderContact(){
   echo '<header  class=title><h1>De contact pagina van Milan Lucas</h1></header>';
 }
 
-function showContentContact(){
-  $requestedType = $_SERVER['REQUEST_METHOD']; 
-  if ($requestedType == "GET") {
-   contactForm();
-  } else { 
-  $submittedData = contactPostData();
-  $validInput = formCheckContact($submittedData);
-  // if validInput is true, we can go to thanks, if its false it is a list of errors to use for the contactForm to display
-    if (is_bool($validInput) == TRUE) {
-      contactThanks($submittedData);
-    } else {
-      contactForm($submittedData, $validInput);
-    }
+function showContentContactForm($formInputs = array('', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '')){
+  // note, the array produced through get only contains 'content' so in that case we need to replace $formInputs with an empty array of the right length, since the default input has no effect in this case. So the errors start from position 10 onward
+  if (count($formInputs) == 1){
+    $formInputs = array('', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '');
   }
-}
-
-function contactForm($formInputs = array('', '', '', '', '', '', '', '', '', ''),
-                      $errors = array('', '', '', '', '', '', '', '', '', '')) {
-  // order of arrays is title, name, email, phonenumber, street, housenumber, postalcode, city, message, communication
-  //$titleErr = $nameErr = $messageErr = $emailErr = $phoneErr = $streetErr = $housenumberErr = $postalcodeErr = $cityErr = $communicationErr = '';
+  
+  // order of arrays is title, name, email, phonenumber, street, housenumber, postalcode, city, message, communication (repeating once after communication)
   $title = array('', '', '');
   $communication = array('', '', '');
   switch($formInputs[0]){
@@ -64,48 +51,48 @@ function contactForm($formInputs = array('', '', '', '', '', '', '', '', '', '')
     <option value="madam" '.$title[1].' >Mvr.</option>
     <option value="other" '.$title[2].'>Anders</option>
   </select> 
-    <span class="error">* '.$errors[0].'</span>
+    <span class="error">* '.$formInputs[10].'</span>
   </div>
   <div>
     <label for="name"> Naam:</label> 
     <input type="text" name="name" value="'.$formInputs[1].'" id="name">
-    <span class="error">* '.$errors[1].'</span>
+    <span class="error">* '.$formInputs[11].'</span>
   </div>
   <div>
     <label for="email">E-mail:</label> 
       <input type="text" name="email" value="'.$formInputs[2].'" id="email">
-    <span class="error"> '.$errors[2].'</span>
+    <span class="error"> '.$formInputs[12].'</span>
   </div>
   <div>
     <label for="phonenumber">Telefoon nummer:</label> 
     <input type="text" name="phonenumber" value="'.$formInputs[3].'" id="phonenumber">
-    <span class="error"> '.$errors[3].'</span>
+    <span class="error"> '.$formInputs[13].'</span>
   </div>
   <div>
     <label for="street">Straat:</label> 
     <input type="text" name="street" value="'.$formInputs[4].'" id="street">
-    <span class="error"> '.$errors[4].'</span>
+    <span class="error"> '.$formInputs[14].'</span>
   </div>
   <div>
     <label for="housenumber">Huisnummer:</label> 
     <input type="text" name="housenumber" value="' .$formInputs[5].'" id="housenumber">
-    <span class="error"> '.$errors[5].'</span>
+    <span class="error"> '.$formInputs[15].'</span>
   </div>
   <div>
     <label for="postalcode">Postcode:</label> 
     <input type="text" name="postalcode" value="'.$formInputs[6].'" id="postalcode">
-    <span class="error"> '.$errors[6].'</span>
+    <span class="error"> '.$formInputs[61].'</span>
   </div>
   <div>
     <label for="city">Woonplaats:</label> 
     <input type="text" name="city" value="' .$formInputs[7].'" id="city">
-    <span class="error">'.$errors[7].'</span>
+    <span class="error">'.$formInputs[17].'</span>
   </div>
 
     <!-- Voorkeur communication -->
   <fieldset class = "communication">
      <legend>Hoe wilt u communiceren?</legend> 
-      <span class="error">* '.$errors[8].'</span>
+      <span class="error">* '.$formInputs[18].'</span>
       <div>
       <input type="radio" name="communication" value="email" '.$communication[0].' >  
       <label for="email">Email</label> 
@@ -127,7 +114,7 @@ function contactForm($formInputs = array('', '', '', '', '', '', '', '', '', '')
   <div>
     <label for="message">Waarom wilt u contact opnemen?</label>
     <textarea id="message" name="message" rows="4" cols="50" placeholder="'.$formInputs[9].'" ></textarea>
-    <span class="error">* '.$errors[9].'</span>
+    <span class="error">* '.$formInputs[19].'</span>
   </div>
   <div>
     <label class = "hidden" for="submit"> hidden </label>
@@ -138,7 +125,7 @@ function contactForm($formInputs = array('', '', '', '', '', '', '', '', '', '')
   ';
 }
 
-function contactPostData(){
+function postDataContact(){
   $formInputs = array('title', 'name', 'email', 'phonenumber', 'street', 'housenumber', 'postalcode', 'city', 'communication', 'message');
   $formInputs[0] = filter_input(INPUT_POST, $formInputs[0]);
   $formInputs[1] = filter_input(INPUT_POST, $formInputs[1]);
@@ -204,9 +191,12 @@ function formCheckContact($formInputs = array('', '', '', '', '', '', '', '', ''
   //Validity check, first check if everything is the same, if it is, check if nameErr is empty because it means there's no errors
   // actually might not be necessary to check nameErr, because under no circumstances are all fields required
   $valid = (count(array_unique($errors, SORT_REGULAR)) == 1);
-  if ($valid == TRUE){
-    return $valid;
+  if ($valid == 'true'){
+    // the thanks is the page to redirect to, the error messages are unneeded since the input is valid
+    return array('thanks');
   } 
+  // otherwise it should circle back with data to fill the og page, which means including the page name to link back to
+  $errors = array_merge($errors, array('contact'));
   return $errors;
 }
 
@@ -215,7 +205,7 @@ function dataPresent($data, $err='') {
   return $err;
 }
 
-function contactThanks($formInputs = array('', '', '', '', '', '', '', '', '', '')){
+function showContentThanks($formInputs = array('', '', '', '', '', '', '', '', '', '')){
   // changing phone to telefoon for the display 
   if ($formInputs[8] == 'phone'){
     $formInputs[8] = 'telefoon';
