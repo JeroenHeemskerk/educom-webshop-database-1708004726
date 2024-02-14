@@ -11,6 +11,8 @@ function postDataRegister(){
 
 function formCheckRegister($formInputs = array('', '', '', '')){
   $errors = array('', '', '', '');
+  // I want to replace this with a relative path but php's routing doesn't work how I think
+  $hardPath = 'D:\\xampp\\htdocs\\educom-webshop-basis-1707216396\\users\\users.txt';
   // first checking if passwords match because then the empty field warning can override it in case the passwords don't match because one is empty
   if ($formInputs[2] != $formInputs [3]){ $errors[2] = $errors[3] = "Wachtworden matchen niet"; }
   for ($x = 0; $x <= 3; $x++){
@@ -18,8 +20,7 @@ function formCheckRegister($formInputs = array('', '', '', '')){
   }
   // And last, checking if email is in user.txt
     if ($errors == array('', '', '', '')){
-      // I want to replace this with a relative path but php's routing doesn't work how I think
-      $hardPath = 'D:\\xampp\\htdocs\\educom-webshop-basis-1707216396\\users\\users.txt'; 
+
       $users = fopen($hardPath, 'r');
     // okay what I need to do is loop through each line and check if the mail matches anywhere
       while(!feof($users)) {

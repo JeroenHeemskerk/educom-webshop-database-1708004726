@@ -1,4 +1,7 @@
 <?php
+session_start();
+$_SESSION["loggedIn"] = false;
+$_SESSION["userName"] = ''; 
 //load in required external functions
 require('home.php');
 require('about.php');
@@ -97,6 +100,13 @@ function showHeadSection($page){
           break;
     case 'login':        
           showHeadLogin();
+          break;    
+    case 'logout':        
+          showHeadHome();
+          // resetting the session 
+          session_unset(); 
+          $_SESSION["loggedIn"] = false;
+          $_SESSION["userName"] = ''; 
           break;            
    }
    
@@ -135,7 +145,10 @@ function showHeader($page){
         break;  
     case 'login':
         showHeaderLogin();
-        break;         
+        break;   
+    case 'logout':        
+          showHeaderHome();
+          break;           
    }
 }
 
@@ -146,12 +159,11 @@ function showMenu(){
   <li><a href="index.php?page=contact">Contact</a></li> ';
   
   // testing flag for menu display
-  $logged_in = false;
-  if ($logged_in == false){
+  if ($_SESSION['loggedIn'] == false){
     echo '<li><a href="index.php?page=register">Register</a></li> 
     <li><a href="index.php?page=login">Login</a></li> ';
   } else {
-    echo '<li><a href="index.php?page=logout">Logout</a></li> ';
+    echo '<li><a href="index.php?page=logout">Logout '.$_SESSION["userName"].'</a></li> ';
   echo '</ul>';
 }
 }
@@ -175,8 +187,11 @@ function showContent($page){
         showContentRegister($page);
         break;           
     case 'login':
-        showContentLogin();
-        break;               
+        showContentLogin($page);
+        break;       
+    case 'logout':        
+          showContentHome();
+          break;           
    }
 }
 
