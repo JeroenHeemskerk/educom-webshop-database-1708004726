@@ -8,10 +8,9 @@ body.algemeen {
 }
 
 header.title {
-	font-size: 48px;
+	font-size: 24px;
 	text-align: center;
 }
-
 
 ul.menu li {
 	display: inline;
@@ -57,6 +56,7 @@ fieldset.communication{
 }
 
 form.contact span {
+  font-size:10px;
 	color:red
 }
 

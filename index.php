@@ -170,8 +170,6 @@ function showMenu(){
   <li><a href="index.php?page=home">Home</a></li> 
   <li><a href="index.php?page=about">About</a></li> 
   <li><a href="index.php?page=contact">Contact</a></li> ';
-  
-  // testing flag for menu display
   if ($_SESSION['loggedIn'] == false){
     echo '<li><a href="index.php?page=register">Register</a></li> 
     <li><a href="index.php?page=login">Login</a></li> ';
@@ -190,8 +188,7 @@ function showContent($page){
         showContentAbout();
         break;
     case 'contact':
-
-        showContentContactForm($page);
+        showContentContact($page);
         break;    
     case 'thanks':
         showContentThanks($page);

@@ -8,7 +8,7 @@ function showHeaderContact(){
   echo '<header  class=title><h1>Contact</h1></header>';
 }
 
-function showContentContactForm($formInputs = array('', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '')){
+function showContentContact($formInputs = array('', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '')){
   // order of arrays is title, name, email, phonenumber, street, housenumber, postalcode, city, message, communication (repeating once after communication)
   $title = array('', '', '');
   $communication = array('', '', '');
@@ -90,8 +90,7 @@ function showContentContactForm($formInputs = array('', '', '', '', '', '', '', 
   </div>
   <fieldset class = "communication">
      <!-- Need some help here: the legend brings a nice shape to things, but due to how the title in it works it isnt a perfect square -->
-     <legend class = "communication"></legend> 
-      <span class="error">* '.$formInputs[18].'</span>
+     <legend class = "communication"><span class="error">*'.$formInputs[18].'</span></legend> 
       <div>
       <input type="radio" name="communication" value="email" '.$communication[0].' >  
       <label for="email">Email</label> 
@@ -185,7 +184,9 @@ function formCheckContact($formInputs = array('', '', '', '', '', '', '', '', ''
     $errors[7] = dataPresent($formInputs[7], $errors[7]);
   }
   // have to check if the email is actually an email if its filled
-  $errors[2] = checkEmail($formInputs[2]);
+  if (empty($formInputs[2] == false)){ 
+    $errors[2] = checkEmail($formInputs[2]);
+  }
   
   //Validity check, first check if everything is the same, if it is, check if $errors[1] is empty because it means there's no errors
   // actually might not be necessary to check nameErr, because under no circumstances are all fields required
