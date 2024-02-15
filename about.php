@@ -5,7 +5,7 @@ function showHeadAbout(){
 }
 
 function showHeaderAbout(){
-  echo '<header class=title><h1> De about pagina van Milan Lucas </h1></header>';
+  echo '<header class=title><h1> About </h1></header>';
 }
 
 function showContentAbout(){

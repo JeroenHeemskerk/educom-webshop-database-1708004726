@@ -52,13 +52,14 @@ fieldset.communication input:after{
   white-space: pre;
 }
 
+fieldset.communication{
+  width: 390px;
+}
+
 form.contact span {
 	color:red
 }
 
-label.hidden { 
-  color: white;
-}
 
 input.submit {
   margin-left:150px;

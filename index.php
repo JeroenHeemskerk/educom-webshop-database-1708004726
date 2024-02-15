@@ -56,6 +56,11 @@ function processRequest($page){
       $formInputs = postDataRegister();
       $errors = formCheckRegister($formInputs);
       $formInputs = array_merge($formInputs, $errors);
+      // so I need to make a small tweak here because this can redirect to login
+      // and in that case it becomes a thing that it takes along all the inputs to the login page
+      if (end($errors) == 'login'){
+        $formInputs = array('', '', '', '', 'login');
+      }
       return $formInputs;
     case 'login':
       $formInputs = postDataLogin();
@@ -106,7 +111,7 @@ function showHeadSection($page){
     case 'register':
           showHeadRegister();
           break;
-    case 'login':        
+    case 'login': 
           showHeadLogin();
           break;    
     case 'logout':        

@@ -5,7 +5,7 @@ function showHeadContact(){
 }
 
 function showHeaderContact(){
-  echo '<header  class=title><h1>De contact pagina van Milan Lucas</h1></header>';
+  echo '<header  class=title><h1>Contact</h1></header>';
 }
 
 function showContentContactForm($formInputs = array('', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '')){
@@ -85,8 +85,12 @@ function showContentContactForm($formInputs = array('', '', '', '', '', '', '', 
   </div>
 
     <!-- Voorkeur communication -->
+  <div>
+  <label for="city">Hoe wilt u communiceren?</label> 
+  </div>
   <fieldset class = "communication">
-     <legend>Hoe wilt u communiceren?</legend> 
+     <!-- Need some help here: the legend brings a nice shape to things, but due to how the title in it works it isnt a perfect square -->
+     <legend class = "communication"></legend> 
       <span class="error">* '.$formInputs[18].'</span>
       <div>
       <input type="radio" name="communication" value="email" '.$communication[0].' >  

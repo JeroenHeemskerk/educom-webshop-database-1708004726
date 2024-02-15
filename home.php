@@ -4,7 +4,7 @@ function showHeadHome(){
 }
 
 function showHeaderHome(){
-  echo '<header class=title><h1> De home pagina van Milan Lucas </h1></header>';
+  echo '<header class=title><h1> Home </h1></header>';
 }
 
 function showContentHome(){

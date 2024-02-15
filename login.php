@@ -9,12 +9,13 @@ function postDataLogin(){
 
 
 function formCheckLogin($formInputs = array('', '')){
+  // array is name, password
   $errors = array('', '');
   $hardPath = 'D:\\xampp\\htdocs\\educom-webshop-basis-1707216396\\users\\users.txt';
   //first, lets check if there's any input
    for ($x = 0; $x <= 1; $x++){
     if(empty($formInputs[$x])) { $errors[$x] = "Dit veld moet nog ingevuld worden";} 
-  }  
+  }    
   if ($errors == array('', '')){
     // and then you gotta check if it matches with anything in users.txt
     $users = fopen($hardPath, 'r');
@@ -43,7 +44,7 @@ function showHeadLogin(){
 }
 
 function showHeaderLogin(){
-  echo '<header class=title><h1>De login pagina</h1></header>';
+  echo '<header class=title><h1>Login</h1></header>';
 }
 
 function showContentLogin($formInputs = array('', '', '', '')){
