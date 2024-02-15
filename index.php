@@ -1,18 +1,20 @@
 <?php
 session_start();
-$_SESSION["loggedIn"] = false;
-$_SESSION["userName"] = ''; 
 //load in required external functions
 require('home.php');
 require('about.php');
 require('contact.php');
 require('register.php');
 require('login.php');
+require('validate.php');
+require('user_Service.php');
+require('file_Repository.php');
 
 $page = getRequestedPage(); 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 $page = processRequest($page);
 }
+
 showResponsePage($page); 
 
 function getRequestedPage() {
@@ -70,15 +72,7 @@ function processRequest($page){
   }
 }
 
-function checkEmail($email){
-  $error = '';
-  if (filter_var($email, FILTER_VALIDATE_EMAIL)){
-    $error = '';
-  } else {
-   $error = 'Dit is geen geldig email address';
-  }
-  return $error;
-}
+
 
 function showResponsePage($page) {
   showDocumentStart(); 
@@ -94,7 +88,6 @@ function showDocumentStart() {
 
 function showHeadSection($page){
   // only the title differs between these head sections so, you can load/close the head and reference the css here
-  echo '<head>';
   switch(end($page)){
     case 'home':
         showHeadHome();
@@ -117,9 +110,7 @@ function showHeadSection($page){
     case 'logout':        
           showHeadHome();
           // resetting the session 
-          session_unset(); 
-          $_SESSION["loggedIn"] = false;
-          $_SESSION["userName"] = ''; 
+          session_unset();
           break;            
    }
    
@@ -170,13 +161,14 @@ function showMenu(){
   <li><a href="index.php?page=home">Home</a></li> 
   <li><a href="index.php?page=about">About</a></li> 
   <li><a href="index.php?page=contact">Contact</a></li> ';
-  if ($_SESSION['loggedIn'] == false){
+  // check if session is set
+  if (!isset($_SESSION['userName'])){
     echo '<li><a href="index.php?page=register">Register</a></li> 
     <li><a href="index.php?page=login">Login</a></li> ';
   } else {
-    echo '<li><a href="index.php?page=logout">Logout '.$_SESSION["userName"].'</a></li> ';
+    echo '<li><a href="index.php?page=logout">Logout '.$_SESSION["userName"].'</a></li> ';}
   echo '</ul>';
-}
+
 }
 
 function showContent($page){

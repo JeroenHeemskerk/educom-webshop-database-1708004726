@@ -1,5 +1,6 @@
 
 <?php
+
 function postDataLogin(){
   $formInputs = array('email', 'password');
   $formInputs[0] = filter_input(INPUT_POST, $formInputs[0]);
@@ -11,7 +12,7 @@ function postDataLogin(){
 function formCheckLogin($formInputs = array('', '')){
   // array is name, password
   $errors = array('', '');
-  $hardPath = 'D:\\xampp\\htdocs\\educom-webshop-basis-1707216396\\users\\users.txt';
+
   //first, lets check if there's any input
    for ($x = 0; $x <= 1; $x++){
     if(empty($formInputs[$x])) { $errors[$x] = "Dit veld moet nog ingevuld worden";} 
@@ -20,9 +21,11 @@ function formCheckLogin($formInputs = array('', '')){
     // and then you gotta check if it matches with anything in users.txt
     $users = fopen($hardPath, 'r');
     // okay what I need to do is loop through each line and check if the mail + password match at the same time 
+    
       while(!feof($users)) {
         $currentLine =  fgets($users) ;
         $currentLine = explode('|', $currentLine);
+        var_dump( $currentLine);
         $email = $currentLine[0];
         $password = $currentLine[2];
         if ($email == $formInputs[0] && $password == $formInputs[1]){

@@ -170,10 +170,7 @@ function formCheckContact($formInputs = array('', '', '', '', '', '', '', '', ''
     
   if ($postRequired) {
     //Validating postal code
-    $postRegex = "/^[0-9]{4}\s[A-z]{2}$/";
-    if (!preg_match($postRegex, $formInputs[6])) { 
-      $postalcodeErr = "Dit is niet een nederlandse postcode";
-    }
+    $errors[6] = checkPostalCode($formInputs[6]);
     //street
     $errors[4] = dataPresent($formInputs[4], $errors[4]);
     //housenumber
@@ -200,10 +197,7 @@ function formCheckContact($formInputs = array('', '', '', '', '', '', '', '', ''
   return $errors;
 }
 
-function dataPresent($data, $err='') {
-  if (empty($data)) $err = "Dit veld moet nog ingevuld worden"; 
-  return $err;
-}
+
 
 function showContentThanks($formInputs = array('', '', '', '', '', '', '', '', '', '')){
   // changing phone to telefoon for the display 

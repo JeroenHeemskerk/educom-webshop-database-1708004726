@@ -12,43 +12,30 @@ function postDataRegister(){
 function formCheckRegister($formInputs = array('', '', '', '')){
    // array order is  name, email, password, repeat password
   $errors = array('', '', '', '');
+  $emailExist = false;
   // I want to replace this with a relative path but php's routing doesn't work how I think
   $hardPath = 'D:\\xampp\\htdocs\\educom-webshop-basis-1707216396\\users\\users.txt';
   // first checking if passwords match because then the empty field warning can override it in case the passwords don't match because one is empty
   if ($formInputs[2] != $formInputs [3]){ $errors[2] = $errors[3] = "Wachtworden matchen niet"; }
   for ($x = 0; $x <= 3; $x++){
-    if(empty($formInputs[$x])) { $errors[$x] = "Dit veld moet nog ingevuld worden";} 
+    $errors[$x] = checkFieldContent($formInputs[$x]);
   }
   $errors[1] = checkEmail($formInputs[1]);
-  // And last, checking if email is in user.txt
-    if ($errors == array('', '', '', '')){
-
-      $users = fopen($hardPath, 'r');
-    // okay what I need to do is loop through each line and check if the mail matches anywhere
-      while(!feof($users)) {
-        $currentLine =  fgets($users) ;
-        $email = explode("|", $currentLine, -1)[0];
-        if ($formInputs[1] == $email){
-          $errors[1] = "Deze mail is al in gebruik";
-         }
-      }
-      fclose($users);
+  // And last, checking if email is in user.txt if there's no errors
+  if ($errors == array('', '', '', '')){
+    $emailExist = doesEmailExist($formInputs[1]);
+  }
+  var_dump($emailExist);
+  if ($emailExist) {
+    $errors[1] = "Deze mail is al in gebruik";
     }
-  var_dump($errors);
   // next up is determening whether to go back to the register page or to file away the data and go to login
   // for this we can again check if there's an error messages present (be it missing info or mail being used already
+  var_dump($errors);
   if ($errors == array('', '', '', '')){
-    // in this case nothing is missing
-    // so we can return an array with login at the end to go to the login page
     $errors = array('login');
-    // then we make a string to write away into users.txt
-    $userData =  $formInputs[1].'|'.$formInputs[0].'|'.$formInputs[2];
-    $users = fopen($hardPath, "a");
-    fwrite($users, "\n");
-    fwrite($users, $userData);
-    fclose($users);;
+    saveUser($formInputs[1], $formInputs[0], $formInputs[2]);
   } else {
-    echo 'else';
       $errors = array_merge($errors, array('register'));
   }
   return $errors;
