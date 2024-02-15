@@ -166,7 +166,8 @@ function showMenu(){
     showMenuItem('register', 'Registeren');
     showMenuItem('login', 'Login');
   } else {
-    showMenuItem('logout', $_SESSION["userName"]);
+    $logout = 'Uitloggen '.$_SESSION["userName"];
+    showMenuItem('logout', $logout);
   }
   echo '</ul>';
 }
