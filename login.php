@@ -61,8 +61,7 @@ function showContentLogin($formInputs = array('', '', '', '')){
     <span class="error">* '.$formInputs[3].'</span>
   </div>
   <div>
-    <label class = "hidden" for="submit"> hidden </label>
-    <input type="submit" value="Submit">
+    <input class = "submit" type="submit" value="Submit">
   </div>
     </fieldset>
   </form>';

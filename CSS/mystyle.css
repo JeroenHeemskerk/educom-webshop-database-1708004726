@@ -60,6 +60,10 @@ label.hidden {
   color: white;
 }
 
+input.submit {
+  margin-left:150px;
+}
+
 
 /* outdated
 fieldset.persoon label:before{

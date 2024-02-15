@@ -112,8 +112,8 @@ function showContentContactForm($formInputs = array('', '', '', '', '', '', '', 
     <span class="error">* '.$formInputs[19].'</span>
   </div>
   <div>
-    <label class = "hidden" for="submit"> hidden </label>
-    <input type="submit" value="Submit">
+    <!-- <label class = "hidden" for="submit"> hidden </label> -->
+    <input class="submit" type="submit" value="Submit">
   </div>
     </fieldset>
   </form> 
