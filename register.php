@@ -10,6 +10,7 @@ function postDataRegister(){
 }
 
 function formCheckRegister($formInputs = array('', '', '', '')){
+   // array order is name, email, password, repeat password
   $errors = array('', '', '', '');
   // I want to replace this with a relative path but php's routing doesn't work how I think
   $hardPath = 'D:\\xampp\\htdocs\\educom-webshop-basis-1707216396\\users\\users.txt';
@@ -18,6 +19,8 @@ function formCheckRegister($formInputs = array('', '', '', '')){
   for ($x = 0; $x <= 3; $x++){
     if(empty($formInputs[$x])) { $errors[$x] = "Dit veld moet nog ingevuld worden";} 
   }
+  var_dump($formInputs);
+  $errors[1] = checkEmail($formInputs[1]);
   // And last, checking if email is in user.txt
     if ($errors == array('', '', '', '')){
 
@@ -27,8 +30,8 @@ function formCheckRegister($formInputs = array('', '', '', '')){
         $currentLine =  fgets($users) ;
         echo $currentLine;
         $email = explode("|", $currentLine, 2)[0];
-        if ($formInputs[0] == $email){
-          $errors[0] = "Deze mail is al in gebruik";
+        if ($formInputs[1] == $email){
+          $errors[1] = "Deze mail is al in gebruik";
          }
       }
       fclose($users);

@@ -62,9 +62,17 @@ function processRequest($page){
       $errors = formCheckLogin($formInputs);
       $formInputs = array_merge($formInputs, $errors);
       return $formInputs;
-    
   }
+}
 
+function checkEmail($email){
+  $error = '';
+  if (filter_var($email, FILTER_VALIDATE_EMAIL)){
+    $error = '';
+  } else {
+   $error = 'Dit is geen geldig email address';
+  }
+  return $error;
 }
 
 function showResponsePage($page) {

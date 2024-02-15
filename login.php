@@ -14,7 +14,7 @@ function formCheckLogin($formInputs = array('', '')){
   //first, lets check if there's any input
    for ($x = 0; $x <= 1; $x++){
     if(empty($formInputs[$x])) { $errors[$x] = "Dit veld moet nog ingevuld worden";} 
-  }
+  }  
   if ($errors == array('', '')){
     // and then you gotta check if it matches with anything in users.txt
     $users = fopen($hardPath, 'r');

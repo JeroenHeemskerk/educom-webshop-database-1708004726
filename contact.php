@@ -179,12 +179,14 @@ function formCheckContact($formInputs = array('', '', '', '', '', '', '', '', ''
     $errors[6] = dataPresent($formInputs[6], $errors[6]);
     //city
     $errors[7] = dataPresent($formInputs[7], $errors[7]);
-    
   }
-  //Validity check, first check if everything is the same, if it is, check if nameErr is empty because it means there's no errors
+  // have to check if the email is actually an email if its filled
+  $errors[2] = checkEmail($formInputs[2]);
+  
+  //Validity check, first check if everything is the same, if it is, check if $errors[1] is empty because it means there's no errors
   // actually might not be necessary to check nameErr, because under no circumstances are all fields required
   $valid = (count(array_unique($errors, SORT_REGULAR)) == 1);
-  if ($valid == 'true'){
+  if ($valid == 'true' && $errors[1] == ''){
     // the thanks is the page to redirect to, the error messages are unneeded since the input is valid
     return array('thanks');
   } 
