@@ -1,3 +1,10 @@
 [email]|[naam]|[wachtwoord]
 coach@man-kind.nl|Geert Weggemans|halt!
 email@email.nl|test|test
+email@email.nl|email|email
+email@email.nl|email|email
+email@email.nl|test|test
+email@email.nl|email|email
+email@email.nl|test|test
+test@test.nl|test|test
+Joh@gmail.com|Joh|test

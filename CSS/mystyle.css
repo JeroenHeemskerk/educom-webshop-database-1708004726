@@ -16,6 +16,7 @@ ul.menu li {
 	display: inline;
 	border-style: double;
 	background-color: blue;
+  margin-left: 10px;
 }
 
 ul.menu a {

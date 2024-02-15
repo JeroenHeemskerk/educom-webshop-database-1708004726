@@ -4,15 +4,13 @@ function setFilePath(){
   return 'users\\users.txt';
 }
 function findUserByEmail($email){
-  $userInfo = '';
+  $userInfo = NULL;
   $filePath = setFilePath();
   $users = fopen($filePath, 'r');
   while(!feof($users)) {
     $currentLine =  fgets($users) ;
-    $currentLine = explode("|", $currentLine, -1);
+    $currentLine = explode("|", $currentLine);
     if ($currentLine[0] == $email){
-      var_dump($currentLine);
-      var_dump($email);
         $userInfo = $currentLine;
     }
   }
@@ -25,7 +23,7 @@ function saveUser($email, $name, $password){
   $users = fopen($filePath, "a");
   fwrite($users, "\n");
   fwrite($users, $userData);
-  fclose($users);;
+  fclose($users);
 }
 
 

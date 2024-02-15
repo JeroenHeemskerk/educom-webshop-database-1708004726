@@ -10,33 +10,22 @@ function postDataLogin(){
 
 
 function formCheckLogin($formInputs = array('', '')){
-  // array is name, password
+  // array is mail, password
   $errors = array('', '');
-
+  $userAuth = false;
   //first, lets check if there's any input
    for ($x = 0; $x <= 1; $x++){
-    if(empty($formInputs[$x])) { $errors[$x] = "Dit veld moet nog ingevuld worden";} 
+    $errors[$x] = checkFieldContent($formInputs[$x]);
   }    
   if ($errors == array('', '')){
-    // and then you gotta check if it matches with anything in users.txt
-    $users = fopen($hardPath, 'r');
-    // okay what I need to do is loop through each line and check if the mail + password match at the same time 
-    
-      while(!feof($users)) {
-        $currentLine =  fgets($users) ;
-        $currentLine = explode('|', $currentLine);
-        var_dump( $currentLine);
-        $email = $currentLine[0];
-        $password = $currentLine[2];
-        if ($email == $formInputs[0] && $password == $formInputs[1]){
-          $_SESSION["loggedIn"] = true;
-          $_SESSION["userName"] = $currentLine[1];
-          return array('home');
-        }
-      }
-      // So, if loggedIn = true, we would have already returned to the home page, but we haven't here. So, we gotta have an error for no login match
-      $errors[0] = 'De email of wachtword is incorrect';
+    $userAuth = authenticateUser($formInputs[0], $formInputs[1]);
+    if ($userAuth){
+      doLoginUser($userAuth[1]);
+      return array('home');
+    }
   }
+  // So, if userAuth = true, we would have already returned to the home page, but we haven't here. So, we gotta have an error for no login match
+  $errors[0] = 'De email of wachtword is incorrect';
   // You get here if you got any errors
   $errors = array_merge($errors, array('login'));
   return $errors;

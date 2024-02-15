@@ -1,6 +1,6 @@
 <?php
-session_start();
 //load in required external functions
+require('session_Manager.php');
 require('home.php');
 require('about.php');
 require('contact.php');
@@ -71,7 +71,6 @@ function processRequest($page){
       return $formInputs;
   }
 }
-
 
 
 function showResponsePage($page) {
@@ -157,18 +156,23 @@ function showHeader($page){
 }
 
 function showMenu(){
-  echo '<ul class="menu">
-  <li><a href="index.php?page=home">Home</a></li> 
-  <li><a href="index.php?page=about">About</a></li> 
-  <li><a href="index.php?page=contact">Contact</a></li> ';
+  echo '<ul class="menu">';
+  showMenuItem('home', 'Home');
+  showMenuItem('about', 'Over mij');
+  showMenuItem('contact', 'Contact');
+
   // check if session is set
   if (!isset($_SESSION['userName'])){
-    echo '<li><a href="index.php?page=register">Register</a></li> 
-    <li><a href="index.php?page=login">Login</a></li> ';
+    showMenuItem('register', 'Registeren');
+    showMenuItem('login', 'Login');
   } else {
-    echo '<li><a href="index.php?page=logout">Logout '.$_SESSION["userName"].'</a></li> ';}
+    showMenuItem('logout', $_SESSION["userName"]);
+  }
   echo '</ul>';
+}
 
+function showMenuItem($page, $pageName){
+  echo '<li><a href="index.php?page='.$page.'">'.$pageName.'</a></li>';
 }
 
 function showContent($page){

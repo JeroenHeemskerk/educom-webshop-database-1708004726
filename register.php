@@ -25,13 +25,11 @@ function formCheckRegister($formInputs = array('', '', '', '')){
   if ($errors == array('', '', '', '')){
     $emailExist = doesEmailExist($formInputs[1]);
   }
-  var_dump($emailExist);
   if ($emailExist) {
     $errors[1] = "Deze mail is al in gebruik";
     }
   // next up is determening whether to go back to the register page or to file away the data and go to login
   // for this we can again check if there's an error messages present (be it missing info or mail being used already
-  var_dump($errors);
   if ($errors == array('', '', '', '')){
     $errors = array('login');
     saveUser($formInputs[1], $formInputs[0], $formInputs[2]);

@@ -145,18 +145,18 @@ function formCheckContact($formInputs = array('', '', '', '', '', '', '', '', ''
   $postRequired = false;
 	//Ordered the same way the form is in
   // so this is the title
-  $errors[0] = dataPresent($formInputs[0], $errors[0]);
+  $errors[0] = checkFieldContent($formInputs[0], $errors[0]);
   // the name
-  $errors[1] = dataPresent($formInputs[1], $errors[1]);
+  $errors[1] = checkFieldContent($formInputs[1], $errors[1]);
   // the message
-  $errors[9] = dataPresent($formInputs[9], $errors[9]);
+  $errors[9] = checkFieldContent($formInputs[9], $errors[9]);
   // the communication method
-  $errors[8] = dataPresent($formInputs[8], $errors[8]);
+  $errors[8] = checkFieldContent($formInputs[8], $errors[8]);
   
   if ($formInputs[8] == "email") {
-    $errors[2] = dataPresent($formInputs[2], $errors[2]);
+    $errors[2] = checkFieldContent($formInputs[2], $errors[2]);
   } elseif ($formInputs[8] == "phone") {
-    $errors[3] = dataPresent($formInputs[3], $errors[3]);
+    $errors[3] = checkFieldContent($formInputs[3], $errors[3]);
   } elseif ($formInputs[8] == "post"){
     $postRequired = true;
   }
@@ -171,14 +171,11 @@ function formCheckContact($formInputs = array('', '', '', '', '', '', '', '', ''
   if ($postRequired) {
     //Validating postal code
     $errors[6] = checkPostalCode($formInputs[6]);
-    //street
-    $errors[4] = dataPresent($formInputs[4], $errors[4]);
-    //housenumber
-    $errors[5] = dataPresent($formInputs[5], $errors[5]);
-    //postalcode
-    $errors[6] = dataPresent($formInputs[6], $errors[6]);
-    //city
-    $errors[7] = dataPresent($formInputs[7], $errors[7]);
+    //in order street, housenumber, postalcode, city
+    for ($x = 4; $x <= 7; $x++){
+      $errors[$x] = checkFieldContent($formInputs[$x]);
+    }
+
   }
   // have to check if the email is actually an email if its filled
   if (empty($formInputs[2] == false)){ 
