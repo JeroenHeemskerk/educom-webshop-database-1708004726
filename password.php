@@ -9,7 +9,25 @@ function showHeaderPassword(){
 }
 
 function showContentPassword(){
-  echo '<p> Welkom beste lezer op mijn about pagina! Mijn naam is Milan Lucas, ik ben 23 jaar oude bio-informaticus bachelor die nu een traineeship tot software developer volgt. Iets waar ik erg zin in heb! Ik hoop hierbij het programmeren weer vollop op te pakken en wat nieuwe trucjes te leren. Tot nu doe ik dat al met mijn HTML kennis te verversen - had daar nog nauwelijks een les in bij bio-informatica!
+  echo '<form class="contact" method="POST" action="index.php">
+  <input type="hidden" name="password" value="login" id="password"/>
+  <fieldset class="persoon">
+  <div> 
+    <label for="oldPass">Oude wachtwoord:</label> 
+    <input type="text" name="oldPass" value="'.$formInputs[0].'" id="oldPass">
+    <span class="error">* '.$formInputs[1].'</span>
+  </div>
+    <div> 
+    <label for="password"> Wachtword:</label> 
+    <input type="text" name="password" value="" id="password">
+    <span class="error">* '.$formInputs[2].'</span>
+  </div>
+  <div>
+    <input class = "submit" type="submit" value="Submit">
+  </div>
+    </fieldset>
+  </form>';
+}
 
 
 ?>

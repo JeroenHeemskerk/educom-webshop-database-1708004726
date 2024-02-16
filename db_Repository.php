@@ -13,7 +13,7 @@ function dbConnect(){
   // Create connection
   try {
   $conn = mysqli_connect($servername, $username, $password, $dbName); 
-  } catch(\Exception $e) {$conn = false;}
+  } catch(\Exception $e) {$conn = NULL;}
   // Check connection
   //if (!$conn) {
   //  die("Connection failed: " . mysqli_connect_error());
