@@ -6,6 +6,7 @@ require('about.php');
 require('contact.php');
 require('register.php');
 require('login.php');
+require('password.php');
 require('validate.php');
 require('user_Service.php');
 require('db_Repository.php');
@@ -14,7 +15,7 @@ $page = getRequestedPage();
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 $page = processRequest($page);
 }
-
+//var_dump($page);
 showResponsePage($page); 
 
 function getRequestedPage() {
@@ -69,6 +70,9 @@ function processRequest($page){
       $errors = formCheckLogin($formInputs);
       $formInputs = array_merge($formInputs, $errors);
       return $formInputs;
+    case 'password':
+      $formInputs = postDataPassword();
+      return $formInputs;
   }
 }
 
@@ -101,16 +105,19 @@ function showHeadSection($page){
         showHeadContact();
         break;
     case 'register':
-          showHeadRegister();
-          break;
+        showHeadRegister();
+        break;
     case 'login': 
-          showHeadLogin();
-          break;    
+        showHeadLogin();
+        break;    
     case 'logout':        
-          showHeadHome();
-          // resetting the session 
-          doLogout();
-          break;            
+        showHeadHome();
+        // resetting the session 
+        doLogout();
+        break;
+    case 'password':
+        showHeadPassword();
+        break;
    }
    
    echo '<link rel="stylesheet" href="CSS/mystyle.css">
@@ -151,7 +158,10 @@ function showHeader($page){
         break;   
     case 'logout':        
           showHeaderHome();
-          break;           
+          break;     
+    case 'password':
+        showHeaderPassword();
+        break;          
    }
 }
 
@@ -166,7 +176,8 @@ function showMenu(){
     showMenuItem('register', 'Registeren');
     showMenuItem('login', 'Login');
   } else {
-    $logout = 'Uitloggen '.$_SESSION["userName"];
+    showMenuItem('password', 'wachtwoord');
+    $logout = 'Uitloggen '.getSessionUser();
     showMenuItem('logout', $logout);
   }
   echo '</ul>';
@@ -197,8 +208,11 @@ function showContent($page){
         showContentLogin($page);
         break;       
     case 'logout':        
-          showContentHome();
-          break;           
+        showContentHome();
+        break;         
+    case 'password':
+        showContentPassword();
+        break;           
    }
 }
 

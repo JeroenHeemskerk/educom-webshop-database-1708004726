@@ -10,9 +10,10 @@ function doesEmailExist($email){
 function authenticateUser($email, $password){
   $authUser = false;
   $userInfo = findUserByEmailDB($email);
-  //NULL is returned if it didn't find anything
+  //userInfo is only null if there was an error in the database
+  // otherwise its an array
   if (!isset($userInfo)){
-    return $authUser = "error";}
+    return $userInfo;}
   //check if $password overlaps with the password in $userInfo
   if (passwordDecrypt($password, $userInfo['password'])){ $authUser = $userInfo;}
   return $authUser;

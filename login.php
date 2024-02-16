@@ -18,18 +18,18 @@ function formCheckLogin($formInputs = array('', '')){
     $errors[$x] = checkFieldContent($formInputs[$x]);
   }    
   if ($errors == array('', '')){
-    $userAuth = authenticateUser($formInputs[0], $formInputs[1]);
-    // gotta handle the error first 
-    if ($userAuth == 'error') {
-      $errors[0] = "Er is een probleem met het database";
-    } elseif ($userAuth) {
-      doLoginUser($userAuth['user']);
+    $userData = authenticateUser($formInputs[0], $formInputs[1]);
+    // check if there is anything in user data (if there is, it means the user can be logged in)
+    if ($userData){
+      doLoginUser($userData['user'], $userData['email']);
       return array('home');;
-    } else {
-      $errors[0] = 'De email of wachtword is incorrect';
+    } elseif (!$userData){
+      $errors[0] = 'Server error';
     }
+    
   }
-
+  // you only get here if there's an error
+  $errors[0] = 'De email of wachtword is incorrect';
   $errors = array_merge($errors, array('login'));
   return $errors;
 }
