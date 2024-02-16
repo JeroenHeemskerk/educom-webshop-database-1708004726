@@ -13,14 +13,19 @@ function formCheckRegister($formInputs = array('', '', '', '')){
    // array order is  name, email, password, repeat password
   $errors = array('', '', '', '');
   $emailExist = false;
-  // I want to replace this with a relative path but php's routing doesn't work how I think
-  $hardPath = 'D:\\xampp\\htdocs\\educom-webshop-basis-1707216396\\users\\users.txt';
-  // first checking if passwords match because then the empty field warning can override it in case the passwords don't match because one is empty
-  if ($formInputs[2] != $formInputs [3]){ $errors[2] = $errors[3] = "Wachtworden matchen niet"; }
+  $passwordMatch = checkPasswordMatch($formInputs[2],$formInputs[3]);
+
+  
+  
   for ($x = 0; $x <= 3; $x++){
     $errors[$x] = checkFieldContent($formInputs[$x]);
   }
+  // checking if the email is valid
   $errors[1] = checkEmail($formInputs[1]);
+  // checking if the passwords match
+  if (empty($passwordMatch)){
+    $errors[2] = $errors[3] = "Wachtworden matchen niet";} 
+  
   // And last, checking if email is in user.txt if there's no errors
   if ($errors == array('', '', '', '')){
     $emailExist = doesEmailExist($formInputs[1]);
@@ -32,7 +37,7 @@ function formCheckRegister($formInputs = array('', '', '', '')){
   // for this we can again check if there's an error messages present (be it missing info or mail being used already
   if ($errors == array('', '', '', '')){
     $errors = array('login');
-    saveUserDB($formInputs[1], $formInputs[0], $formInputs[2]);
+    saveUser($formInputs[1], $formInputs[0], $formInputs[2]);
   } else {
       $errors = array_merge($errors, array('register'));
   }

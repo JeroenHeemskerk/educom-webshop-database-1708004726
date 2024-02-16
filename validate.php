@@ -22,6 +22,12 @@ function checkPostalCode($postalCode, $err=''){
     return $err;
 }
 
+function checkPasswordMatch($password, $repeat){
+  $match = false;
+  if ($password == $repeat) {$match = true;}
+  return $match;
+}
+
 ?>
 
 

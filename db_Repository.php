@@ -5,7 +5,6 @@
 //dbCreateDatabase($conn);
 //dbCreateTable($conn);
 //saveUserDB("test@tester.nl", "Dickens", "PutMeInCoach");
-
 function dbConnect(){
   $servername = "localhost";
   $username = "milan_lucas_web_shop";
@@ -39,7 +38,7 @@ function dbCreateTable(){
   $sql = "CREATE TABLE milan_webshop (
   email VARCHAR(50) NOT NULL PRIMARY KEY,
   user VARCHAR(30) NOT NULL,
-  password VARCHAR(30) NOT NULL
+  password VARCHAR(60) NOT NULL
   )";
   if (mysqli_query($conn, $sql)) {
     echo "Table milan_webshop created successfully";

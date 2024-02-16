@@ -8,7 +8,6 @@ require('register.php');
 require('login.php');
 require('validate.php');
 require('user_Service.php');
-require('file_Repository.php');
 require('db_Repository.php');
 
 $page = getRequestedPage(); 
