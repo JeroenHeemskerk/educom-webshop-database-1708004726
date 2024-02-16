@@ -12,11 +12,13 @@ function dbConnect(){
   $password = "cNLN0whG56mamGYq";
   $dbName = 'milan_web_shop_users';
   // Create connection
+  try {
   $conn = mysqli_connect($servername, $username, $password, $dbName); 
+  } catch(\Exception $e) {$conn = false;}
   // Check connection
-  if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-  }
+  //if (!$conn) {
+  //  die("Connection failed: " . mysqli_connect_error());
+  //}
   return $conn;
 }
 
@@ -62,6 +64,9 @@ function saveUserDB($email, $user, $password){
 
 function findUserByEmailDB($email){
   $conn = dbConnect();
+  if (!$conn) {
+    return $conn;
+  }
   $sql = 'SELECT * FROM milan_webshop WHERE email="'.$email.'"';
   $result = mysqli_query($conn, $sql);
   return mysqli_fetch_assoc($result);

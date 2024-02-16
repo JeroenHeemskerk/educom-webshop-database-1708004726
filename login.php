@@ -19,14 +19,17 @@ function formCheckLogin($formInputs = array('', '')){
   }    
   if ($errors == array('', '')){
     $userAuth = authenticateUser($formInputs[0], $formInputs[1]);
-    if ($userAuth){
+    // gotta handle the error first 
+    if ($userAuth == 'error') {
+      $errors[0] = "Er is een probleem met het database";
+    } elseif ($userAuth) {
       doLoginUser($userAuth['user']);
-      return array('home');
+      return array('home');;
+    } else {
+      $errors[0] = 'De email of wachtword is incorrect';
     }
   }
-  // So, if userAuth = true, we would have already returned to the home page, but we haven't here. So, we gotta have an error for no login match
-  $errors[0] = 'De email of wachtword is incorrect';
-  // You get here if you got any errors
+
   $errors = array_merge($errors, array('login'));
   return $errors;
 }
