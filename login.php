@@ -20,7 +20,7 @@ function formCheckLogin($formInputs = array('', '')){
   if ($errors == array('', '')){
     $userAuth = authenticateUser($formInputs[0], $formInputs[1]);
     if ($userAuth){
-      doLoginUser($userAuth[1]);
+      doLoginUser($userAuth['user']);
       return array('home');
     }
   }

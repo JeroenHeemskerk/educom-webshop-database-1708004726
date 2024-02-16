@@ -9,6 +9,7 @@ require('login.php');
 require('validate.php');
 require('user_Service.php');
 require('file_Repository.php');
+require('db_Repository.php');
 
 $page = getRequestedPage(); 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
@@ -109,7 +110,7 @@ function showHeadSection($page){
     case 'logout':        
           showHeadHome();
           // resetting the session 
-          session_unset();
+          doLogout();
           break;            
    }
    

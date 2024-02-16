@@ -32,7 +32,7 @@ function formCheckRegister($formInputs = array('', '', '', '')){
   // for this we can again check if there's an error messages present (be it missing info or mail being used already
   if ($errors == array('', '', '', '')){
     $errors = array('login');
-    saveUser($formInputs[1], $formInputs[0], $formInputs[2]);
+    saveUserDB($formInputs[1], $formInputs[0], $formInputs[2]);
   } else {
       $errors = array_merge($errors, array('register'));
   }

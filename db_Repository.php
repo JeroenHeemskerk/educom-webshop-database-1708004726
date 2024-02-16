@@ -1,19 +1,18 @@
 
 <?php
-$servername = "localhost";
-$username = "milan_lucas_web_shop";
-$password = "kxFap1pG3rP3rGCT";
-$dbName = 'milan_web_shop_users';
-$conn = dbConnect($servername, $username, $password, $dbName);
 
-dbConnect($conn);
+
 //dbCreateDatabase($conn);
 //dbCreateTable($conn);
-  
+//saveUserDB("test@tester.nl", "Dickens", "PutMeInCoach");
 
-function dbConnect($servername, $username, $password, $dbName){
+function dbConnect(){
+  $servername = "localhost";
+  $username = "milan_lucas_web_shop";
+  $password = "cNLN0whG56mamGYq";
+  $dbName = 'milan_web_shop_users';
   // Create connection
-  $conn = mysqli_connect($servername, $username, $password, $dbName);
+  $conn = mysqli_connect($servername, $username, $password, $dbName); 
   // Check connection
   if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
@@ -21,7 +20,8 @@ function dbConnect($servername, $username, $password, $dbName){
   return $conn;
 }
 
-function dbCreateDatabase($conn){
+function dbCreateDatabase(){
+  $conn = dbConnect(); 
   // Create database
   $sql = "CREATE DATABASE milan_web_shop_users";
   if (mysqli_query($conn, $sql)) {
@@ -29,10 +29,11 @@ function dbCreateDatabase($conn){
   } else {
     echo "Error creating database: " . mysqli_error($conn);
   }
-  mysqli_close($conn);
+  dbDisconnect($conn);
 }
 
-function dbCreateTable($conn){
+function dbCreateTable(){
+  $conn = dbConnect(); 
   $sql = "CREATE TABLE milan_webshop (
   email VARCHAR(50) NOT NULL PRIMARY KEY,
   user VARCHAR(30) NOT NULL,
@@ -43,10 +44,34 @@ function dbCreateTable($conn){
   } else {
     echo "Error creating table: " . mysqli_error($conn);
   }
+  dbDisconnect($conn);
+}
+
+function saveUserDB($email, $user, $password){
+  $conn = dbConnect(); 
+  $sql = "INSERT INTO milan_webshop (email, user, password)
+  VALUES ('".$email."', '".$user."', '".$password."')";
+  if (mysqli_query($conn, $sql)) {
+  echo "New record created successfully";
+  } else {
+  echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+  }
+  dbDisconnect($conn);
 }
 
 
-mysqli_close($conn);
+function findUserByEmailDB($email){
+  $conn = dbConnect();
+  $sql = 'SELECT * FROM milan_webshop WHERE email="'.$email.'"';
+  $result = mysqli_query($conn, $sql);
+  return mysqli_fetch_assoc($result);
+
+}
+
+function dbDisconnect($conn){ 
+  mysqli_close($conn); 
+}
+
 ?>
 
 
