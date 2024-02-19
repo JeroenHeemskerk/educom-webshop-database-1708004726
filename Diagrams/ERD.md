@@ -11,6 +11,15 @@ erDiagram
     orders {
         int    id                PK
         int    user_id           FK
+        int product_id           FK
         %%{` Fill in the rest of the properties `}%%        
+    }
+products || --o{ orders : items
+    products {
+        int   id                PK
+        string name             UK
+        string description
+        money price
+        string image              
     }
 ```
