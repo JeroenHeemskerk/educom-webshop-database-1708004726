@@ -71,8 +71,11 @@ function processRequest($page){
       $formInputs = array_merge($formInputs, $errors);
       return $formInputs;
     case 'password':
+      // can't use associative all the way because the OG get array is index
+      
       $formInputs = postDataPassword();
-      return $formInputs;
+      $errors = formCheckPasswords($formInputs);
+      return $errors;
   }
 }
 
@@ -211,7 +214,7 @@ function showContent($page){
         showContentHome();
         break;         
     case 'password':
-        showContentPassword();
+        showContentPassword($page);
         break;           
    }
 }

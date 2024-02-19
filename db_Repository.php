@@ -50,6 +50,9 @@ function dbCreateTable(){
 
 function saveUserDB($email, $user, $password){
   $conn = dbConnect(); 
+  if (!$conn) {
+    return $conn;
+  }
   $sql = "INSERT INTO milan_webshop (email, user, password)
   VALUES ('".$email."', '".$user."', '".$password."')";
   if (mysqli_query($conn, $sql)) {
@@ -68,8 +71,17 @@ function findUserByEmailDB($email){
   }
   $sql = 'SELECT * FROM milan_webshop WHERE email="'.$email.'"';
   $result = mysqli_query($conn, $sql);
+  dbDisconnect($conn);
   return mysqli_fetch_assoc($result);
+}
 
+function updateUserPasswordDB($email, $password){
+  $conn = dbConnect();
+  if (!$conn) { return $conn;}
+  $sql = 'UPDATE milan_webshop 
+  SET password="'.$password.'"
+  WHERE email="'.$email.'"';
+  mysqli_query($conn, $sql);
 }
 
 function dbDisconnect($conn){ 

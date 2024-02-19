@@ -32,6 +32,12 @@ function saveUser($email, $user, $password){
   saveUserDB($email, $user, $password);
 }
 
+function updateUserPassword($email, $password){
+  // have to encrypt the password
+  $password = passwordEncrypt($password); 
+  updateUserPasswordDB($email, $password);
+}
+
 ?>
 
 

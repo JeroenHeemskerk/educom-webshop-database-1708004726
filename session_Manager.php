@@ -10,6 +10,10 @@ function getSessionUser(){
   return $_SESSION['userName'];
 }
 
+function getSessionEmail(){
+  return $_SESSION['email'];
+}
+
 function doLogout(){
   session_unset();
 }
