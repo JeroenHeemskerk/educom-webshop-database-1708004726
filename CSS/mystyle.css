@@ -73,10 +73,6 @@ input.submit {
   margin-left:150px;
 }
 
-p.item img:after {
-  content:"\a";
-  white-space: pre;
-}
 
 
 
