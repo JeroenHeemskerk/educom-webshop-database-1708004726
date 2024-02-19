@@ -7,6 +7,9 @@ require('contact.php');
 require('register.php');
 require('login.php');
 require('password.php');
+require('webshop.php');
+require('detail.php');
+require('cart.php');
 require('validate.php');
 require('user_Service.php');
 require('db_Repository.php');
@@ -120,6 +123,15 @@ function showHeadSection($page){
     case 'password':
         showHeadPassword();
         break;
+      case 'webshop':
+        showHeadWebshop();
+        break;
+      case 'detail':
+        showHeadDetail();
+        break;
+      case 'cart':
+        showHeadCart();
+        break;
    }
    
    echo '<link rel="stylesheet" href="CSS/mystyle.css">
@@ -163,6 +175,15 @@ function showHeader($page){
           break;     
     case 'password':
         showHeaderPassword();
+        break;
+      case 'webshop':
+        showHeaderWebshop();
+        break;
+      case 'detail':
+        showHeaderDetail();
+        break;
+      case 'cart':
+        showHeaderCart();
         break;          
    }
 }
@@ -172,11 +193,13 @@ function showMenu(){
   showMenuItem('home', 'Home');
   showMenuItem('about', 'Over mij');
   showMenuItem('contact', 'Contact');
+  showMenuItem('webshop', 'Shop');
 
   // check if session is set
   if (!isset($_SESSION['userName'])){
     showMenuItem('register', 'Registeren');
     showMenuItem('login', 'Login');
+    showMenuItem('cart', 'winkelwagen')
   } else {
     showMenuItem('password', 'wachtwoord');
     $logout = 'Uitloggen '.getSessionUser();
@@ -214,6 +237,15 @@ function showContent($page){
         break;         
     case 'password':
         showContentPassword($page);
+        break;
+      case 'webshop':
+        showContentWebshop();
+        break;
+      case 'detail':
+        showContentDetail();
+        break;
+      case 'cart':
+        showContentCart();
         break;           
    }
 }
