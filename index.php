@@ -199,8 +199,8 @@ function showMenu(){
   if (!isset($_SESSION['userName'])){
     showMenuItem('register', 'Registeren');
     showMenuItem('login', 'Login');
-    showMenuItem('cart', 'winkelwagen')
   } else {
+    showMenuItem('cart', 'Winkelwagen');
     showMenuItem('password', 'wachtwoord');
     $logout = 'Uitloggen '.getSessionUser();
     showMenuItem('logout', $logout);

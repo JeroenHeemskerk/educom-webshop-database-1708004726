@@ -24,6 +24,11 @@ ul.menu a {
 	text-decoration:none;
 }
 
+ul.items li{
+	display:inline-block;
+	border-style: double;
+}
+
 footer {
 	color: white;
 	text-align: right;
@@ -38,6 +43,8 @@ fieldset.persoon label{
   width: 150px;
   text-align: left;
 }
+
+
 
 fieldset.persoon input, select, textarea {
 	width: 400px;
@@ -65,6 +72,12 @@ form.contact span {
 input.submit {
   margin-left:150px;
 }
+
+p.item img:after {
+  content:"\a";
+  white-space: pre;
+}
+
 
 
 /* outdated

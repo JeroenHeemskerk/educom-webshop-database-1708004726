@@ -88,6 +88,22 @@ function dbDisconnect($conn){
   mysqli_close($conn); 
 }
 
+function getItemsFromDB($select = '*', $from = 'products', $where = '' ){
+  $conn = dbConnect();
+  if (!$conn) {
+    return $conn;
+  }
+  $sql = 'SELECT '.$select.'
+  FROM '.$from.''; 
+  if ($where){
+    $sql = $sql.'WHERE'.$where;
+  }
+  $result = mysqli_query($conn, $sql);
+  dbDisconnect($conn);
+  return mysqli_fetch_assoc($result);
+
+}
+
 ?>
 
 
