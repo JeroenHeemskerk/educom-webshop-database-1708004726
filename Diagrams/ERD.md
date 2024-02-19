@@ -8,10 +8,11 @@ erDiagram
         string email     UK
         string password
     }
-    orders || --o{ orders_content : items
+    orders ||--|{ orders_content : items
     orders {
         int    id                PK
         int    user_id           FK
+        date  date
         %%{` Fill in the rest of the properties `}%%        
     }
     orders_content {
