@@ -72,7 +72,6 @@ function processRequest($page){
       return $formInputs;
     case 'password':
       // can't use associative all the way because the OG get array is index
-      
       $formInputs = postDataPassword();
       $errors = formCheckPasswords($formInputs);
       return $errors;

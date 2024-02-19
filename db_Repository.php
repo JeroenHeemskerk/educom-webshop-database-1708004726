@@ -1,7 +1,6 @@
 
 <?php
 
-
 //dbCreateDatabase($conn);
 //dbCreateTable($conn);
 //saveUserDB("test@tester.nl", "Dickens", "PutMeInCoach");
@@ -24,7 +23,7 @@ function dbConnect(){
 function dbCreateDatabase(){
   $conn = dbConnect(); 
   // Create database
-  $sql = "CREATE DATABASE milan_web_shop_users";
+  $sql = "CREATE DATABASE users";
   if (mysqli_query($conn, $sql)) {
     echo "Database created successfully";
   } else {
@@ -35,13 +34,14 @@ function dbCreateDatabase(){
 
 function dbCreateTable(){
   $conn = dbConnect(); 
-  $sql = "CREATE TABLE milan_webshop (
-  email VARCHAR(50) NOT NULL PRIMARY KEY,
+  $sql = "CREATE TABLE users (
+  id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  email VARCHAR(50) NOT NULL UNIQUE,
   user VARCHAR(30) NOT NULL,
   password VARCHAR(60) NOT NULL
   )";
   if (mysqli_query($conn, $sql)) {
-    echo "Table milan_webshop created successfully";
+    echo "Table milan_webshop_users created successfully";
   } else {
     echo "Error creating table: " . mysqli_error($conn);
   }
@@ -53,7 +53,7 @@ function saveUserDB($email, $user, $password){
   if (!$conn) {
     return $conn;
   }
-  $sql = "INSERT INTO milan_webshop (email, user, password)
+  $sql = "INSERT INTO users (email, user, password)
   VALUES ('".$email."', '".$user."', '".$password."')";
   if (mysqli_query($conn, $sql)) {
   echo "New record created successfully";
@@ -69,7 +69,7 @@ function findUserByEmailDB($email){
   if (!$conn) {
     return $conn;
   }
-  $sql = 'SELECT * FROM milan_webshop WHERE email="'.$email.'"';
+  $sql = 'SELECT * FROM users WHERE email="'.$email.'"';
   $result = mysqli_query($conn, $sql);
   dbDisconnect($conn);
   return mysqli_fetch_assoc($result);
@@ -78,7 +78,7 @@ function findUserByEmailDB($email){
 function updateUserPasswordDB($email, $password){
   $conn = dbConnect();
   if (!$conn) { return $conn;}
-  $sql = 'UPDATE milan_webshop 
+  $sql = 'UPDATE users 
   SET password="'.$password.'"
   WHERE email="'.$email.'"';
   mysqli_query($conn, $sql);
