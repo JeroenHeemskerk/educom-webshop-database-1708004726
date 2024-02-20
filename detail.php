@@ -29,6 +29,9 @@ function showContentDetail($item){
       <div>
         <span class=price>'.$itemContent['price'].' euro </span>
       </div>
+      <div>';
+      addToCartButton('webshop', $itemId);
+  echo '    
     </div>  
   </div>
   </p>';

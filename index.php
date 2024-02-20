@@ -83,7 +83,7 @@ function processRequest($page){
     case 'logout':
       doLogout();
       $data['page'] = 'home';
-    case 'webshop':
+    case 'cart':
       handleActions();
   }
   return $data;

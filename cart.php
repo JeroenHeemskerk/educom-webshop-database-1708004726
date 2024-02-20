@@ -16,8 +16,8 @@ function showContentCart(){
 function addToCartButton($page, $id){
   if (isset($_SESSION['userName'])){
     echo '
-    <form action="index.php?page='.$page.'" method="POST">
-    <input type="hidden" name="page"value="webshop">
+    <form action="index.php?page=cart" method="POST">
+    <input type="hidden" name="page"value="cart">
     <input type="hidden" name="action" value="addToCart">
     <input type="hidden" name="id" value="'.$id.'">
     <button type="submit">Toevoegen aan bestelling</button>
