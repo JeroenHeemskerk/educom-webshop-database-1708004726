@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 20 feb 2024 om 09:22
+-- Gegenereerd op: 20 feb 2024 om 16:27
 -- Serverversie: 10.4.32-MariaDB
 -- PHP-versie: 8.2.12
 
@@ -63,6 +63,20 @@ CREATE TABLE `orders` (
   `date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Gegevens worden geëxporteerd voor tabel `orders`
+--
+
+INSERT INTO `orders` (`id`, `user_id`, `date`) VALUES
+(2, 1, '2024-02-02'),
+(3, 3, '0000-00-00'),
+(4, 3, '0000-00-00'),
+(5, 3, '0000-00-00'),
+(6, 3, '2024-02-20'),
+(7, 3, '2024-02-20'),
+(8, 3, '2024-02-20'),
+(9, 3, '2024-02-20');
+
 -- --------------------------------------------------------
 
 --
@@ -75,6 +89,18 @@ CREATE TABLE `orders_content` (
   `product_id` int(11) DEFAULT NULL,
   `product_count` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `orders_content`
+--
+
+INSERT INTO `orders_content` (`id`, `order_id`, `product_id`, `product_count`) VALUES
+(1, 8, 1, 1),
+(2, 8, 2, 2),
+(3, 8, 3, 1),
+(4, 9, 1, 1),
+(5, 9, 2, 2),
+(6, 9, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -113,6 +139,15 @@ CREATE TABLE `users` (
   `user` varchar(30) NOT NULL,
   `password` varchar(60) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `users`
+--
+
+INSERT INTO `users` (`id`, `email`, `user`, `password`) VALUES
+(1, 'test@email.com', 'test', '$2y$14$ta3zZrOPGYdtAM8vwuhUaub0faul05eYptvaYJGHA2g3.bt5Tgf3S'),
+(2, '', '', '$2y$14$6yg2fepE2GL8OfCABrxX2uYI9mH.Qk.s47vd.3IoMmJAmNXjgD9ia'),
+(3, 'tester@email.nl', 'test', '$2y$14$kv4fh5VxWK4YetjBb/VyUOnSf6rz7SU6RveB5gm/wW74S9iAaLpua');
 
 --
 -- Indexen voor geëxporteerde tabellen
@@ -160,13 +195,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT voor een tabel `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT voor een tabel `orders_content`
 --
 ALTER TABLE `orders_content`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT voor een tabel `products`
@@ -178,7 +213,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT voor een tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Beperkingen voor geëxporteerde tabellen

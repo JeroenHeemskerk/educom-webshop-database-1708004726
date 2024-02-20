@@ -45,14 +45,27 @@ function showContentCart(){
   }
   echo '<div class=cartItem> 
   <div class=cartText> </div> 
-  <div class=cartText> <span> </span></div>
-  <div class=cartText> <span></span> </div>
+  <div class=cartText> </div>
+  <div class=cartText> </div>
   <div class=cartText> <span>Totaal prijs <br> &euro;'.$costs.'</span> </div>
   </div>'; 
 
+  echo' <div class=cartItem>
+  <div class=cartText> </div> 
+  <div class=cartText> </div>
+  <div class=cartText> </div>
+  <div>
+  <form action="index.php?page=cart" method="POST">
+  <input type="hidden" name="page"value="cart">
+  <input type="hidden" name="action" value="placeOrder">
+  <button type="submit">Plaats bestelling</button>
+  </form>
+  </div>
+  </div>
+  ';
+
   
 }
-
 
 function addToCartButton($page, $id){
   if (isset($_SESSION['userName'])){

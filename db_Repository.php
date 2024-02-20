@@ -1,8 +1,7 @@
 
 <?php
 
-//dbCreateDatabase($conn);
-//dbCreateTable($conn);
+
 //saveUserDB("test@tester.nl", "Dickens", "PutMeInCoach");
 function dbConnect(){
   $servername = "localhost";
@@ -13,6 +12,7 @@ function dbConnect(){
   try {
   $conn = mysqli_connect($servername, $username, $password, $dbName); 
   } catch(\Exception $e) {$conn = NULL;}
+  //replace above with throw later
   // Check connection
   //if (!$conn) {
   //  die("Connection failed: " . mysqli_connect_error());
@@ -20,33 +20,6 @@ function dbConnect(){
   return $conn;
 }
 
-function dbCreateDatabase(){
-  $conn = dbConnect(); 
-  // Create database
-  $sql = "CREATE DATABASE users";
-  if (mysqli_query($conn, $sql)) {
-    echo "Database created successfully";
-  } else {
-    echo "Error creating database: " . mysqli_error($conn);
-  }
-  dbDisconnect($conn);
-}
-
-function dbCreateTable(){
-  $conn = dbConnect(); 
-  $sql = "CREATE TABLE users (
-  id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  email VARCHAR(50) NOT NULL UNIQUE,
-  user VARCHAR(30) NOT NULL,
-  password VARCHAR(60) NOT NULL
-  )";
-  if (mysqli_query($conn, $sql)) {
-    echo "Table milan_webshop_users created successfully";
-  } else {
-    echo "Error creating table: " . mysqli_error($conn);
-  }
-  dbDisconnect($conn);
-}
 
 function saveUserDB($email, $user, $password){
   $conn = dbConnect(); 
@@ -103,6 +76,59 @@ function getItemsFromDB($select = '*', $from = 'products', $where = '' ){
   // Functional but feels like it could get problematic
   return mysqli_fetch_all($result, MYSQLI_ASSOC);
 }
+
+function placeOrderDB(){
+  //I did not save user ID into the session, which means I have to get it through a query
+  // so I need an unique key 
+  $email = getSessionEmail();
+  $userData = findUserByEmailDB($email);
+  $userId = $userData['id'];
+  $orderId = insertInOrder($userId);
+  insertOrderInOrdersContent($orderId);
+  // and once we get here, it means the order was succesfully placed, thus we can clear the basked
+  makeCart();
+}
+
+function insertInOrder($userId){
+  $conn = dbConnect();
+  // when inserting an order, I also want to return under which id the order is saved
+  // also need the current date 
+  $date = date('Y-m-d');
+  $sql = 'INSERT INTO orders (user_id, date) VALUES ('.$userId.', "'.$date.'")';
+  var_dump($sql);
+  if (mysqli_query($conn, $sql)) {
+    $last_id = mysqli_insert_id($conn);
+  } 
+  dbDisconnect($conn);
+  return $last_id;
+
+
+}
+
+function insertOrderinOrdersContent($orderId){
+  $conn = dbConnect();
+  // Need to know what is in the basket for this
+  $basket = getSessionBasket();
+  // I want to create a big insert query for all sets of values
+  // the base of the query at least is
+  $sql = 'INSERT INTO orders_content (order_id, product_id, product_count) VALUES';
+  // then I'd need to loop through the basket again to get product ids and counts
+  foreach ($basket as $product => $count){
+    if ($count != 0) {
+      // product is product id but has a 0 in front, gotta remove that
+      $productId = substr($product, 1);
+      $sqlAddition = '('.$orderId.', '.$productId.', '.$count.'),';
+      $sql = $sql.$sqlAddition;
+    }
+  }
+  // this way we end with a , at the end
+  $sql = substr($sql, 0, -1);
+  // and replace it with a ;
+  $sql = $sql.';';
+  mysqli_query($conn, $sql);
+  dbDisconnect($conn);
+}
+
 
 ?>
 

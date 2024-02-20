@@ -96,6 +96,9 @@ function handleActions(){
       $id = getPostVar("id");
       addItemToBasket($id);
       break;
+    case "placeOrder";
+      placeOrderDB();
+    break;
   }
 } 
 
