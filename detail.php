@@ -12,22 +12,22 @@ function showHeaderDetail($item){
 function showContentDetail($item){
   $itemId = explode( '-',  $item, 3)[2];
   $itemContent = getItemsFromDB('name, price, description, image', 'products', 'id='.$itemId);
-  // its an array in an array
   $itemContent = $itemContent[0];
+  // its an array in an array
   echo '
   <div class=container> 
     <div class=image>
-      <img src="images\\'.$itemContent[3].'"  style="width:500px;height:500px;">
+      <img src="images\\'.$itemContent['image'].'"  style="width:500px;height:500px;">
     </div>
     <div class = text>
       <div>
-      <h2> '.$itemContent[0].' </h2>
+      <h2> '.$itemContent['name'].' </h2>
       </div>
       <div>
-      <span> '.$itemContent[2].' </span>
+      <span> '.$itemContent['description'].' </span>
       </div>
       <div>
-        <span class=price>'.$itemContent[1].' euro </span>
+        <span class=price>'.$itemContent['price'].' euro </span>
       </div>
     </div>  
   </div>

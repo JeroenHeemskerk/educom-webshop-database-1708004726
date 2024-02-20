@@ -114,7 +114,7 @@ function showDocumentStart() {
 
 function showHeadSection($page){
   // only the title differs between these head sections so, you can load/close the head and reference the css here
-  switch(end($page)){
+  switch($page['page']){
     case 'home':
         showHeadHome();
         break;
@@ -165,7 +165,7 @@ function showDocumentEnd(){
   echo '</html>'; 
 }
 function showHeader($page){
-  switch(end($page)){
+  switch($page['page']){
     case 'home':
         showHeaderHome();
         break;
@@ -190,8 +190,8 @@ function showHeader($page){
       case 'webshop':
         showHeaderWebshop();
         break;
-      case strstr(end($page), 'product'):
-        showHeaderDetail(end($page));
+      case strstr($page['page'], 'product'):
+        showHeaderDetail($page['page']);
         break;
       case 'cart':
         showHeaderCart();
@@ -224,7 +224,7 @@ function showMenuItem($page, $pageName){
 }
 
 function showContent($page){
-  switch(end($page)){
+  switch($page['page']){
     case 'home':
         showContentHome();
         break;
