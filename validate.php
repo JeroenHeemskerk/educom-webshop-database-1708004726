@@ -1,7 +1,7 @@
 
 <?php
 function checkFieldContent($data, $err=''){
-  if (empty($data)) $err = "Dit veld moet nog ingevuld worden"; 
+  if (empty($data)) $err = "Dit veld moet ingevuld worden"; 
   return $err;
 }
 

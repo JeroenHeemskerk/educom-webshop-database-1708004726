@@ -14,12 +14,14 @@ require('validate.php');
 require('user_Service.php');
 require('db_Repository.php');
 
+
 $page = getRequestedPage(); 
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
+//if ($_SERVER['REQUEST_METHOD'] == "POST") {
 $page = processRequest($page);
-}
+//}
 //var_dump($page);
 showResponsePage($page); 
+
 
 function getRequestedPage() {
   $requestedType = $_SERVER['REQUEST_METHOD']; 
@@ -31,7 +33,7 @@ function getRequestedPage() {
   }
   // Note that contact, register, and login need a longer array to function (they fill in inputs from the array
   // so we have to include a long blank array to use
-  $requestedPage = array_merge( array('', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''), array($requestedPage));
+  //$requestedPage = array_merge( array('', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''), array($requestedPage));
   return $requestedPage;
 }
   
@@ -49,7 +51,8 @@ function getGetVar($key, $default=''){
 
 function processRequest($page){
   //The process depends on which page is submitted
-  switch(end($page)){
+  $data = array('page' => $page);
+  switch($page){
     case 'contact':
       // first step is retrieving the input data, I want to retrieve inputs only once
       $formInputs = postDataContact();
@@ -57,6 +60,7 @@ function processRequest($page){
       $errors = formCheckContact($formInputs);
       // finally appending them together to create a page reference with all the data required to fill said page (on POST)
       $formInputs = array_merge($formInputs, $errors);
+      var_dump($formInputs);
       return $formInputs;
     case 'register':
       $formInputs = postDataRegister();
@@ -78,9 +82,24 @@ function processRequest($page){
       $formInputs = postDataPassword();
       $errors = formCheckPasswords($formInputs);
       return $errors;
+    case 'logout':
+      doLogout();
+      $data['page'] = 'home';
+    case 'webshop':
+      handleActions();
   }
+  return $data;
 }
 
+function handleActions(){
+  $action = getPostVar("action");
+  switch($action) {
+    case "addToCart":
+      $id = getPostVar("id");
+      addItemToBasket($id);
+      break;
+  }
+} 
 
 function showResponsePage($page) {
   showDocumentStart(); 
@@ -115,11 +134,7 @@ function showHeadSection($page){
     case 'login': 
         showHeadLogin();
         break;    
-    case 'logout':        
-        showHeadHome();
-        // resetting the session 
-        doLogout();
-        break;
+
     case 'password':
         showHeadPassword();
         break;
@@ -169,10 +184,7 @@ function showHeader($page){
         break;  
     case 'login':
         showHeaderLogin();
-        break;   
-    case 'logout':        
-          showHeaderHome();
-          break;     
+        break;      
     case 'password':
         showHeaderPassword();
         break;
@@ -231,10 +243,7 @@ function showContent($page){
         break;           
     case 'login':
         showContentLogin($page);
-        break;       
-    case 'logout':        
-        showContentHome();
-        break;         
+        break;          
     case 'password':
         showContentPassword($page);
         break;

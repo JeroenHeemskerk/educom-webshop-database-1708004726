@@ -5,13 +5,15 @@ function doLoginUser($name, $email){
   $_SESSION['userName'] = $name;
   $_SESSION['email'] = $email;
   makeCart();
+
 }
 
 function makeCart(){
   $idList = getItemsFromDB('id');
-  $_SESSION['basket'] = array('0'=> 0);
+  $_SESSION['basket'] = array('00'=> 0);
   foreach ($idList as $x) {
-    $_SESSION['basket'][$x[0]] = 0;
+    $key = '0'.$x[0];
+    $_SESSION['basket'][$key] = 0;
   }
 }
 
@@ -27,8 +29,10 @@ function doLogout(){
   session_unset();
 }
 
-function AddToCart($id){
-  var_dump($id);
+function addItemToBasket($id){
+  $key = '0'.$id;
+  $count = $_SESSION['basket'][$key] + 1;
+  $_SESSION['basket'][$key] = $count;
 }
 
 
