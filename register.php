@@ -14,6 +14,13 @@ function formCheckRegister($formInputs ){
   $emailExist = false;
   $passwordMatch = checkPasswordMatch($formInputs['password'],$formInputs['repeat']);
 
+  // checking if the email is valid
+  $errors['emailErr'] = checkEmail($formInputs['email']);
+  // checking if the passwords match
+  if (empty($passwordMatch)){
+    $errors['passwordErr'] = $errors['repeatErr'] = "Wachtworden matchen niet";} 
+    
+
   $errors['nameErr'] = checkFieldContent($formInputs['name']);
   $errors['emailErr'] = checkFieldContent($formInputs['email']);
   $errors['passwordErr'] = checkFieldContent($formInputs['password']);
@@ -22,12 +29,8 @@ function formCheckRegister($formInputs ){
   /*for ($x = 0; $x <= 3; $x++){
     $errors[$x] = checkFieldContent($formInputs[$x]);
   } */
-  // checking if the email is valid
-  $errors['emailErr'] = checkEmail($formInputs['email']);
-  // checking if the passwords match
-  if (empty($passwordMatch)){
-    $errors['passwordErr'] = $errors['repeatErr'] = "Wachtworden matchen niet";} 
   
+
   $emailExist = doesEmailExist($formInputs['email']);
 
   if ($emailExist) {
@@ -36,10 +39,10 @@ function formCheckRegister($formInputs ){
   // next up is determening whether to go back to the register page or to file away the data and go to login
   // so for this email can't already be registered, and passwords have to match
   if ($passwordMatch && !$emailExist){
-    $errors = array('login');
+    $errors['page'] = 'login';
     saveUser($formInputs['email'], $formInputs['name'], $formInputs['password']);
   } else {
-      $errors = array_merge($errors, array('register'));
+      $errors['page'] = 'register';
   }
   return $errors;
 }
@@ -59,23 +62,23 @@ function showContentRegister($formInputs){
   <fieldset class="persoon">
   <div> 
     <label for="name"> Naam:</label> 
-    <input type="text" name="name" value="'.$formInputs[0].'" id="name">
-    <span class="error">* '.$formInputs[4].'</span>
+    <input type="text" name="name" value="'.$formInputs['name'].'" id="name">
+    <span class="error">* '.$formInputs['nameErr'].'</span>
   </div>
   <div> 
     <label for="email"> Email:</label> 
-    <input type="text" name="email" value="'.$formInputs[1].'" id="email">
-    <span class="error">* '.$formInputs[5].'</span>
+    <input type="text" name="email" value="'.$formInputs['email'].'" id="email">
+    <span class="error">* '.$formInputs['emailErr'].'</span>
   </div>
   <div> 
     <label for="password"> Wachtword:</label> 
-    <input type="text" name="password" value="'.$formInputs[2].'" id="password">
-    <span class="error">* '.$formInputs[6].'</span>
+    <input type="text" name="password" value="'.$formInputs['password'].'" id="password">
+    <span class="error">* '.$formInputs['passwordErr'].'</span>
   </div>
   <div> 
     <label for="repeat"> Herhaal het wachtword:</label> 
-    <input type="text" name="repeat" value="'.$formInputs[3].'" id="repeat">
-    <span class="error">* '.$formInputs[7].'</span>
+    <input type="text" name="repeat" value="'.$formInputs['repeat'].'" id="repeat">
+    <span class="error">* '.$formInputs['repeatErr'].'</span>
   </div>
   <div>
     <input class = "submit" type="submit" value="Submit">
