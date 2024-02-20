@@ -60,7 +60,6 @@ function processRequest($page){
       $errors = formCheckContact($formInputs);
       // finally appending them together to create a page reference with all the data required to fill said page (on POST)
       $formInputs = array_merge($formInputs, $errors);
-      var_dump($formInputs);
       return $formInputs;
     case 'register':
       $formInputs = postDataRegister();

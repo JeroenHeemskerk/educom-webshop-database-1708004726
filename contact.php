@@ -134,7 +134,6 @@ function postDataContact(){
   $formInputs['city'] = getPostVar("city");
   $formInputs['communication'] = getPostVar("communication");
   $formInputs['message'] = getPostVar("message");
-  var_dump($formInputs);
   return $formInputs;
 }
 
@@ -187,7 +186,7 @@ function formCheckContact($formInputs) {
   //Validity check, first check if everything is the same, if it is, check if $errors[1] is empty because it means there's no errors
   // actually might not be necessary to check nameErr, because under no circumstances are all fields required
   $valid = (count(array_unique($errors, SORT_REGULAR)) == 1);
-  if ($valid == 'true' && $errors['name'] == ''){
+  if ($valid == 'true' && $errors['nameErrrepeatErr'] == ''){
     // the thanks is the page to redirect to, the error messages are unneeded since the input is valid
     return array('page' =>'thanks');
   } 
@@ -198,21 +197,21 @@ function formCheckContact($formInputs) {
 
 
 
-function showContentThanks($formInputs = array('', '', '', '', '', '', '', '', '', '')){
+function showContentThanks($formInputs){
   // changing phone to telefoon for the display 
-  if ($formInputs[8] == 'phone'){
-    $formInputs[8] = 'telefoon';
+  if ($formInputs['communication'] == 'phone'){
+    $formInputs['communication'] = 'telefoon';
   }
  
   echo '<p>Bedankt voor uw reactie:</p> 
-  <div>Naam: '.$formInputs[1].'</div>
-  <div>Email: '.$formInputs[2].'</div>
-  <div>Telefoon: '.$formInputs[3].'</div>
-  <div>Straat: '.$formInputs[4].'</div>
-  <div>Huisnummer: '.$formInputs[5].'</div>
-  <div>Postcode: '.$formInputs[6].'</div>
-  <div>Woonplaats: '.$formInputs[7].'</div>
-  <div>Communicatie voorkeur: '.$formInputs[8].'</div>';
+  <div>Naam: '.$formInputs['name'].'</div>
+  <div>Email: '.$formInputs['email'].'</div>
+  <div>Telefoon: '.$formInputs['phonenumber'].'</div>
+  <div>Straat: '.$formInputs['street'].'</div>
+  <div>Huisnummer: '.$formInputs['housenumber'].'</div>
+  <div>Postcode: '.$formInputs['postalcode'].'</div>
+  <div>Woonplaats: '.$formInputs['city'].'</div>
+  <div>Communicatie voorkeur: '.$formInputs['communication'].'</div>';
 }
 
 ?>

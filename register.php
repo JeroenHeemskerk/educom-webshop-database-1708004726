@@ -1,43 +1,43 @@
 
 <?php
 function postDataRegister(){
-  $formInputs = array('name', 'email', 'password', 'repeat');
-  $formInputs[0] = filter_input(INPUT_POST, $formInputs[0]);
-  $formInputs[1] = filter_input(INPUT_POST, $formInputs[1]);
-  $formInputs[2] = filter_input(INPUT_POST, $formInputs[2]);
-  $formInputs[3] = filter_input(INPUT_POST, $formInputs[3]);
+  $formInputs['name'] = getPostVar('name');
+  $formInputs['email'] = getPostVar('email');
+  $formInputs['password'] = getPostVar('password');;
+  $formInputs['repeat'] = getPostVar('repeat');
   return $formInputs;
 }
 
-function formCheckRegister($formInputs = array('', '', '', '')){
+function formCheckRegister($formInputs ){
    // array order is  name, email, password, repeat password
-  $errors = array('', '', '', '');
+  $errors = array('nameErr' => '', 'emailErr' => '', 'passwordErr' => '', 'repeatErr' => '');
   $emailExist = false;
-  $passwordMatch = checkPasswordMatch($formInputs[2],$formInputs[3]);
+  $passwordMatch = checkPasswordMatch($formInputs['password'],$formInputs['repeat']);
 
-  
-  
-  for ($x = 0; $x <= 3; $x++){
+  $errors['nameErr'] = checkFieldContent($formInputs['name']);
+  $errors['emailErr'] = checkFieldContent($formInputs['email']);
+  $errors['passwordErr'] = checkFieldContent($formInputs['password']);
+  $errors['repeatErr'] = checkFieldContent($formInputs['repeat']);
+
+  /*for ($x = 0; $x <= 3; $x++){
     $errors[$x] = checkFieldContent($formInputs[$x]);
-  }
+  } */
   // checking if the email is valid
-  $errors[1] = checkEmail($formInputs[1]);
+  $errors['emailErr'] = checkEmail($formInputs['email']);
   // checking if the passwords match
   if (empty($passwordMatch)){
-    $errors[2] = $errors[3] = "Wachtworden matchen niet";} 
+    $errors['passwordErr'] = $errors['repeatErr'] = "Wachtworden matchen niet";} 
   
-  // And last, checking if email is in user.txt if there's no errors
-  if ($errors == array('', '', '', '')){
-    $emailExist = doesEmailExist($formInputs[1]);
-  }
+  $emailExist = doesEmailExist($formInputs['email']);
+
   if ($emailExist) {
     $errors[1] = "Deze mail is al in gebruik";
     }
   // next up is determening whether to go back to the register page or to file away the data and go to login
-  // for this we can again check if there's an error messages present (be it missing info or mail being used already
-  if ($errors == array('', '', '', '')){
+  // so for this email can't already be registered, and passwords have to match
+  if ($passwordMatch && !$emailExist){
     $errors = array('login');
-    saveUser($formInputs[1], $formInputs[0], $formInputs[2]);
+    saveUser($formInputs['email'], $formInputs['name'], $formInputs['password']);
   } else {
       $errors = array_merge($errors, array('register'));
   }
