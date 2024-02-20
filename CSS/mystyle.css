@@ -29,6 +29,16 @@ ul.items li{
 	border-style: double;
 }
 
+a.product_text{
+	text-decoration: none;
+	color: black;
+}
+
+span.price{
+	background-color: rgb(250, 49, 49);
+	color: white;
+}
+
 footer {
 	color: white;
 	text-align: right;
@@ -43,8 +53,6 @@ fieldset.persoon label{
   width: 150px;
   text-align: left;
 }
-
-
 
 fieldset.persoon input, select, textarea {
 	width: 400px;
@@ -73,7 +81,23 @@ input.submit {
   margin-left:150px;
 }
 
+div.container {
+	display: grid;
+	align-items: center; 
+	grid-template-columns: 1fr 1fr 1fr;
+	column-gap: 5px;
+ }
 
+ div.container div.img {
+  max-width: 500;
+  max-height:500;
+}
+
+div.container div.item {
+	width:200;
+	height:500;
+	text-align:right;
+}
 
 
 /* outdated

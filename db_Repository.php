@@ -96,7 +96,7 @@ function getItemsFromDB($select = '*', $from = 'products', $where = '' ){
   $sql = 'SELECT '.$select.'
   FROM '.$from.''; 
   if ($where){
-    $sql = $sql.'WHERE'.$where;
+    $sql = $sql.' WHERE '.$where;
   }
   $result = mysqli_query($conn, $sql);
   dbDisconnect($conn);

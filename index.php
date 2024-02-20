@@ -126,8 +126,8 @@ function showHeadSection($page){
       case 'webshop':
         showHeadWebshop();
         break;
-      case 'detail':
-        showHeadDetail();
+      case strstr(end($page), 'product'):
+        showHeadDetail(end($page));
         break;
       case 'cart':
         showHeadCart();
@@ -179,8 +179,8 @@ function showHeader($page){
       case 'webshop':
         showHeaderWebshop();
         break;
-      case 'detail':
-        showHeaderDetail();
+      case strstr(end($page), 'product'):
+        showHeaderDetail(end($page));
         break;
       case 'cart':
         showHeaderCart();
@@ -241,8 +241,8 @@ function showContent($page){
       case 'webshop':
         showContentWebshop();
         break;
-      case 'detail':
-        showContentDetail();
+      case strstr(end($page), 'product'):
+        showContentDetail(end($page));
         break;
       case 'cart':
         showContentCart();
