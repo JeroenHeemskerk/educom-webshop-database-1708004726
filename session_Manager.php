@@ -12,7 +12,7 @@ function makeCart(){
   $idList = getItemsFromDB('id');
   $_SESSION['basket'] = array('00'=> 0);
   foreach ($idList as $x) {
-    $key = '0'.$x[0];
+    $key = '0'.$x['id'];
     $_SESSION['basket'][$key] = 0;
   }
 }

@@ -32,7 +32,7 @@ function showContentWebshop(){
         // show button for adding to shopping cart
         if (isset($_SESSION['userName'])){
           echo '
-          <form action="index.php" method="POST">
+          <form action="index.php?page=cart" method="POST">
           <input type="hidden" name="page"value="webshop">
           <input type="hidden" name="action" value="addToCart">
           <input type="hidden" name="id" value="'.$x['id'].'">

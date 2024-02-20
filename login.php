@@ -16,19 +16,22 @@ function formCheckLogin($formInputs){
   $errors['emailErr'] = checkFieldContent($formInputs['email']);
   $errors['passwordErr'] = checkFieldContent($formInputs['password']);
   // check if there is an error message present
-  if (!$errors['emailErr'] && !$errors['passwordErr']){
-    $userData = authenticateUser($formInputs[0], $formInputs[1]);
+  if (!$errors['emailErr'] || !$errors['passwordErr']){
+    $userData = authenticateUser($formInputs['email'], $formInputs['password']);
     // check if there is anything in user data (if there is, it means the user can be logged in)
     if ($userData){
       doLoginUser($userData['user'], $userData['email']);
-      return array('home');;
+      return  array('page' => 'home');
     } elseif (!$userData){
-      $errors[0] = 'Server error';
+      $errors['emailErr'] = 'Server error';
     }
     
   }
-  // you only get here if there's an error
-  $errors['emailErr'] = 'De email of wachtword is incorrect';
+  // It gets here if either an input was blank or something was wrong
+  // so check the inputs again
+  if (!$errors['emailErr'] && !$errors['passwordErr']){
+    $errors['emailErr'] = 'De email of wachtword is incorrect';
+  }
   $errors['page'] = 'login';
   return $errors;
 }
@@ -41,7 +44,7 @@ function showHeaderLogin(){
   echo '<header class=title><h1>Login</h1></header>';
 }
 
-function showContentLogin($formInputs = array('', '', '', '')){
+function showContentLogin($formInputs){
   echo '<form class="contact" method="POST" action="index.php">
   <input type="hidden" name="page" value="login" id="page"/>
   <fieldset class="persoon">
