@@ -27,14 +27,13 @@ function showContentDetail($item){
       <span> '.$itemContent['description'].' </span>
       </div>
       <div>
-        <span class=price>'.$itemContent['price'].' euro </span>
+        <span class=price>&euro;'.$itemContent['price'].'  </span>
       </div>
       <div>';
       addToCartButton('webshop', $itemId);
-  echo '    
+  echo '</div>    
     </div>  
-  </div>
-  </p>';
+  </div>';
 }
 
 ?>

@@ -27,7 +27,7 @@ function showContentWebshop(){
         </a>
         </h3>
         <div class=product_price>
-          <span class=price>'.$x['price'].' euro </span>
+          <span class=price>&euro;'.$x['price'].'  </span>
         </div>';
         // show button for adding to shopping cart
         addToCartButton('webshop', $x['id']);

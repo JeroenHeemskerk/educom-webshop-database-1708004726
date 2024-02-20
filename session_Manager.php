@@ -29,6 +29,10 @@ function doLogout(){
   session_unset();
 }
 
+function getSessionBasket(){
+  return $_SESSION['basket'];
+}
+
 function addItemToBasket($id){
   $key = '0'.$id;
   $count = $_SESSION['basket'][$key] + 1;

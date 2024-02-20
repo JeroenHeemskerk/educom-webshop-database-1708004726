@@ -88,7 +88,7 @@ div.container {
 	column-gap: 5px;
  }
 
- div.container div.img {
+div.container div.img {
   max-width: 500;
   max-height:500;
 }
@@ -98,6 +98,14 @@ div.container div.item {
 	height:500;
 	text-align:right;
 }
+
+div.cartItem {
+	display: grid;
+	align-items: center; 
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+	column-gap: 5px;
+ }
+
 
 
 /* outdated
