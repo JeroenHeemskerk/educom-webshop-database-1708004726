@@ -1,11 +1,10 @@
 
 <?php
 function postDataPassword(){
-  $formInputs = array('oldPass' => 'oldPass', 'newPass' => 'newPass', 'repeatNewPass' => 'repeatNewPass');
   //var_dump($formInputs);
-  $formInputs['oldPass'] = filter_input(INPUT_POST, $formInputs['oldPass']);
-  $formInputs['newPass'] = filter_input(INPUT_POST, $formInputs['newPass' ]);
-  $formInputs['repeatNewPass'] = filter_input(INPUT_POST, $formInputs['repeatNewPass']);
+  $formInputs['oldPass'] = getPostVar('oldPass');
+  $formInputs['newPass'] = getPostVar('newPass');
+  $formInputs['repeatNewPass'] = getPostVar('repeatNewPass');
   return $formInputs;
 }
 
@@ -58,14 +57,12 @@ function formCheckPasswords($formInputs) {
   
   //at the end we gotta do two things (if there is an error)
   // redirect back to the password page & set back to an indexed array for functionality
-  $errors = array($errors['oldPass'], $errors['newPass'], $errors['repeatNewPass']);
-  $errors = array_merge($errors, array('password'));
+  $errors['page'] = 'password';
   return $errors;
 
 }
 
-function showContentPassword($formInputs=array('', '', '')){
-  var_dump($formInputs);
+function showContentPassword($formInputs){
   // array is only for warnings
   // warning old pass, warning new pass
   echo '<form class="contact" method="POST" action="index.php">
@@ -74,17 +71,17 @@ function showContentPassword($formInputs=array('', '', '')){
   <div> 
     <label for="oldPass">Oude wachtwoord:</label> 
     <input type="text" name="oldPass" value="" id="oldPass">
-    <span class="error">* '.$formInputs[0].'</span>
+    <span class="error">* '.$formInputs['oldPass'].'</span>
   </div>
     <div> 
     <label for="newPass"> Nieuw wachtwoord:</label> 
     <input type="text" name="newPass" value="" id="newPass">
-    <span class="error">* '.$formInputs[1].'</span>
+    <span class="error">* '.$formInputs['newPass'].'</span>
   </div>
     <div> 
     <label for="repeatNewPass"> Herhaal nieuw wachtwoord:</label> 
     <input type="text" name="repeatNewPass" value="" id="repeatNewPass">
-    <span class="error">* '.$formInputs[2].'</span>
+    <span class="error">* '.$formInputs['repeatNewPass'].'</span>
   </div>
   <div>
     <input class = "submit" type="submit" value="Submit">

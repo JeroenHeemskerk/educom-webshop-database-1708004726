@@ -30,15 +30,8 @@ function showContentWebshop(){
           <span class=price>'.$x['price'].' euro </span>
         </div>';
         // show button for adding to shopping cart
-        if (isset($_SESSION['userName'])){
-          echo '
-          <form action="index.php?page=cart" method="POST">
-          <input type="hidden" name="page"value="webshop">
-          <input type="hidden" name="action" value="addToCart">
-          <input type="hidden" name="id" value="'.$x['id'].'">
-          <button type="submit">Toevoegen aan bestelling</button>
-          </form>';
-        }
+        addToCartButton('webshop', $x['id']);
+  
         echo '</article>
         </li>';
       }

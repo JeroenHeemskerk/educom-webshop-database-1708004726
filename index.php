@@ -14,7 +14,6 @@ require('validate.php');
 require('user_Service.php');
 require('db_Repository.php');
 
-
 $page = getRequestedPage(); 
 //if ($_SERVER['REQUEST_METHOD'] == "POST") {
 $page = processRequest($page);

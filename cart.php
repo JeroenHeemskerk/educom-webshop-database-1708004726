@@ -12,4 +12,18 @@ function showContentCart(){
   echo 'WIP';
 }
 
+
+function addToCartButton($page, $id){
+  if (isset($_SESSION['userName'])){
+    echo '
+    <form action="index.php?page='.$page.'" method="POST">
+    <input type="hidden" name="page"value="webshop">
+    <input type="hidden" name="action" value="addToCart">
+    <input type="hidden" name="id" value="'.$id.'">
+    <button type="submit">Toevoegen aan bestelling</button>
+    </form>';
+  }
+}
+
+
 ?>
