@@ -38,6 +38,9 @@ function updateUserPassword($email, $password){
   updateUserPasswordDB($email, $password);
 }
 
+
+
+
 ?>
 
 

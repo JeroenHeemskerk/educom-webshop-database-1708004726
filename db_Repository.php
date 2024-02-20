@@ -102,7 +102,6 @@ function getItemsFromDB($select = '*', $from = 'products', $where = '' ){
   dbDisconnect($conn);
   // Functional but feels like it could get problematic
   return mysqli_fetch_all($result);
-
 }
 
 ?>

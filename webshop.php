@@ -12,7 +12,6 @@ function showContentWebshop(){
 if (!$items){
   echo 'Database niet beschikbaar';
 } else {
-
   echo '<ul class=items>';
   foreach ($items as $x) {
     echo '
@@ -29,8 +28,14 @@ if (!$items){
       </h3>
       <div class=product_price>
         <span class=price>'.$x[2].' euro </span>
-      </div>
-      </article>
+      </div>';
+      // show button for adding to shopping cart
+      if (isset($_SESSION['userName'])){
+        echo '
+        <button onclick="addToCart('.$x[0].')">Toevoegen aan bestelling</button>';
+      }
+      
+      echo '</article>
       </li>';
     }
   echo '</ul>';

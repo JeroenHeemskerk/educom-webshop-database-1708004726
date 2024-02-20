@@ -1,5 +1,5 @@
 <?php
-function showHeadWCart(){
+function showHeadCart(){
   echo '<title> Cart page </title>';
 }
 
