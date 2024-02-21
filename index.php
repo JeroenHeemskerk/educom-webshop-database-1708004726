@@ -102,10 +102,16 @@ function handleActions(){
   switch($action) {
     case "addToCart":
       $id = getPostVar("id");
+      try {
       addItemToBasket($id);
+      }
+      catch (exception $e) {$basket['error'] = 'Kon het item niet toevoegen, probeer later opnieuw';}
       break;
     case "placeOrder";
+     try {
       placeOrderDB();
+     }
+      catch (exception $e) {$basket['error'] = 'Kon de order niet plaatsen probeer later opnieuw';}
     break;
   }
   // so one thing we'll need regardless of action is the basket content, the image, price, and name of htis content
@@ -120,6 +126,7 @@ function handleActions(){
   }
   return $basketContents;
 }
+
 
 function menuItems($data){
   $data['menu'] = array('home' => 'Home', 'about' => 'Over mij', 'contact' => 'Contact', 'webshop' => 'WEBSHOP');

@@ -107,14 +107,14 @@ function getItemsFromDB($select = '*', $from = 'products', $where = '' ){
 function placeOrderDB(){
   //I did not save user ID into the session, which means I have to get it through a query
   $email = getSessionEmail();
-  $userData = findUserByEmailDB($email);
-
-
+  $userData = fidUserByEmailDB($email);
   $userId = $userData['id'];
-
-   $orderId = insertInOrder($userId);
+  try{
+  $orderId = insertInOrder($userId);
   insertOrderInOrdersContent($orderId);
+  } catch (exception $e) {throw new Exception('Insert failed'. msqli_error());}
   // and once we get here, it means the order was succesfully placed, thus we can clear the basked
+  
   makeCart();
   
 
@@ -158,10 +158,15 @@ function insertOrderinOrdersContent($orderId){
   $sql = substr($sql, 0, -1);
   // and replace it with a ;
   $sql = $sql.';';
-  mysqli_query($conn, $sql);
+  try{
+    if(!mysqli_query($conn, $sql)){
+      throw new Exception('Insert into order content failed'. msqli_error());
+    }
+  }
 
+  finally {
     dbDisconnect($conn);
-
+  }
 }
 
 
