@@ -94,6 +94,8 @@ function processRequest($page){
       logErrors($e->getMessage());}
       $data = array_merge($items, $data);
       break;
+    case 'detail':
+      break;
     case 'cart':
       $basket = handleActions();
       $data = array_merge($basket, $data);

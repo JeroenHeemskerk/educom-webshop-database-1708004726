@@ -8,6 +8,11 @@ function showHeaderWebshop(){
 }
 
 function showContentWebshop($data){
+  $data = removeNonBodyArray($data);
+    if(isset($data['error'])){
+      echo 'Database kan momenteel niet bereikt worden';
+    }
+
     echo '<ul class=items>';
     foreach ($data as $x) {
       echo '
