@@ -7,17 +7,13 @@ function showHeaderCart(){
   echo '<header class=title><h1> Winkelwagen </h1></header>';
 }
 
-function itemContentCart($content){
-  unset($content['page']);
-  unset($content['menu']);
-  return $content;
-}
+
 
 function showContentCart($content){
   $costs = 0.00;
   // the last two enries of $content aren't relevant
   // call upon a function to filter out the unneeded entires
-  $content = itemContentCart($content);
+  $content = removeNonBodyArray($content);
   echo '<div class=cartItem> 
   <div class=cartText> </div> 
   <div class=cartText> <span> product Name </span></div>

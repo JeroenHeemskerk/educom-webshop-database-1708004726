@@ -166,6 +166,26 @@ function insertOrderinOrdersContent($orderId){
   }
 }
 
+function getTopItemsDB(){
+  $conn = dbConnect();
+  $sql = 
+  "SELECT orders_content.product_id, sum(orders_content.product_count) AS 'product_count'
+   FROM orders 
+   LEFT JOIN orders_content on orders_content.order_id = orders.id 
+   WHERE date BETWEEN date_sub(now(),INTERVAL 1 WEEK) and now() 
+   GROUP BY orders_content.product_id;";
+  try {
+    $result = mysqli_query($conn, $sql);
+    if (!$result){
+      throw new Exception('Retrieving info from db failed'. msqli_error());
+    }
+    return mysqli_fetch_all($result, MYSQLI_ASSOC);
+   }
+   finally {
+    dbDisconnect($conn);
+  }
+}
+
 
 ?>
 

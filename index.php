@@ -10,6 +10,7 @@ require('password.php');
 require('webshop.php');
 require('detail.php');
 require('cart.php');
+require('top5.php');
 require('validate.php');
 require('user_Service.php');
 require('db_Repository.php');
@@ -85,17 +86,46 @@ function processRequest($page){
     case 'logout':
       doLogout();
       $data['page'] = 'home';
-      var_dump($data['page']);
       break;
     case 'cart':
       $basket = handleActions();
       $data = array_merge($basket, $data);
       break;
+    case 'top':
+      $top = handleTop();
+      $data = array_merge($top, $data);
   }
   // no matter the page, some data is always necessary: the menu
   $data = menuItems($data);
   return $data;
 }
+
+function handleTop(){
+  $data = array();
+  $items = array();
+  try {
+    $data = getTopItemsDB();
+    }
+    catch (exception $e) {$items['error'] = 'Kon database niet bereiken';
+      logErrors($e->getMessage());}
+  // okay great that gives us the ids
+  $sql = "ID = ";
+  foreach ($data as $id => $content) {
+    if($data[$id]['product_id']){
+      $sql = $sql.$data[$id]['product_id'].' OR ';
+    }
+  }
+
+  $sql = rtrim($sql, "OR ");
+  try {
+   $items = getItemsFromDB('id, image, name', 'products', $sql);
+  }
+  catch (exception $e) {$items['error'] = 'Fout by database';
+    logErrors($e->getMessage());}
+
+  return $items;
+}
+
 
 function handleActions(){
   $action = getPostVar("action");
@@ -116,7 +146,7 @@ function handleActions(){
         logErrors($e->getMessage());}
     break;
   }
-  // so one thing we'll need regardless of action is the basket content, the image, price, and name of htis content
+  // so one thing we'll need regardless of action is the basket content, the image, price, and name of this content
   $basket = getSessionBasket();
   $basketContents = array();
   foreach ($basket as $id => $content){
@@ -130,9 +160,14 @@ function handleActions(){
   return $basketContents;
 }
 
+function removeNonBodyArray($data){
+  unset($data['page']);
+  unset($data['menu']);
+  return $data;
+}
 
 function menuItems($data){
-  $data['menu'] = array('home' => 'Home', 'about' => 'Over mij', 'contact' => 'Contact', 'webshop' => 'WEBSHOP');
+  $data['menu'] = array('home' => 'Home', 'about' => 'Over mij', 'contact' => 'Contact', 'webshop' => 'WEBSHOP', 'top' => 'TOP 5');
   if (isUserLoggedIn()) {
     $data['menu']['cart'] = "Winkelwagen";
     $data['menu']['password'] = "Wachtwoord";
@@ -161,7 +196,6 @@ function showDocumentStart() {
 } 
 
 function showHeadSection($page){
-
   // only the title differs between these head sections so, you can load/close the head and reference the css here
   switch($page['page']){
     case 'home':
@@ -194,6 +228,9 @@ function showHeadSection($page){
         break;
       case 'cart':
         showHeadCart();
+        break;
+      case 'top':
+        showHeadTop();
         break;
    }
    
@@ -244,7 +281,10 @@ function showHeader($page){
         break;
       case 'cart':
         showHeaderCart();
-        break;          
+        break;  
+      case 'top':
+        showHeaderTop();
+        break;       
    }
 }
 
@@ -291,7 +331,10 @@ function showContent($page){
         break;
       case 'cart':
         showContentCart($page);
-        break;           
+        break;         
+      case 'top':
+        showContentTop($page);
+        break;   
    }
 }
 
