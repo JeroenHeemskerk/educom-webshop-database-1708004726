@@ -105,7 +105,8 @@ function handleActions(){
       try {
       addItemToBasket($id);
       }
-      catch (exception $e) {$basket['error'] = 'Kon het item niet toevoegen, probeer later opnieuw';}
+      catch (exception $e) {$basket['error'] = 'Kon het item niet toevoegen, probeer later opnieuw';
+        logErrors($e->getMessage());}
       break;
     case "placeOrder";
      try {
