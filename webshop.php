@@ -7,13 +7,9 @@ function showHeaderWebshop(){
   echo '<header class=title><h1> Shop </h1></header>';
 }
 
-function showContentWebshop(){
-  $items = getItemsFromDB('id, name, price, image');
-  if (!$items){
-    echo 'Database niet beschikbaar';
-  } else {
+function showContentWebshop($data){
     echo '<ul class=items>';
-    foreach ($items as $x) {
+    foreach ($data as $x) {
       echo '
       <li class=product_webshop>
       <br>
@@ -37,7 +33,6 @@ function showContentWebshop(){
       }
     echo '</ul>';
   } 
-}
 
 
 ?>

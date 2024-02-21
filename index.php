@@ -87,6 +87,13 @@ function processRequest($page){
       doLogout();
       $data['page'] = 'home';
       break;
+    case 'webshop':
+      try {
+      $items = getItemsFromDB('id, name, price, image');
+      } catch (exception $e) {$items['error'] = 'Kon database niet bereiken';
+      logErrors($e->getMessage());}
+      $data = array_merge($items, $data);
+      break;
     case 'cart':
       $basket = handleActions();
       $data = array_merge($basket, $data);
@@ -94,6 +101,7 @@ function processRequest($page){
     case 'top':
       $top = handleTop();
       $data = array_merge($top, $data);
+      break;
   }
   // no matter the page, some data is always necessary: the menu
   $data = menuItems($data);
@@ -324,7 +332,7 @@ function showContent($page){
         showContentPassword($page);
         break;
       case 'webshop':
-        showContentWebshop();
+        showContentWebshop($page);
         break;
       case strstr($page['page'], 'product'):
         showContentDetail($page['page']);
