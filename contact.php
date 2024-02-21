@@ -10,31 +10,9 @@ function showHeaderContact(){
 
 function showContentContact($formInputs){
   // order of arrays is title, name, email, phonenumber, street, housenumber, postalcode, city, message, communication (repeating once after communication)
-  $title = array('', '', '');
-  $communication = array('', '', '');
-  switch($formInputs['title']){
-    case ('sir');
-      $title[0] = 'selected';
-      break;
-    case ('madam');
-      $title[1] = 'selected';
-      break;
-    case ('other');
-      $title[2] = 'selected';
-      break;
-  }
-   switch($formInputs['communication']){
-    case ('email');
-      $communication[0] = 'checked';
-      break;
-    case ('phone');
-      $communication[1] = 'checked';
-      break;
-    case ('post');
-      $communication[2] = 'checked';
-      break;
-  }
-  
+  $title = $formInputs['title'];
+  $communication = $formInputs['communication'];
+
   echo '<form class="contact" method="POST" action="index.php">
   <input type="hidden" name="page" value="contact" id="page"/>
   <fieldset class="persoon">
@@ -42,9 +20,9 @@ function showContentContact($formInputs){
   <label for="title">title:</label> 
   <select id="title" name="title">
     <option value=""></option>
-    <option value="sir" '.$title[0].' >Dhr.</option> 
-    <option value="madam" '.$title[1].' >Mvr.</option>
-    <option value="other" '.$title[2].'>Anders</option>
+    <option value="sir" '.($title == "sir"   ? "selected" : "").' >Dhr.</option> 
+    <option value="madam" '.($title == "madam"   ? "selected" : "").' >Mvr.</option>
+    <option value="other" '.($title == "other"   ? "selected" : "").'>Anders</option>
   </select> 
     <span class="error">* '.$formInputs['titleErr'].'</span>
   </div>
@@ -92,15 +70,15 @@ function showContentContact($formInputs){
      <!-- Need some help here: the legend brings a nice shape to things, but due to how the title in it works it isnt a perfect square -->
      <legend class = "communication"><span class="error">*'.$formInputs['communcationErr'].'</span></legend> 
       <div>
-      <input type="radio" name="communication" value="email" '.$communication[0].' >  
+      <input type="radio" name="communication" value="email" '.($communication == "email"   ? "checked" : "").' >  
       <label for="email">Email</label> 
       </div>
       <div>
-      <input type="radio" name="communication" value="phone"  '.$communication[1].' >
+      <input type="radio" name="communication" value="phone"  '.($communication == "phone"   ? "checked" : "").' >
       <label for="phone">Telefoon</label> 
       </div>
       <div>
-      <input type="radio" name="communication" value="post"  '.$communication[2].' > 
+      <input type="radio" name="communication" value="post"  '.($communication == "post"   ? "checked" : "").' > 
      
       <label for="post">Post</label>
       </div>
