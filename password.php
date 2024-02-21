@@ -43,10 +43,20 @@ function formCheckPasswords($formInputs) {
   if(!$errorFlag) {
     // For this we need the user Email in addition to the password
     $email = getSessionEmail();
+    try {
     $userAuth = authenticateUser($email, $formInputs['oldPass']);
+    } catch (exception $e) {
+      $errors['oldPass'] = 'Er is een probleem met de server, probeer later nog eens';
+      logErrors('Connection failed'.$e);
+    }
     if ($userAuth){
       // if its authenticated, we have to do two things, change the password 
+      try {
       updateUserPassword($email, $formInputs['newPass']);
+      catch (exception $e) {
+        $errors['oldPass'] = 'Er is een probleem met de server, wachtwoord is niet geupdate';
+        logErrors('Connection failed'.$e);
+      }
       //and show that it has been changed
       $errors['oldPass'] = 'Wachtwoord is geupdate';
     } else { 

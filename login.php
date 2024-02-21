@@ -12,19 +12,22 @@ function formCheckLogin($formInputs){
   // array is mail, password
   $errors = array('emailErr' => '', 'passwordErr' => '');
   $userAuth = false;
+  $userData = '';
   //first, lets check if there's any input
   $errors['emailErr'] = checkFieldContent($formInputs['email']);
   $errors['passwordErr'] = checkFieldContent($formInputs['password']);
   // check if there is an error message present
   if (!$errors['emailErr'] || !$errors['passwordErr']){
+
+    try {
     $userData = authenticateUser($formInputs['email'], $formInputs['password']);
-    // check if there is anything in user data (if there is, it means the user can be logged in)
-    if ($userData){
-      doLoginUser($userData['user'], $userData['email']);
-      return  array('page' => 'home');
-    } elseif (!$userData){
-      $errors['emailErr'] = 'Server error';
+    doLoginUser($userData['user'], $userData['email']);
+    return  array('page' => 'home');
+    } catch (exception $e) {
+      $errors['emailErr'] = 'Er is een probleem met de server, probeer later nog eens';
+      logErrors('Connection failed'.$e);
     }
+    // check if there is anything in user data (if there is, it means the user can be logged in)
     
   }
   // It gets here if either an input was blank or something was wrong

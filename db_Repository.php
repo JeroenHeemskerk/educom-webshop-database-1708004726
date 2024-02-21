@@ -9,43 +9,53 @@ function dbConnect(){
   $password = "cNLN0whG56mamGYq";
   $dbName = 'milan_web_shop_users';
   // Create connection
-  try {
-  $conn = mysqli_connect($servername, $username, $password, $dbName); 
-  } catch(\Exception $e) {$conn = NULL;}
-  //replace above with throw later
-  // Check connection
-  //if (!$conn) {
-  //  die("Connection failed: " . mysqli_connect_error());
-  //}
-  return $conn;
+  try{
+    $conn = mysqli_connect($servername, $username, $password, $dbName); 
+    
+    //replace above with throw later
+    // Check connection
+    if (!$conn) {
+      throw new Exception("Cannot connect to database". mysqli_error());
+    }
+    return $conn;
+  }
+  // refuses to function without finally
+  finally {
+
+  }
 }
 
 
 function saveUserDB($email, $user, $password){
   $conn = dbConnect(); 
-  if (!$conn) {
-    return $conn;
-  }
+  
   $sql = "INSERT INTO users (email, user, password)
   VALUES ('".$email."', '".$user."', '".$password."')";
-  if (mysqli_query($conn, $sql)) {
-  echo "New record created successfully";
-  } else {
-  echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+  try {
+    if (!mysqli_query($conn, $sql)) {
+        throw new Exception ("Cannot insert into users". mysqli_error());
+    }
   }
+  finally {
   dbDisconnect($conn);
+  }
 }
 
 
 function findUserByEmailDB($email){
   $conn = dbConnect();
-  if (!$conn) {
-    return $conn;
-  }
   $sql = 'SELECT * FROM users WHERE email="'.$email.'"';
+  try {
   $result = mysqli_query($conn, $sql);
-  dbDisconnect($conn);
-  return mysqli_fetch_assoc($result);
+    if(!$result){
+      throw new Exception('Query find user by email failed'. msqli_error());
+    }
+    return mysqli_fetch_assoc($result);
+  } 
+  
+  finally {
+    dbDisconnect($conn);
+  }
 }
 
 function updateUserPasswordDB($email, $password){
@@ -54,7 +64,14 @@ function updateUserPasswordDB($email, $password){
   $sql = 'UPDATE users 
   SET password="'.$password.'"
   WHERE email="'.$email.'"';
-  mysqli_query($conn, $sql);
+  try {
+    if (!mysqli_query($conn, $sql)){
+      throw new Exception('Update user password failed'. msqli_error());
+    }
+  }
+  finally {
+    dbDisconnect($conn);
+  }
 }
 
 function dbDisconnect($conn){ 
@@ -63,28 +80,47 @@ function dbDisconnect($conn){
 
 function getItemsFromDB($select = '*', $from = 'products', $where = '' ){
   $conn = dbConnect();
-  if (!$conn) {
-    return $conn;
-  }
   $sql = 'SELECT '.$select.'
   FROM '.$from.''; 
   if ($where){
     $sql = $sql.' WHERE '.$where;
-  }
-  $result = mysqli_query($conn, $sql);
-  dbDisconnect($conn);
-  // Functional but feels like it could get problematic
+  } try{
+    $result = mysqli_query($conn, $sql);
+    if (!$result){
+      throw new Exception('Retrieving info from db failed'. msqli_error());
+    }
+
   return mysqli_fetch_all($result, MYSQLI_ASSOC);
+  }
+
+  finally {
+    dbDisconnect($conn);
+  }
+
 }
 
 function placeOrderDB(){
   //I did not save user ID into the session, which means I have to get it through a query
   // so I need an unique key 
   $email = getSessionEmail();
-  $userData = findUserByEmailDB($email);
+  try {
+    $userData = findUserByEmailDB($email);
+    if (!$userData){
+      throw new Exception('place Order, find email failed'. msqli_error());
+    }
+  }
   $userId = $userData['id'];
-  $orderId = insertInOrder($userId);
-  insertOrderInOrdersContent($orderId);
+  try {
+    $orderId = insertInOrder($userId);
+    if (!$orderId){
+      throw new Exception('place Order, inserting order failed'. msqli_error());
+    }
+  }
+  try {
+    if(!insertOrderInOrdersContent($orderId)){
+      throw new Exception('place Order, inserting order content failed'. msqli_error());
+    }
+  }
   // and once we get here, it means the order was succesfully placed, thus we can clear the basked
   makeCart();
 }
@@ -95,13 +131,13 @@ function insertInOrder($userId){
   // also need the current date 
   $date = date('Y-m-d');
   $sql = 'INSERT INTO orders (user_id, date) VALUES ('.$userId.', "'.$date.'")';
-  var_dump($sql);
-  if (mysqli_query($conn, $sql)) {
-    $last_id = mysqli_insert_id($conn);
-  } 
-  dbDisconnect($conn);
-  return $last_id;
-
+  try {
+    if (!mysqli_query($conn, $sql)) {
+      throw new Exception('Insert into orders failed'. msqli_error());
+    } 
+  return mysqli_insert_id($conn);
+  }
+    dbDisconnect($conn);
 
 }
 
@@ -126,7 +162,9 @@ function insertOrderinOrdersContent($orderId){
   // and replace it with a ;
   $sql = $sql.';';
   mysqli_query($conn, $sql);
-  dbDisconnect($conn);
+
+    dbDisconnect($conn);
+
 }
 
 

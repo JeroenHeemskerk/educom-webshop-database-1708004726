@@ -102,6 +102,10 @@ function handleActions(){
   }
 } 
 
+function logErrors($msg){
+  echo "LOG TO SERVER:".$msg;
+}
+
 function showResponsePage($page) {
   showDocumentStart(); 
   showHeadSection($page); 

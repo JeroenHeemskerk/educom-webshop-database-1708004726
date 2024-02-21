@@ -30,9 +30,12 @@ function formCheckRegister($formInputs ){
     $errors[$x] = checkFieldContent($formInputs[$x]);
   } */
   
-
+  try {
   $emailExist = doesEmailExist($formInputs['email']);
-
+  } catch (Exception $e) {
+    $errrors['nameErr'] = 'Er is een probleem met de server, probeer later nog eens';
+    logErrors('Connection failed'.$e);
+  }
   if ($emailExist) {
     $errors[1] = "Deze mail is al in gebruik";
     }
@@ -40,7 +43,12 @@ function formCheckRegister($formInputs ){
   // so for this email can't already be registered, and passwords have to match
   if ($passwordMatch && !$emailExist){
     $errors['page'] = 'login';
+    try {
     saveUser($formInputs['email'], $formInputs['name'], $formInputs['password']);
+    catch (Exception $e) { 
+      $errors['nameErr'] = 'Er is een probleem met de server, probeer later nog eens';
+      logErrors('Connection failed'.$e);
+    }
   } else {
       $errors['page'] = 'register';
   }
@@ -88,6 +96,4 @@ function showContentRegister($formInputs){
 }
 
 ?>
-
-
 
