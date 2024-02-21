@@ -74,6 +74,7 @@ function processRequest($page){
       $formInputs = postDataLogin();
       $errors = formCheckLogin($formInputs);
       $formInputs = array_merge($formInputs, $errors);
+      var_dump($errors);
       $data = array_merge($formInputs, $data);
       break;
     case 'password':
@@ -87,7 +88,8 @@ function processRequest($page){
       var_dump($data['page']);
       break;
     case 'cart':
-      handleActions();
+      $basket = handleActions();
+      $data = array_merge($basket, $data);
       break;
   }
   // no matter the page, some data is always necessary: the menu
@@ -106,7 +108,18 @@ function handleActions(){
       placeOrderDB();
     break;
   }
-} 
+  // so one thing we'll need regardless of action is the basket content, the image, price, and name of htis content
+  $basket = getSessionBasket();
+  $basketContents = array();
+  foreach ($basket as $id => $content){
+    try{
+    $item = getItemsFromDB('name, price, image', 'products', 'id='.$id);
+    $basketContents[$id] = $item;
+    $basketContents[$id]['count'] = $basket[$id];
+    } catch (exception $e) {$basket['error'] = 'Database momenteel niet bereikbaar';}
+  }
+  return $basketContents;
+}
 
 function menuItems($data){
   $data['menu'] = array('home' => 'Home', 'about' => 'Over mij', 'contact' => 'Contact', 'webshop' => 'WEBSHOP');
@@ -263,11 +276,11 @@ function showContent($page){
       case 'webshop':
         showContentWebshop();
         break;
-      case strstr(end($page), 'product'):
-        showContentDetail(end($page));
+      case strstr($page['page'], 'product'):
+        showContentDetail($page['page']);
         break;
       case 'cart':
-        showContentCart();
+        showContentCart($page);
         break;           
    }
 }

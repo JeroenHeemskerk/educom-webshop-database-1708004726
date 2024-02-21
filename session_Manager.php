@@ -37,7 +37,7 @@ function getSessionBasket(){
 }
 
 function addItemToBasket($id){
-  if (array_key_exist($id, $_SESSION['basket'])) {
+  if (array_key_exists($id, $_SESSION['basket'])) {
     $_SESSION['basket'][$id] += 1;
   } else { 
     $_SESSION['basket'][$id] = 1;
