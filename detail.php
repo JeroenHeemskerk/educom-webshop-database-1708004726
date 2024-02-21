@@ -1,36 +1,45 @@
 <?php
+function prepareDetail($page){
+  $details = array();
+  $detail['nameAndId'] = explode( '-',  $page, 2)[1];
+  $detail['name'] = explode( '-',  $page, 3)[1];
+  $detail['id']  = explode( '-',  $page, 3)[2];
+  try{
+    $detail['items'] = getItemsFromDB('name, price, description, image', 'products', 'id='.$detail['id']);
+    } catch (exception $e) {$details['error'] = 'Kon database niet bereiken';
+  }
+  return $detail;
+}
+
 function showHeadDetail($item){
-  $itemOnPage = explode( '-',  $item, 2)[1];
-  echo '<title> '.$itemOnPage.'</title>';
+  echo '<title> '.$item.'</title>';
 }
 
 function showHeaderDetail($item){
-  $itemHeader = explode( '-',  $item, 3)[1];
-  echo '<header class=title><h1> '.$itemHeader.' </h1></header>';
+  echo '<header class=title><h1> '.$item.' </h1></header>';
 }
 
 function showContentDetail($item){
-  $itemId = explode( '-',  $item, 3)[2];
-  $itemContent = getItemsFromDB('name, price, description, image', 'products', 'id='.$itemId);
-  $itemContent = $itemContent[0];
   // its an array in an array
+  $id = $item['id'];
+  $item = $item['items'][0];
   echo '
   <div class=container> 
     <div class=image>
-      <img src="images\\'.$itemContent['image'].'"  style="width:500px;height:500px;">
+      <img src="images\\'.$item['image'].'"  style="width:500px;height:500px;">
     </div>
     <div class = text>
       <div>
-      <h2> '.$itemContent['name'].' </h2>
+      <h2> '.$item['name'].' </h2>
       </div>
       <div>
-      <span> '.$itemContent['description'].' </span>
+      <span> '.$item['description'].' </span>
       </div>
       <div>
-        <span class=price>&euro;'.$itemContent['price'].'  </span>
+        <span class=price>&euro;'.$item['price'].'  </span>
       </div>
       <div>';
-      addToCartButton('webshop', $itemId);
+      addToCartButton('webshop', $id);
   echo '</div>    
     </div>  
   </div>';

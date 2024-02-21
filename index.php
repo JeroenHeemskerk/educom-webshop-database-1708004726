@@ -94,7 +94,10 @@ function processRequest($page){
       logErrors($e->getMessage());}
       $data = array_merge($items, $data);
       break;
-    case 'detail':
+    case strstr($data['page'], 'product'):
+      $details = prepareDetail($data['page']);
+      $data = array_merge($details, $data);
+      $data['page'] = 'product';
       break;
     case 'cart':
       $basket = handleActions();
@@ -233,8 +236,8 @@ function showHeadSection($page){
       case 'webshop':
         showHeadWebshop();
         break;
-      case strstr($page['page'], 'product'):
-        showHeadDetail($page['page']);
+      case 'product':
+        showHeadDetail($page['nameAndId']);
         break;
       case 'cart':
         showHeadCart();
@@ -286,8 +289,8 @@ function showHeader($page){
       case 'webshop':
         showHeaderWebshop();
         break;
-      case strstr($page['page'], 'product'):
-        showHeaderDetail($page['page']);
+        case 'product':
+        showHeaderDetail($page['name']);
         break;
       case 'cart':
         showHeaderCart();
@@ -336,8 +339,8 @@ function showContent($page){
       case 'webshop':
         showContentWebshop($page);
         break;
-      case strstr($page['page'], 'product'):
-        showContentDetail($page['page']);
+        case 'product':
+        showContentDetail($page);
         break;
       case 'cart':
         showContentCart($page);
