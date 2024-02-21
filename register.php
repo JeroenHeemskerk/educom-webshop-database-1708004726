@@ -45,10 +45,12 @@ function formCheckRegister($formInputs ){
     $errors['page'] = 'login';
     try {
     saveUser($formInputs['email'], $formInputs['name'], $formInputs['password']);
+    }
     catch (Exception $e) { 
       $errors['nameErr'] = 'Er is een probleem met de server, probeer later nog eens';
       logErrors('Connection failed'.$e);
     }
+
   } else {
       $errors['page'] = 'register';
   }

@@ -53,7 +53,7 @@ function formCheckPasswords($formInputs) {
       // if its authenticated, we have to do two things, change the password 
       try {
       updateUserPassword($email, $formInputs['newPass']);
-      catch (exception $e) {
+      } catch (exception $e) {
         $errors['oldPass'] = 'Er is een probleem met de server, wachtwoord is niet geupdate';
         logErrors('Connection failed'.$e);
       }
