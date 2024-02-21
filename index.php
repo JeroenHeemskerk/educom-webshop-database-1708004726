@@ -18,7 +18,7 @@ $page = getRequestedPage();
 //if ($_SERVER['REQUEST_METHOD'] == "POST") {
 $page = processRequest($page);
 //}
-//var_dump($page);
+
 showResponsePage($page); 
 
 
@@ -51,6 +51,7 @@ function getGetVar($key, $default=''){
 function processRequest($page){
   //The process depends on which page is submitted
   $data = array('page' => $page);
+  echo '<br>';
   switch($page){
     case 'contact':
       // first step is retrieving the input data, I want to retrieve inputs only once
@@ -59,33 +60,38 @@ function processRequest($page){
       $errors = formCheckContact($formInputs);
       // finally appending them together to create a page reference with all the data required to fill said page (on POST)
       $formInputs = array_merge($formInputs, $errors);
-      return $formInputs;
+      // then make it part of the data
+      $data = array_merge($formInputs, $data);
+      $data['page'] = 'contact';
+      break;
     case 'register':
       $formInputs = postDataRegister();
       $errors = formCheckRegister($formInputs);
       $formInputs = array_merge($formInputs, $errors);
-      // so I need to make a small tweak here because this can redirect to login
-      // and in that case it becomes a thing that it takes along all the inputs to the login page
-      if (end($errors) == 'login'){
-        $formInputs = array('', '', '', '', 'login');
-      }
-      return $formInputs;
+      $data = array_merge($formInputs, $data);
+      break;
     case 'login':
       $formInputs = postDataLogin();
       $errors = formCheckLogin($formInputs);
       $formInputs = array_merge($formInputs, $errors);
-      return $formInputs;
+      $data = array_merge($formInputs, $data);
+      break;
     case 'password':
-      // can't use associative all the way because the OG get array is index
       $formInputs = postDataPassword();
       $errors = formCheckPasswords($formInputs);
-      return $errors;
+      $data = array_merge($errors, $data);
+      break;
     case 'logout':
       doLogout();
       $data['page'] = 'home';
+      var_dump($data['page']);
+      break;
     case 'cart':
       handleActions();
+      break;
   }
+  // no matter the page, some data is always necessary: the menu
+  $data = menuItems($data);
   return $data;
 }
 
@@ -101,6 +107,19 @@ function handleActions(){
     break;
   }
 } 
+
+function menuItems($data){
+  $data['menu'] = array('home' => 'Home', 'about' => 'Over mij', 'contact' => 'Contact', 'webshop' => 'WEBSHOP');
+  if (isUserLoggedIn()) {
+    $data['menu']['cart'] = "Winkelwagen";
+    $data['menu']['password'] = "Wachtwoord";
+    $data['menu']['logout'] = "Uitloggen " . getSessionUser(); 
+  } else {
+    $data['menu']['register'] = "Registreren";
+    $data['menu']['login'] = 'Inloggen';
+  }
+  return $data;
+}
 
 function logErrors($msg){
   echo "LOG TO SERVER:".$msg;
@@ -119,6 +138,7 @@ function showDocumentStart() {
 } 
 
 function showHeadSection($page){
+
   // only the title differs between these head sections so, you can load/close the head and reference the css here
   switch($page['page']){
     case 'home':
@@ -146,8 +166,8 @@ function showHeadSection($page){
       case 'webshop':
         showHeadWebshop();
         break;
-      case strstr(end($page), 'product'):
-        showHeadDetail(end($page));
+      case strstr($page['page'], 'product'):
+        showHeadDetail($page['page']);
         break;
       case 'cart':
         showHeadCart();
@@ -161,7 +181,7 @@ function showHeadSection($page){
 function showBodySection($page) { 
   echo '<body class="algemeen">' . PHP_EOL; 
   showHeader($page);
-  showMenu(); 
+  showMenu($page); 
   showContent($page); 
   showFooter(); 
   echo '</body>' . PHP_EOL; 
@@ -205,23 +225,11 @@ function showHeader($page){
    }
 }
 
-function showMenu(){
+function showMenu($page){
   echo '<ul class="menu">';
-  showMenuItem('home', 'Home');
-  showMenuItem('about', 'Over mij');
-  showMenuItem('contact', 'Contact');
-  showMenuItem('webshop', 'Shop');
-
-  // check if session is set
-  if (!isset($_SESSION['userName'])){
-    showMenuItem('register', 'Registeren');
-    showMenuItem('login', 'Login');
-  } else {
-    showMenuItem('cart', 'Winkelwagen');
-    showMenuItem('password', 'wachtwoord');
-    $logout = 'Uitloggen '.getSessionUser();
-    showMenuItem('logout', $logout);
-  }
+  foreach($page['menu'] as $link => $label) { 
+    showMenuItem($link, $label); 
+  } 
   echo '</ul>';
 }
 

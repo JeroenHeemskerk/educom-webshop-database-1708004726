@@ -9,8 +9,15 @@ function doLoginUser($name, $email){
 }
 
 function makeCart(){
-  $_SESSION['basket'] = array(); 
+  $_SESSION['basket'] = array();
+}
+
+function isUserLoggedIn(){
+  $loggedIn = false;
+  if(isset($_SESSION['userName'])){
+    $loggedIn = true;
   }
+  return $loggedIn;
 }
 
 function getSessionUser(){
