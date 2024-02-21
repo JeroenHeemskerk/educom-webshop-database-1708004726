@@ -107,12 +107,10 @@ function getItemsFromDB($select = '*', $from = 'products', $where = '' ){
 function placeOrderDB(){
   //I did not save user ID into the session, which means I have to get it through a query
   $email = getSessionEmail();
-  $userData = fidUserByEmailDB($email);
+  $userData = findUserByEmailDB($email);
   $userId = $userData['id'];
-  try{
   $orderId = insertInOrder($userId);
   insertOrderInOrdersContent($orderId);
-  } catch (exception $e) {throw new Exception('Insert failed'. msqli_error());}
   // and once we get here, it means the order was succesfully placed, thus we can clear the basked
   
   makeCart();
@@ -142,15 +140,14 @@ function insertOrderinOrdersContent($orderId){
   $conn = dbConnect();
   // Need to know what is in the basket for this
   $basket = getSessionBasket();
+  var_dump($basket);
   // I want to create a big insert query for all sets of values
   // the base of the query at least is
   $sql = 'INSERT INTO orders_content (order_id, product_id, product_count) VALUES';
   // then I'd need to loop through the basket again to get product ids and counts
   foreach ($basket as $product => $count){
     if ($count != 0) {
-      // product is product id but has a 0 in front, gotta remove that
-      $productId = substr($product, 1);
-      $sqlAddition = '('.$orderId.', '.$productId.', '.$count.'),';
+      $sqlAddition = '('.$orderId.', '.$product.', '.$count.'),';
       $sql = $sql.$sqlAddition;
     }
   }
