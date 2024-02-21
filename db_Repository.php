@@ -28,10 +28,12 @@ function dbConnect(){
 
 function saveUserDB($email, $user, $password){
   $conn = dbConnect(); 
-  
-  $sql = "INSERT INTO users (email, user, password)
-  VALUES ('".$email."', '".$user."', '".$password."')";
   try {
+    $email = mysqli_real_escape_string($conn, $email);
+    $user = mysqli_real_escape_string($conn, $user);
+    $password = mysqli_real_escape_string($conn, $password);
+    $sql = "INSERT INTO users (email, user, password)
+    VALUES ('".$email."', '".$user."', '".$password."')";
     if (!mysqli_query($conn, $sql)) {
         throw new Exception ("Cannot insert into users". mysqli_error());
     }
@@ -44,8 +46,10 @@ function saveUserDB($email, $user, $password){
 
 function findUserByEmailDB($email){
   $conn = dbConnect();
-  $sql = 'SELECT * FROM users WHERE email="'.$email.'"';
+  
   try {
+  $email = mysqli_real_escape_string($conn, $email);
+  $sql = 'SELECT * FROM users WHERE email="'.$email.'"';
   $result = mysqli_query($conn, $sql);
     if(!$result){
       throw new Exception('Query find user by email failed'. msqli_error());
@@ -60,7 +64,6 @@ function findUserByEmailDB($email){
 
 function updateUserPasswordDB($email, $password){
   $conn = dbConnect();
-  if (!$conn) { return $conn;}
   $sql = 'UPDATE users 
   SET password="'.$password.'"
   WHERE email="'.$email.'"';
@@ -84,15 +87,17 @@ function getItemsFromDB($select = '*', $from = 'products', $where = '' ){
   FROM '.$from.''; 
   if ($where){
     $sql = $sql.' WHERE '.$where;
-  } try{
+  }
+  try {
+
     $result = mysqli_query($conn, $sql);
     if (!$result){
       throw new Exception('Retrieving info from db failed'. msqli_error());
     }
 
-  return mysqli_fetch_all($result, MYSQLI_ASSOC);
-  }
-
+    return mysqli_fetch_all($result, MYSQLI_ASSOC);
+    } 
+  
   finally {
     dbDisconnect($conn);
   }
@@ -101,28 +106,18 @@ function getItemsFromDB($select = '*', $from = 'products', $where = '' ){
 
 function placeOrderDB(){
   //I did not save user ID into the session, which means I have to get it through a query
-  // so I need an unique key 
   $email = getSessionEmail();
-  try {
-    $userData = findUserByEmailDB($email);
-    if (!$userData){
-      throw new Exception('place Order, find email failed'. msqli_error());
-    }
-  }
+  $userData = findUserByEmailDB($email);
+
+
   $userId = $userData['id'];
-  try {
-    $orderId = insertInOrder($userId);
-    if (!$orderId){
-      throw new Exception('place Order, inserting order failed'. msqli_error());
-    }
-  }
-  try {
-    if(!insertOrderInOrdersContent($orderId)){
-      throw new Exception('place Order, inserting order content failed'. msqli_error());
-    }
-  }
+
+   $orderId = insertInOrder($userId);
+  insertOrderInOrdersContent($orderId);
   // and once we get here, it means the order was succesfully placed, thus we can clear the basked
   makeCart();
+  
+
 }
 
 function insertInOrder($userId){
@@ -137,7 +132,9 @@ function insertInOrder($userId){
     } 
   return mysqli_insert_id($conn);
   }
+  finally {
     dbDisconnect($conn);
+  }
 
 }
 
