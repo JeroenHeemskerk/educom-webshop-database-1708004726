@@ -9,11 +9,7 @@ function doLoginUser($name, $email){
 }
 
 function makeCart(){
-  $idList = getItemsFromDB('id');
-  $_SESSION['basket'] = array('00'=> 0);
-  foreach ($idList as $x) {
-    $key = '0'.$x['id'];
-    $_SESSION['basket'][$key] = 0;
+  $_SESSION['basket'] = array(); 
   }
 }
 
@@ -34,10 +30,12 @@ function getSessionBasket(){
 }
 
 function addItemToBasket($id){
-  $key = '0'.$id;
-  $count = $_SESSION['basket'][$key] + 1;
-  $_SESSION['basket'][$key] = $count;
-}
+  if (array_key_exist($id, $_SESSION['basket'])) {
+    $_SESSION['basket'][$id] += 1;
+  } else { 
+    $_SESSION['basket'][$id] = 1;
+  } 
+} 
 
 
 ?>
