@@ -22,7 +22,8 @@ function formCheckLogin($formInputs){
     try {
     $userData = authenticateUser($formInputs['email'], $formInputs['password']);
     doLoginUser($userData['user'], $userData['email']);
-    return  array('page' => 'home');
+    $errors['page']= 'home';
+    return  $errors;
     } catch (exception $e) {
       $errors['emailErr'] = 'Er is een probleem met de server, probeer later nog eens';
       logErrors('Connection failed'.$e);
@@ -48,6 +49,7 @@ function showHeaderLogin(){
 }
 
 function showContentLogin($formInputs){
+  var_dump($formInputs);
   echo '<form class="contact" method="POST" action="index.php">
   <input type="hidden" name="page" value="login" id="page"/>
   <fieldset class="persoon">
