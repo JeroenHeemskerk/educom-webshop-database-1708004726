@@ -151,15 +151,17 @@ function handleActions(){
   }
   // so one thing we'll need regardless of action is the basket content, the image, price, and name of this content
   $basket = getSessionBasket();
-  $basketContents = array();
+  $basketContents = array('costs' => 0); 
   foreach ($basket as $id => $content){
    try{
-    $item = getItemsFromDB('name, price, image', 'products', 'id='.$id);
+    $item = getItemsFromDB('name, price, image, id', 'products', 'id='.$id);
     $basketContents[$id] = $item;
     $basketContents[$id]['count'] = $basket[$id];
+    $basketContents['costs'] += $content * $basketContents[$id][0]['price'];
     } catch (exception $e) {$basket['error'] = 'Database momenteel niet bereikbaar';
     logErrors($e->getMessage());}
   }
+
   return $basketContents;
 }
 

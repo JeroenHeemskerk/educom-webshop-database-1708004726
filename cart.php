@@ -12,6 +12,7 @@ function showContentCart($content){
   // the last two enries of $content aren't relevant
   // call upon a function to filter out the unneeded entires
   $content = removeNonBodyArray($content);
+  $costs = array_shift($content);
   echo '<div class=cartItem> 
   <div class=cartText> </div> 
   <div class=cartText> <span> product Name </span></div>
@@ -19,18 +20,16 @@ function showContentCart($content){
   <div class=cartText> <span> Prijs per stuk</span> </div>
   </div>'; 
   foreach ($content as $key => $value){
-    //var_dump($content[$key]);
-    
     $orderAmount = $content[$key]['count'];
     $price = $content[$key][0]['price'];
     $name = $content[$key][0]['name'];
     $image = $content[$key][0]['image'];
-    $costs  += $orderAmount * $price;
+    $id = $content[$key][0]['id'];
     ;
       echo '
       <div class=cartItem> 
         <div class=cartImage>
-        <a class=product_image  href="index.php?page=product-'.$name.'-'.$key.'"> 
+        <a class=product_image  href="index.php?page=product-'.$name.'-'.$id.'"> 
         <img src="images\\'.$image.'"  style="width:64px;height:64px;"> 
         </a>
         </div> 
@@ -75,6 +74,5 @@ function addToCartButton($page, $id){
     </form>';
   }
 }
-
 
 ?>
