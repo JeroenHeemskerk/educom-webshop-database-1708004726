@@ -30,7 +30,7 @@ function showContentTop($content){
     }
 
     echo '</ul>';
-  }
+}
 
 
 ?>

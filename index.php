@@ -16,25 +16,18 @@ require('user_Service.php');
 require('db_Repository.php');
 
 $page = getRequestedPage(); 
-//if ($_SERVER['REQUEST_METHOD'] == "POST") {
 $page = processRequest($page);
-//}
 
 showResponsePage($page); 
-
 
 function getRequestedPage() {
   $requestedType = $_SERVER['REQUEST_METHOD']; 
   if ($requestedType == "POST") {
     $requestedPage = getPostVar('page', 'home');
   } else {
-    // Here I need to get the actually requested page and not have it fill in just page
     $requestedPage = getGetVar('page','home');
   }
-  // Note that contact, register, and login need a longer array to function (they fill in inputs from the array
-  // so we have to include a long blank array to use
-  //$requestedPage = array_merge( array('', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''), array($requestedPage));
-  return $requestedPage;
+return $requestedPage;
 }
   
 function getArrayVal($array, $key, $default='') {
@@ -52,7 +45,6 @@ function getGetVar($key, $default=''){
 function processRequest($page){
   //The process depends on which page is submitted
   $data = array('page' => $page);
-  echo '<br>';
   switch($page){
     case 'contact':
       // first step is retrieving the input data, I want to retrieve inputs only once
@@ -63,7 +55,6 @@ function processRequest($page){
       $formInputs = array_merge($formInputs, $errors);
       // then make it part of the data
       $data = array_merge($formInputs, $data);
-      $data['page'] = 'contact';
       break;
     case 'register':
       $formInputs = postDataRegister();
@@ -75,8 +66,7 @@ function processRequest($page){
       $formInputs = postDataLogin();
       $errors = formCheckLogin($formInputs);
       $formInputs = array_merge($formInputs, $errors);
-      var_dump($errors);
-      $data = array_merge($formInputs, $data);
+      $data = array_merge($data, $formInputs);
       break;
     case 'password':
       $formInputs = postDataPassword();
@@ -263,6 +253,7 @@ function showBodySection($page) {
 function showDocumentEnd(){
   echo '</html>'; 
 }
+
 function showHeader($page){
   switch($page['page']){
     case 'home':

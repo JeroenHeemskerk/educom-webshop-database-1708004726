@@ -171,9 +171,9 @@ function getTopItemsDB(){
   $sql = 
   "SELECT orders_content.product_id, sum(orders_content.product_count) AS 'product_counts' 
   FROM orders LEFT JOIN orders_content on orders_content.order_id = orders.id
-   WHERE date BETWEEN date_sub(now(),INTERVAL 1 WEEK) and now() 
-   GROUP BY orders_content.product_id 
-   ORDER BY product_counts DESC LIMIT 5; ";
+  WHERE date BETWEEN date_sub(now(),INTERVAL 1 WEEK) and now() 
+  GROUP BY orders_content.product_id 
+  ORDER BY product_counts DESC LIMIT 5; ";
   try {
     $result = mysqli_query($conn, $sql);
     if (!$result){

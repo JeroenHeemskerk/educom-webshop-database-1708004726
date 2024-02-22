@@ -26,11 +26,8 @@ function formCheckLogin($formInputs){
       $errors['emailErr'] = 'Er is een probleem met de server, probeer later nog eens';
       logErrors('Connection failed'.$e);
     }
-    // check if there is anything in user data (if there is, it means the user can be logged in)
-    
   }
-  // It gets here if either an input was blank or something was wrong
-  // so check the inputs again
+  // check if there are any errors present, if not it means an input was incorrect
   if (!$errors['emailErr'] && !$errors['passwordErr']){
     $errors['emailErr'] = 'De email of wachtword is incorrect';
   }

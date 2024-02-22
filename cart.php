@@ -7,8 +7,6 @@ function showHeaderCart(){
   echo '<header class=title><h1> Winkelwagen </h1></header>';
 }
 
-
-
 function showContentCart($content){
   $costs = 0.00;
   // the last two enries of $content aren't relevant
