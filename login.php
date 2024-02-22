@@ -7,7 +7,6 @@ function postDataLogin(){
   return $formInputs;
 }
 
-
 function formCheckLogin($formInputs){
   // array is mail, password
   $errors = array('emailErr' => '', 'passwordErr' => '');
@@ -18,7 +17,6 @@ function formCheckLogin($formInputs){
   $errors['passwordErr'] = checkFieldContent($formInputs['password']);
   // check if there is an error message present
   if (!$errors['emailErr'] || !$errors['passwordErr']){
-
     try {
     $userData = authenticateUser($formInputs['email'], $formInputs['password']);
     doLoginUser($userData['user'], $userData['email']);
@@ -49,7 +47,6 @@ function showHeaderLogin(){
 }
 
 function showContentLogin($formInputs){
-  var_dump($formInputs);
   echo '<form class="contact" method="POST" action="index.php">
   <input type="hidden" name="page" value="login" id="page"/>
   <fieldset class="persoon">
